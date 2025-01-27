@@ -27,5 +27,8 @@
     "tailwindcss": "^3.4.1",
     "ts-jest": "^29.2.5",
     "typescript": "^5"
+  },
+  "resolutions": {
+    "glob": "^9.0.0"
   }
 }
