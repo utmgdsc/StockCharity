@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
-export function Card({ children, className = "" }) {
+interface CardProps {
+  children: ReactNode; // any valid React children
+  className?: string;
+}
+
+export function Card({ children, className = "" }: CardProps) {
   console.log("Card component rendered with className:", className);
   return (
     <div className={`bg-white rounded-lg shadow-md ${className}`}>
@@ -9,7 +14,7 @@ export function Card({ children, className = "" }) {
   );
 }
 
-export function CardContent({ children, className = "" }) {
+export function CardContent({ children, className = "" }: CardProps) {
   console.log("CardContent component rendered with className:", className);
   return (
     <div className={`p-4 ${className}`}>
