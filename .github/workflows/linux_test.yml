@@ -27,7 +27,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - name: Installing packaging
+        cache-dependency-path: ./webapp/package-lock.json
+    - name: Install packages
       run: npm ci
       working-directory: ./webapp
     - name: Build the project
