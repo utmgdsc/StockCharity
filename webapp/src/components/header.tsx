@@ -1,4 +1,4 @@
-import React from 'react';
+import {JSX} from 'react';
 
 const Header = (): JSX.Element => (
     <div>Header</div>
