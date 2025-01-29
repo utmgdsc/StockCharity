@@ -1,3 +1,5 @@
+import { JSX } from "react"; 
+
 const Homepage = (): JSX.Element => (
     <h1>Stock Charity</h1>
 )
