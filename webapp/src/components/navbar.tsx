@@ -1,18 +1,19 @@
 import React from 'react';
+import Link from 'next/link';
 
 const NavBar: React.FC = () => {
     return (
         <nav className="flex justify-around items-center bg-gray-800 text-white">
             <div className="flex gap-4 py-2">
-                <a href="/HomePage" className="hover:underline">Home</a>
+                <Link href="/" className="hover:underline">Home</Link>
             </div>
 
             <div className="flex gap-4 py-2">
-                <a href="/Donate" className="hover:underline">Donate</a>
+                <Link href="/Donate" className="hover:underline">Donate</Link>
             </div>
 
             <div className="flex gap-4 py-2">
-                <a href="/Account" className="hover:underline">Account</a>
+                <Link href="/Account" className="hover:underline">Account</Link>
             </div>
 
             <div className="text-xl font-bold">
@@ -20,15 +21,15 @@ const NavBar: React.FC = () => {
             </div>
 
             <div className="flex gap-4 py-2">
-                <a href="/AboutUs" className="hover:underline">About</a>
+                <Link href="/AboutUs" className="hover:underline">About</Link>
             </div>
 
             <div className="flex gap-4 py-2">
-                <a href="/charity-signup" className="hover:underline">Join as a Charity</a>
+                <Link href="/charity-signup" className="hover:underline">Join as a Charity</Link>
             </div>
             
             <div className="flex gap-4 py-2">
-                <a href="/login" className="hover:underline bg-green-500 text-white px-4 py-2 rounded-full">Login</a>
+                <Link href="/login" className="hover:underline bg-green-500 text-white px-4 py-2 rounded-full">Login</Link>
             </div>
         </nav>
     );
