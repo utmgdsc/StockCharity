@@ -4,15 +4,15 @@ const NavBar: React.FC = () => {
     return (
         <nav className="flex justify-around items-center bg-gray-800 text-white">
             <div className="flex gap-4 py-2">
-                <a href="#home" className="hover:underline">Home</a>
+                <a href="#HomePage" className="hover:underline">Home</a>
             </div>
 
             <div className="flex gap-4 py-2">
-                <a href="#donate" className="hover:underline">Donate</a>
+                <a href="#Donate" className="hover:underline">Donate</a>
             </div>
 
             <div className="flex gap-4 py-2">
-                <a href="#account" className="hover:underline">Account</a>
+                <a href="#Account" className="hover:underline">Account</a>
             </div>
 
             <div className="text-xl font-bold">
@@ -20,11 +20,11 @@ const NavBar: React.FC = () => {
             </div>
 
             <div className="flex gap-4 py-2">
-                <a href="#about" className="hover:underline">About</a>
+                <a href="#AboutUs" className="hover:underline">About</a>
             </div>
 
             <div className="flex gap-4 py-2">
-                <a href="#join" className="hover:underline">Join as a Charity</a>
+                <a href="#charity-signup" className="hover:underline">Join as a Charity</a>
             </div>
             
             <div className="flex gap-4 py-2">
