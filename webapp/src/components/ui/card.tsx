@@ -6,7 +6,6 @@ interface CardProps {
 }
 
 export function Card({ children, className = "" }: CardProps) {
-  console.log("Card component rendered with className:", className);
   return (
     <div className={`bg-white rounded-lg shadow-md ${className}`}>
       {children}
@@ -15,7 +14,6 @@ export function Card({ children, className = "" }: CardProps) {
 }
 
 export function CardContent({ children, className = "" }: CardProps) {
-  console.log("CardContent component rendered with className:", className);
   return (
     <div className={`p-4 ${className}`}>
       {children}
