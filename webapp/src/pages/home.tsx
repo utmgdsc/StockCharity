@@ -21,7 +21,9 @@ export default function HomePage() {
         {/* Right Section - Donate Button and Stats */}
         <div className="flex flex-col items-center space-y-8">
           {/* Donate Button */}
-          <Button className="bg-blue-500 hover:bg-blue-600 text-2xl px-8 py-4">
+          <Button 
+            className="bg-blue-500 hover:bg-blue-600 text-2xl px-8 py-4"
+            route="/charity-signup">
             DONATE
           </Button>
 
