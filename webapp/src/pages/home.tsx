@@ -7,7 +7,7 @@ export default function HomePage() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-5xl">
         {/* Left Section - What we do */}
-        <Card className="bg-gray-200">
+        <Card className="bg-gray-200 flex items-center justify-center">
           <CardContent className="text-center">
             <h2 className="text-2xl font-bold text-black mb-4">What we do</h2>
             <p className="text-gray-700">
