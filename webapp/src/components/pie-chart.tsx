@@ -1,4 +1,3 @@
-import { JSX } from "react"; 
 import React, { useState } from "react";
 
 interface PieChartProps {
