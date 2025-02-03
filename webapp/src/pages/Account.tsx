@@ -3,6 +3,8 @@ import PieChart from "@/components/pie-chart";
 
 
 const Account = (): JSX.Element => {
+
+    // Variables are hard coded for now to demo until backend is implemented.
     const user_name = "USER_NAME";
     const stocks_owned = ["Stock 1", "Stock 2", "Stock 3", "Stock 4", "Stock 5", "Stock 6", "Stock 7"];
     const stocks_owned_values = [300.50, 500.00, 199.50, 100.009, 50.119, 50.00, 150.34];
@@ -12,7 +14,7 @@ const Account = (): JSX.Element => {
         stock_total_value += stocks_owned_values[i] * number_of_stocks_owned_per_stock[i];
     }
     const charities_donated_to = ["Charity 1", "Charity 2", "Charity 3", "Charity 4", "Charity 5", "Charity 6", "Charity 7"];
-    const donations_made = [100.00, 50.00, 25.00, 10.00, 5.00, 5.00, 5.00];
+    const donations_made = [100.00, 50.00, 25.00, 10.00, 5.00, 17.00, 5.00];
 
     return (
         <>

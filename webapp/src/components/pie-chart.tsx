@@ -1,3 +1,4 @@
+import { JSX } from "react"; 
 import React, { useState } from "react";
 
 interface PieChartProps {
@@ -68,9 +69,6 @@ const PieChart: React.FC<PieChartProps> = ({ data, colors = defaultColors, label
                         <text x={adjustedLabelX} y={adjustedLabelY + 1.5} fill="#000" fontSize="1" textAnchor="middle" dominantBaseline="middle" transform={transform} style={{ transition: 'transform 0.2s' }}>
                             {((value / total) * 100).toFixed(1)}%
                         </text>
-                        {/* This is for testing and should be deleted later */}
-                        {/* <rect x="0" y="0" width="32" height="32" fill="none" stroke="black" strokeWidth="0.5" />
-                        <circle cx="16" cy="16" r="0.5" fill="black" /> */}
                     </g>
                 );
             })}
