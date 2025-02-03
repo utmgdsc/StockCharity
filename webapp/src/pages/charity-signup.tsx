@@ -1,6 +1,13 @@
 import React from "react";
+import { useState } from "react";
 
 const CharitySignUp: React.FC = () => {
+  const [isAgreed, setIsAgreed] = useState(false);
+
+  const toggleAgreement = () => {
+    setIsAgreed(!isAgreed);
+  };
+
   return (
     <div className="grid grid-cols-2 relative isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
       <div
@@ -143,18 +150,29 @@ const CharitySignUp: React.FC = () => {
               ></textarea>
             </div>
           </div>
+
+          {/* Privacy Agreement Section */}
           <div className="flex items-center gap-x-4 sm:col-span-2">
+
+            {/* Small toggle button */}
             <button
               type="button"
-              className="relative flex w-8 h-4 cursor-pointer rounded-full bg-gray-200 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2"
+              className={`relative flex w-8 h-4 cursor-pointer rounded-full ${
+                isAgreed ? "bg-cyan-600" : "bg-gray-200"
+              } transition-colors duration-200 ease-in-out`}
               role="switch"
-              aria-checked="false"
+              aria-checked={isAgreed}
+              onClick={toggleAgreement}
             >
               <span
                 aria-hidden="true"
-                className="block h-4 w-4 transform rounded-full bg-white shadow ring-1 ring-gray-300 transition duration-200 ease-in-out"
+                className={`block h-4 w-4 transform rounded-full bg-white shadow ring-1 ring-gray-300 transition duration-200 ease-in-out ${
+                  isAgreed ? "translate-x-4" : "translate-x-0"
+                }`}
               ></span>
             </button>
+
+            {/* Agreement text */}
             <label className="text-sm text-gray-600">
               By selecting this, you agree to our{" "}
               <a href="#" className="font-semibold text-cyan-600">
@@ -163,6 +181,7 @@ const CharitySignUp: React.FC = () => {
               .
             </label>
           </div>
+
         </div>
         <div className="mt-10">
           <button
