@@ -13,8 +13,12 @@ const Account = (): JSX.Element => {
     for (let i = 0; i < stocks_owned.length; i++){
         stock_total_value += stocks_owned_values[i] * number_of_stocks_owned_per_stock[i];
     }
-    const charities_donated_to = ["Charity 1", "Charity 2", "Charity 3", "Charity 4", "Charity 5", "Charity 6", "Charity 7"];
-    const donations_made = [100.00, 50.00, 25.00, 10.00, 5.00, 17.00, 5.00];
+    const charities_donated_to = [
+        "Charity 1", "Charity 2", "Charity 3", "Charity 4", "Charity 5", 
+        "Charity 6", "Charity 7", "Charity 8", "Charity 9",
+    ];
+
+    const donations_made = [1, 5, 5, 10, 15, 15, 18, 29, 2];
 
     return (
         <>
