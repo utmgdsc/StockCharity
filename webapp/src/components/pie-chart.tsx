@@ -60,10 +60,6 @@ const PieChart: React.FC<PieChartProps> = ({ data, colors = defaultColors, label
                 const largeArcFlag = value / total > 0.5 ? 1 : 0;
                 const [labelX, labelY] = getCoordinatesForPercent((cumulativeValue - value / 2) / total);
 
-                // Adjust label position to avoid clipping
-                let adjustedLabelX = labelX;
-                let adjustedLabelY = labelY;
-
                 const isHovered = index === hoveredIndex;
                 const translateFactor = isHovered ? 0.25 : 0; // Increased translation factor
                 const translateX = isHovered ? (labelX - 16) * translateFactor : 0;
@@ -87,11 +83,17 @@ const PieChart: React.FC<PieChartProps> = ({ data, colors = defaultColors, label
                 const [labelX, labelY] = getCoordinatesForPercent((cumulativeValue - value / 2) / total);
 
                 // Adjust label position to avoid clipping
-                const angle = Math.atan2(labelY - 16, labelX - 16);
-                const labelDistance = 9 - (4 * (value / total));
-                const adjustedLabelX = 16 + Math.cos(angle) * labelDistance;
-                const adjustedLabelY = 16 + Math.sin(angle) * labelDistance;
+                let adjustedLabelX = labelX;
+                let adjustedLabelY = labelY;
 
+                // Ensure labels are within the bounds of the circle
+                const distanceFromCenter = Math.sqrt(Math.pow(labelX - 16, 2) + Math.pow(labelY - 16, 2));
+                if (distanceFromCenter > 10) {
+                    const angle = Math.atan2(labelY - 16, labelX - 16);
+                    const labelDistance = 9 - (4 * (value / total));
+                    adjustedLabelX = 16 + Math.cos(angle) * labelDistance;
+                    adjustedLabelY = 16 + Math.sin(angle) * labelDistance;
+                }
 
                 const isHovered = index === hoveredIndex;
                 const translateFactor = isHovered ? 0.25 : 0; // Increased translation factor
