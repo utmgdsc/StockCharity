@@ -5,11 +5,11 @@ const NavBar: React.FC = () => {
     return (
         <nav className="flex justify-around items-center bg-gray-800 text-white">
             <div className="flex gap-4 py-2">
-                <Link href="/" className="hover:underline">Home</Link>
+                <Link href="/home" className="hover:underline">Home</Link>
             </div>
 
             <div className="flex gap-4 py-2">
-                <Link href="/Donate" className="hover:underline">Donate</Link>
+                <Link href="/donate" className="hover:underline">Donate</Link>
             </div>
 
             <div className="flex gap-4 py-2">
@@ -21,7 +21,7 @@ const NavBar: React.FC = () => {
             </div>
 
             <div className="flex gap-4 py-2">
-                <Link href="/AboutUs" className="hover:underline">About</Link>
+                <Link href="/about_us" className="hover:underline">About</Link>
             </div>
 
             <div className="flex gap-4 py-2">

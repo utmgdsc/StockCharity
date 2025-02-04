@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-700 p-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-5xl">
         {/* Left Section - What we do */}
         <Card className="bg-gray-200 flex items-center justify-center">
