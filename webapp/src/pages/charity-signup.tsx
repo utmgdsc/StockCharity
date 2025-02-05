@@ -32,8 +32,7 @@ const CharitySignUp: React.FC = () => {
           <div>
             <label
               htmlFor="first-name"
-              className="block text-sm font-semibold text-gray-900"
-            >
+              className="label-style"              >
               First name
             </label>
             <div className="mt-2.5">
@@ -42,15 +41,15 @@ const CharitySignUp: React.FC = () => {
                 name="first-name"
                 id="first-name"
                 autoComplete="given-name"
-                className="block w-full rounded-md border border-gray-300 bg-white px-3.5 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2"
+                className="input-style"
               />
             </div>
           </div>
           <div>
             <label
               htmlFor="last-name"
-              className="block text-sm font-semibold text-gray-900"
-            >
+              className="label-style"
+              >
               Last name
             </label>
             <div className="mt-2.5">
@@ -59,15 +58,15 @@ const CharitySignUp: React.FC = () => {
                 name="last-name"
                 id="last-name"
                 autoComplete="family-name"
-                className="block w-full rounded-md border border-gray-300 bg-white px-3.5 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2"
+                className="input-style"
               />
             </div>
           </div>
           <div className="sm:col-span-2">
             <label
               htmlFor="company"
-              className="block text-sm font-semibold text-gray-900"
-            >
+              className="label-style"
+              >
               Charity Name
             </label>
             <div className="mt-2.5">
@@ -76,15 +75,15 @@ const CharitySignUp: React.FC = () => {
                 name="company"
                 id="company"
                 autoComplete="organization"
-                className="block w-full rounded-md border border-gray-300 bg-white px-3.5 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2"
+                className="input-style"
               />
             </div>
           </div>
           <div className="sm:col-span-2">
             <label
               htmlFor="email"
-              className="block text-sm font-semibold text-gray-900"
-            >
+              className="label-style"
+              >
               Email
             </label>
             <div className="mt-2.5">
@@ -93,15 +92,15 @@ const CharitySignUp: React.FC = () => {
                 name="email"
                 id="email"
                 autoComplete="email"
-                className="block w-full rounded-md border border-gray-300 bg-white px-3.5 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2"
+                className="input-style"
               />
             </div>
           </div>
           <div className="sm:col-span-2">
             <label
               htmlFor="phone-number"
-              className="block text-sm font-semibold text-gray-900"
-            >
+              className="label-style"
+              >
               Phone number
             </label>
             <div className="mt-2.5">
@@ -130,8 +129,8 @@ const CharitySignUp: React.FC = () => {
           <div className="sm:col-span-2">
             <label
               htmlFor="message"
-              className="block text-sm font-semibold text-gray-900"
-            >
+              className="label-style"
+              >
               Message
             </label>
             <div className="mt-2.5">
@@ -139,7 +138,7 @@ const CharitySignUp: React.FC = () => {
                 name="message"
                 id="message"
                 rows={4}
-                className="block w-full rounded-md border border-gray-300 bg-white px-3.5 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2"
+                className="input-style"
               ></textarea>
             </div>
           </div>

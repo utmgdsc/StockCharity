@@ -45,3 +45,13 @@ h3 {
 .card-grey {
   @apply bg-gray-200 rounded-lg shadow-md p-4 flex items-center justify-center text-gray-500;
 }
+
+@layer components {
+  .label-style {
+      @apply block text-sm font-semibold text-gray-900;
+  }
+
+  .input-style {
+    @apply block w-full rounded-md border border-gray-300 bg-white px-3.5 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2;
+}
+}
