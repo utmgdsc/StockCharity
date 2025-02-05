@@ -29,7 +29,7 @@ const NavBar: React.FC = () => {
             </div>
             
             <div className="flex gap-4 py-2">
-                <Link href="/login" className="hover:underline bg-green-500 text-white px-4 py-2 rounded-full">Login</Link>
+                <Link href="/login" className="btn-login px-4 py-2 ">Login</Link>
             </div>
         </nav>
     );

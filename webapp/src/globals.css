@@ -2,20 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
+/*background should always be white, black text*/
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #ffffff; 
+  --foreground: #171717; 
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Header */
+h1 {
+  @apply text-4xl font-bold text-black;
+}
+
+h2 {
+  @apply text-3xl font-semibold text-black;
+}
+
+h3 {
+  @apply text-2xl font-medium text-black;
+}
+
+
+/*  Button Variants */
+.btn-primary {
+  @apply bg-blue-800 block w-full rounded-md text-white hover:bg-blue-800 focus:ring-blue-950;
+}
+
+.btn-secondary {
+  @apply bg-gray-600 text-white hover:bg-gray-500 focus:ring-gray-600;
+}
+
+.btn-login {
+  @apply bg-white text-black block w-full rounded-md hover:bg-gray-200 focus:ring-gray-300;
+}
+
+/* Greyed-Out Cardholder Styling */
+.card-grey {
+  @apply bg-gray-200 rounded-lg shadow-md p-4 flex items-center justify-center text-gray-500;
 }

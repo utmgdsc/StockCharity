@@ -167,7 +167,7 @@ const CharitySignUp: React.FC = () => {
         <div className="mt-10">
           <button
             type="submit"
-            className="block w-full rounded-md bg-cyan-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2"
+            className="btn-primary px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm"
           >
             Submit
           </button>
