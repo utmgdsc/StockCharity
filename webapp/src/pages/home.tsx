@@ -4,12 +4,12 @@ import { Button } from "@/components/ui/button";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-700 p-4">
+    <div className="min-h-screen flex flex-col items-center justify-center p-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-5xl">
         {/* Left Section - What we do */}
         <Card className="bg-gray-200 flex items-center justify-center">
           <CardContent className="text-center">
-            <h2 className="text-2xl font-bold text-black mb-4">What we do</h2>
+            <h2 className="mb-4">What we do</h2>
             <p className="text-gray-700">
               Donations for charities are inconsistent and many charities struggle with finances. 
               To solve this problem, we are creating Stock Charity, a charity that uses donations 
@@ -22,7 +22,7 @@ export default function HomePage() {
         <div className="flex flex-col items-center space-y-8">
           {/* Donate Button */}
           <Button 
-            className="bg-blue-500 hover:bg-blue-600 text-2xl px-8 py-4"
+            className= "btn-primary text-2xl px-8 py-4"
             route="/charity-signup">
             DONATE
           </Button>
