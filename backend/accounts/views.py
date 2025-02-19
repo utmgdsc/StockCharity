@@ -7,7 +7,7 @@ from datetime import date
 from .models import User
 from .serializers import User_serializer
 
-class Account_view_set(viewsets.ModelViewSet):
+class AccountViewSet(viewsets.ModelViewSet):
 
     queryset = User.objects.all()
     serializer_class = User_serializer

@@ -9,7 +9,7 @@ from datetime import date
 from .models import Donation_order
 from .serializers import Donation_order_serializer
 
-class Order_view_set(viewsets.ModelViewSet):
+class OrderViewSet(viewsets.ModelViewSet):
 
     queryset = Donation_order.objects.all()
     serializer_class = Donation_order_serializer
