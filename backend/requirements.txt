@@ -1,5 +1,5 @@
 asgiref==3.8.1
-DjaDjango==5.1.5ngo
+Django==5.1.5
 django-cors-headers==4.6.0
 djangorestframework==3.15.2
 PyJWT==2.10.1
