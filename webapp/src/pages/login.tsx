@@ -35,7 +35,7 @@ const LoginPage: () => JSX.Element = () => {
             });
     }
 
-    return <form className="width-half m-auto" onSubmit={handleSubmit(doLogin)}>
+    return <form className="w-1/2 m-auto" onSubmit={handleSubmit(doLogin)}>
         <div className="field">
             <label className="label-style">Email</label>
             <div className="control">
