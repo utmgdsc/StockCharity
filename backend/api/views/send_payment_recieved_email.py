@@ -39,6 +39,6 @@ def send_payment_recieved_email(request):
             # Return 200 OK if the email is sent successfully
             return Response("", status=status.HTTP_200_OK)
 
-    print("send_payment_recieved_email: Email failed to send bruh")
+    print("send_payment_recieved_email: Email failed to send")
     # Return 400 Bad Request if the email is not sent
     return Response("", status=status.HTTP_400_BAD_REQUEST)

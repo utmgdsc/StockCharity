@@ -21,5 +21,5 @@ def payment_attempt_received(request):
     if True: # TODO: change the placeholder boolean to reflect if request is successful
         print("payment_attempt: posting to /api/send_payment_recieved_email")
         response = requests.post(request.build_absolute_uri("/") + "api/send_payment_recieved_email", json=data)
-        print("payment_attempt: received response from /api/send_payment_recieved_email")
+        print(f"payment_attempt: received response from /api/send_payment_recieved_email, status code:{response.status_code}")
     return Response("", status=response.status_code)
