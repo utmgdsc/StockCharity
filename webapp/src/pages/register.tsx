@@ -20,7 +20,7 @@ const RegisterPage: () => JSX.Element = () => {
     const doRegister: SubmitHandler<RegisterType> = (data) => {
         setMessage("");
         sendRegister(data)
-            .then((response) => {
+            .then(() => {
                 router.push("login");
             })
             .catch(({ response }) => {

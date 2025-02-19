@@ -65,7 +65,7 @@ const LoginPage: () => JSX.Element = () => {
             </div>
         </div>
         <div className="error">{message}</div>
-        <Link href="/register">Don't have an account? Sign Up</Link>
+        <Link href="/register">Don&apos;t have an account? Sign Up</Link>
         <div className="field mt-5">
             <div className="control">
                 <input className="button" type="submit" value="Login" />

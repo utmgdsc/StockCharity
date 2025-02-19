@@ -10,19 +10,16 @@ const Account = (): JSX.Element => {
     useEffect(() => {
         getAccountInfo().then((response) => setAccountInfo(response.data)).catch(() =>
             router.push("login"))
-    }, []);
-
-    console.log(accountInfo);
+    });
 
     // Variables are hard coded for now to demo until backend is implemented.
-    const user_name = "USER_NAME";
     const stocks_owned = ["Stock 1", "Stock 2", "Stock 3", "Stock 4", "Stock 5", "Stock 6", "Stock 7"];
     const stocks_owned_values = [300.50, 500.00, 199.50, 100.009, 50.119, 50.00, 150.34];
     const number_of_stocks_owned_per_stock = [3, 1, 1, 4, 1, 1, 3];
-    let stock_total_value = 0
-    for (let i = 0; i < stocks_owned.length; i++) {
-        stock_total_value += stocks_owned_values[i] * number_of_stocks_owned_per_stock[i];
-    }
+    let stock_total_value = 0;
+    stocks_owned_values.forEach((value, idx) => {
+        stock_total_value += value * number_of_stocks_owned_per_stock[idx];
+    })
     const charities_donated_to = [
         "Charity 1", "Charity 2", "Charity 3", "Charity 4", "Charity 5",
         "Charity 6", "Charity 7", "Charity 8", "Charity 9",
