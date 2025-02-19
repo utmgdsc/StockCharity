@@ -1,8 +1,18 @@
-import { JSX } from "react"; 
+import { JSX, useEffect, useState } from "react";
 import PieChart from "@/components/pie-chart";
+import { AccountType, getAccountInfo } from "@/util/request";
+import { useRouter } from "next/navigation";
 
 
 const Account = (): JSX.Element => {
+    const router = useRouter();
+    const [accountInfo, setAccountInfo] = useState<AccountType>();
+    useEffect(() => {
+        getAccountInfo().then((response) => setAccountInfo(response.data)).catch(() =>
+            router.push("login"))
+    }, []);
+
+    console.log(accountInfo);
 
     // Variables are hard coded for now to demo until backend is implemented.
     const user_name = "USER_NAME";
@@ -10,11 +20,11 @@ const Account = (): JSX.Element => {
     const stocks_owned_values = [300.50, 500.00, 199.50, 100.009, 50.119, 50.00, 150.34];
     const number_of_stocks_owned_per_stock = [3, 1, 1, 4, 1, 1, 3];
     let stock_total_value = 0
-    for (let i = 0; i < stocks_owned.length; i++){
+    for (let i = 0; i < stocks_owned.length; i++) {
         stock_total_value += stocks_owned_values[i] * number_of_stocks_owned_per_stock[i];
     }
     const charities_donated_to = [
-        "Charity 1", "Charity 2", "Charity 3", "Charity 4", "Charity 5", 
+        "Charity 1", "Charity 2", "Charity 3", "Charity 4", "Charity 5",
         "Charity 6", "Charity 7", "Charity 8", "Charity 9",
     ];
 
@@ -29,7 +39,7 @@ const Account = (): JSX.Element => {
                     <div className="py-10 px-20 w-full max-w-lg grid grid-cols-1 gap-6">
                         <div className="">
                             <h2 className="text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
-                                Hello {user_name},      
+                                Hello {accountInfo?.first_name} {accountInfo?.last_name},
                             </h2>
                             <p className="mt-4 text-lg text-gray-600">
                                 Thanks for supporting those in need through Stock Charity!
@@ -45,7 +55,7 @@ const Account = (): JSX.Element => {
                                 <h3 className="text-lg font-bold">Stocks owned:</h3>
                                 <p>Total stock value: ${stock_total_value.toFixed(2)}</p>
                                 <br></br>
-                                
+
 
                                 {stocks_owned.map((stock, index) => (
                                     <ul key={index}>{number_of_stocks_owned_per_stock[index]} stocks of {stock} worth ${stocks_owned_values[index].toFixed(2)} each</ul>
@@ -62,7 +72,7 @@ const Account = (): JSX.Element => {
                                 <p>$6.76 on Oct. 23th 2024 from {stocks_owned[1]}</p>
                                 <p>$15.43 on Aug. 6th 2024 from {stocks_owned[0]}</p>
 
-                                
+
                             </div>
 
                         </div>

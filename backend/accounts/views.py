@@ -12,4 +12,5 @@ class UserViewSet(viewsets.ModelViewSet):
     def retrieve(self, request):
         if request.auth is None:
             return Response(status=401)
-        return super().retrieve(self, request)
+        serializer = self.get_serializer(request.user)
+        return Response(serializer.data)
