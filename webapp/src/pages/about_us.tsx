@@ -4,33 +4,54 @@ const AboutUs = (): JSX.Element => (
 <div className="font-sans">
 
       {/* Title */}
+      <section className="flex flex-col lg:flex-row items-center justify-center min-h-screen bg-gray-100 p-8">
+      {/* Left Column - Image */}
+        <div className="w-full lg:w-1/2 flex justify-center">
+          <img 
+            src="/photos/stockphotoforstockcharity.jpeg" 
+            alt="Sample Image" 
+            className="max-w-full h-auto rounded-lg shadow-lg"
+          />
+        </div>
+
+        {/* Right Column - Header & Text */}
+        <div className="w-full lg:w-1/2 p-6 text-center lg:text-left">
+          <h1 className="text-4xl font-bold text-gray-900">Who We Are</h1>
+          <p className="mt-4 text-lg text-gray-700">
+            Explore the world of sustainable giving and make a lasting impact.  
+            We're the whatever doing something for different charities to get whatever. Our mission is simple: whatever. 
+          </p>
+        </div>
+      </section>
+      
       <div className="text-center my-8">
-        <h1>About Us</h1>
+        <h2>Frequently Asked Questions</h2>
       </div>
 
-      {/* Content */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 px-12">
-        <div className="bg-gray-100 p-4 rounded shadow">
-          <h2 className="text-center">What we do:</h2>
-          <p>After we received your donations, we purchase your chosen stock and hold it*. Every month, we will donate the dividends to your preferred charity. 
-            Now your favourite charity no longer has to worry about fluctuating donations!</p>
-          <p><small>*Your stock may be sold and reinvested into a different stock if we determine that the stock is no longer suitable to hold (eg. significant decrease in value, no longer offering dividends).</small></p>
+      <div className="join join-vertical w-full">
+        <div className="collapse collapse-arrow join-item border-base-300 border">
+          <input type="radio" name="my-accordion-4" defaultChecked />
+          <div className="collapse-title text-xl font-medium">Which Stocks do we Invest In?</div>
+          <div className="collapse-content">
+            <p>hello</p>
+          </div>
         </div>
-        <div className="bg-gray-100 p-4 rounded shadow">
-          <h2 className="text-center">Which stocks do we invest in?</h2>
-          <p>A stock</p>
-          <p>B stock</p>
-          <p>C stock</p>
-          <p>...</p>
-          <p>We choose stocks based off of price, dividend yield, and safety.</p>
+        <div className="collapse collapse-arrow join-item border-base-300 border">
+          <input type="radio" name="my-accordion-4" />
+          <div className="collapse-title text-xl font-medium">How does our application work?</div>
+          <div className="collapse-content">
+            <p>hello</p>
+          </div>
         </div>
-        <div className="bg-gray-100 p-4 rounded shadow">
-          <h2 className="text-center" >Find us on other platforms!</h2>
-          <p>Instagram: @stockcharity</p>
-          <p>Email: questions@stockcharity.com</p>
+        <div className="collapse collapse-arrow join-item border-base-300 border">
+          <input type="radio" name="my-accordion-4" />
+          <div className="collapse-title text-xl font-medium">Do we have any other FAQs?</div>
+          <div className="collapse-content">
+            <p>hello</p>
+          </div>
         </div>
       </div>
-    </div>
+  </div>
   );
 
 

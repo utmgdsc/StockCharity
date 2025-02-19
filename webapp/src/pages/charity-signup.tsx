@@ -9,7 +9,7 @@ const CharitySignUp: React.FC = () => {
   };
 
   return (
-    <div className="grid grid-cols-2 relative isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
+    <div className="grid grid-cols-2 relative isolate bg-white px-6 py-24 sm:py-10 lg:px-8">
       <div
         className="absolute inset-x-0 top-[-10rem] -z-10 transform overflow-hidden blur-3xl sm:top-[-20rem]"
         aria-hidden="true"
@@ -111,7 +111,7 @@ const CharitySignUp: React.FC = () => {
               Phone number
             </label>
             <div className="mt-2.5">
-              <div className="flex rounded-md border border-gray-300 bg-white focus-within:ring-2 focus-within:ring-cyan-600 focus-within:ring-offset-2">
+              <div className="flex rounded-md border border-gray-300 bg-white focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2">
                 <select
                   id="country"
                   name="country"
@@ -157,7 +157,7 @@ const CharitySignUp: React.FC = () => {
             <button
               type="button"
               className={`relative flex w-8 h-4 cursor-pointer rounded-full ${
-                isAgreed ? "bg-cyan-600" : "bg-gray-200"
+                isAgreed ? "bg-blue-500" : "bg-gray-200"
               } transition-colors duration-200 ease-in-out`}
               role="switch"
               aria-checked={isAgreed}
@@ -174,7 +174,7 @@ const CharitySignUp: React.FC = () => {
             {/* Agreement text */}
             <label className="text-sm text-gray-600">
               By selecting this, you agree to our{" "}
-              <a href="#" className="font-semibold text-cyan-600">
+              <a href="#" className="font-semibold text-blue-600">
                 privacy&nbsp;policy
               </a>
               .
@@ -185,7 +185,7 @@ const CharitySignUp: React.FC = () => {
         <div className="mt-10">
           <button
             type="submit"
-            className="btn-primary px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm"
+            className="btn-primary px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm w-full"
           >
             Submit
           </button>
