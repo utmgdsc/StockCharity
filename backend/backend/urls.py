@@ -19,12 +19,14 @@ from django.urls import path, include
 from rest_framework import routers
 from .views import *
 from orders.views import Order_view_set
+from accounts.views import Account_view_set
 
 # define the router
 router = routers.DefaultRouter()
 
 # define the router path and viewset to be used
 router.register(r'order', Order_view_set)
+router.register(r'accounts', Account_view_set)
 
 # specify URL Path for rest_framework
 urlpatterns = [
