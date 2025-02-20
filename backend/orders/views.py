@@ -6,24 +6,24 @@ from rest_framework.decorators import action
 from django.db.models import Sum
 from datetime import date
 
-from .models import Donation_order
-from .serializers import Donation_order_serializer
+from .models import DonationOrder
+from .serializers import DonationOrderSerializer
 
 class OrderViewSet(viewsets.ModelViewSet):
 
-    queryset = Donation_order.objects.all()
-    serializer_class = Donation_order_serializer
+    queryset = DonationOrder.objects.all()
+    serializer_class = DonationOrderSerializer
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
     
-    # Will impliment once accounts are implimented
+    # Will impliment once accounts are fully implimented
     # @action(detail=False, methods=['get'], url_path='user-donations')
     # def all_donations_from_user(self, request):
-    #     user = request.user  # Assuming you are using Django's authentication system
-    #     donations = Donation_order.objects.filter(user=user)
+    #     user = request.user 
+    #     donations = DonationOrder.objects.filter(user=user)
     #     serializer = self.get_serializer(donations, many=True)
     #     return Response(serializer.data)
     
@@ -32,8 +32,8 @@ class OrderViewSet(viewsets.ModelViewSet):
         """This method will return the total value of all donations
         
         Example call: http://127.0.0.1:8000/order/total-donations/"""
-        total_donations = Donation_order.objects.aggregate(total=Sum('donation_total'))['total']
-        return Response({'donation_total': total_donations})
+        total_donations = DonationOrder.objects.aggregate(total=Sum('donation_total'))['total']
+        return Response({'donation_total': total_donations}, status=200)
 
     @action(detail=False, methods=['get'], url_path='orders_with_status')
     def get_orders_with_status(self, request) -> list:
@@ -44,15 +44,17 @@ class OrderViewSet(viewsets.ModelViewSet):
         if order_status is None:
             return Response({'error' : 'status_of_order parameter is required.'}, status=400)
         
-        orders = Donation_order.objects.filter(status=order_status)
+        orders = DonationOrder.objects.filter(status=order_status)
         serializer = self.get_serializer(orders, many=True)
-        return Response({'orders_with_status': serializer.data})
+        return Response({'orders_with_status': serializer.data}, status=200)
     
     @action(detail=False, methods=['get'], url_path='orders-in-timeframe')
     def get_orders_in_timeframe(self, request) -> list:
         """This method takes in a start and end date and returns all the orders within the given timeframe.
         It will default to 2025-01-01T00:00:00Z as the start date and the current date for the end date if
         no dates are given.
+
+        You can input dates in either yyyy-mm-dd format or yyyy-mm-ddThh:mm:ssZ format.
         
         Example call: http://127.0.0.1:8000/order/orders-in-timeframe/?start_date=2025-01-02&end_date=2025-02-18"""
         start_date = request.query_params.get('start_date')
@@ -67,20 +69,32 @@ class OrderViewSet(viewsets.ModelViewSet):
         if end_date is None:
             end_date = date.today().strftime("%Y-%m-%dT%H:%M:%SZ")
 
-        # Reformatting dates
-        if len(start_date) == 10:
-            start_date += "T00:00:00Z"
-        if len(end_date) == 10:
-            end_date += "T23:59:59Z"
+        if len(start_date) == 10 and len(end_date) == 10:
+            # Validate date format
+            try:
+                start_date_obj = date.fromisoformat(start_date[:10])
+                end_date_obj = date.fromisoformat(end_date[:10])
+            except ValueError:
+                return Response({'error': 'Invalid date format. Use YYYY-MM-DD or YYYY-MM-DDTHH:MM:SSZ'}, status=400)
+
+            # Reformatting dates
+            if len(start_date) == 10:
+                start_date += "T00:00:00Z"
+            if len(end_date) == 10:
+                end_date += "T23:59:59Z"
+
         
         # return Response({'start-date' : start_date, 'end-date' : end_date})
-
-        orders = Donation_order.objects.filter(time__range=[start_date, end_date])
+        try:
+            orders = DonationOrder.objects.filter(time__range=[start_date, end_date])
+        except:
+            return Response({'error': "Please make sure you entered the dates correctly."})
+            
         serializer = self.get_serializer(orders, many=True)
-        return Response({'orders_in_timeframe': serializer.data})
+        return Response({'orders_in_timeframe': serializer.data}, status=200)
     
     @action(detail=False, methods=['get'], url_path='stripe-id-order')
-    def get_order_by_stripe_id(self, request) -> Donation_order:
+    def get_order_by_stripe_id(self, request):
         """This method takes a stripe-id and returns the Donation_order that coresponds to it
         
         Example call http://127.0.0.1:8000/order/stripe-id-order/?stripe-id=123456789"""
@@ -88,13 +102,13 @@ class OrderViewSet(viewsets.ModelViewSet):
         if stripe_id is None:
             return Response({'error': 'stripe-id parameter is required.'}, status=400)
 
-        order = Donation_order.objects.filter(stripe_transaction_id=stripe_id).first()
+        order = DonationOrder.objects.filter(stripe_transaction_id=stripe_id).first()
 
         if order is None:
             return Response({'error': 'There is no order with that stripe-id.'}, status=404)
 
         serializer = self.get_serializer(order)
-        return Response({'order': serializer.data})
+        return Response({'order': serializer.data}, status=200)
     
     @action(detail=False, methods=['get'], url_path='id-order')
     def get_order_by_id(self, request):
@@ -106,13 +120,13 @@ class OrderViewSet(viewsets.ModelViewSet):
         if order_id is None:
             return Response({'error': 'id parameter is required.'}, status=400)
         
-        order = Donation_order.objects.filter(id=order_id).first()
+        order = DonationOrder.objects.filter(id=order_id).first()
 
         if order is None:
             return Response({'error': ('There is no order with the id ', order_id)}, status=404)
 
         serializer = self.get_serializer(order)
-        return Response({'order': serializer.data})
+        return Response({'order': serializer.data}, status=200)
     
     @action(detail=False, methods=['get'], url_path='orders-within-cash-range')
     def get_orders_in_cash_range(self, request):
@@ -126,8 +140,8 @@ class OrderViewSet(viewsets.ModelViewSet):
         
         upper_bound = request.query_params.get("high")
         if upper_bound is None:
-            return Response({'error': 'low parameter is required'}, status=404) 
+            return Response({'error': 'high parameter is required'}, status=404) 
         
-        orders = Donation_order.objects.filter(donation_total__gte=lower_bound, donation_total__lte=upper_bound)
+        orders = DonationOrder.objects.filter(donation_total__gte=lower_bound, donation_total__lte=upper_bound)
         serializer = self.get_serializer(orders, many=True)
-        return Response({'orders_within_cash_range': serializer.data})
+        return Response({'orders_within_cash_range': serializer.data}, status=200)

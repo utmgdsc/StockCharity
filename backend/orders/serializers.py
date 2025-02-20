@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from .models import Donation_order
+from .models import DonationOrder
 
-class Donation_order_serializer(serializers.HyperlinkedModelSerializer):
+class DonationOrderSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Donation_order
+        model = DonationOrder
         fields = ("donation_total", "account", "time", "status", "stripe_transaction_id")

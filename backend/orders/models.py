@@ -8,10 +8,9 @@ class Account():
         self.just_testing = 0
 
 
-class Donation_order(models.Model):
+class DonationOrder(models.Model):
 
     donation_total = models.FloatField()
-    # account = models.IntegerField()
     account = models.ForeignKey(User, on_delete=models.CASCADE)
     time = models.DateTimeField()
     status = models.CharField(max_length=10)
