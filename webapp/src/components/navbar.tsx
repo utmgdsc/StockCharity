@@ -9,7 +9,7 @@ const NavBar: React.FC = () => {
             </div>
 
             <div className="flex gap-4 py-2">
-                <Link href="/donate" className="hover:underline">Donate</Link>
+                <Link href="/donate_v2" className="hover:underline">Donate</Link>
             </div>
 
             <div className="flex gap-4 py-2">
