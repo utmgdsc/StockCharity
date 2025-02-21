@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Backend and Frontend CI testing
 
 on:
   push:
@@ -54,5 +54,7 @@ jobs:
         run: pip install -r requirements.txt
       - name: Check migrations
         run: python manage.py migrate
+      - name: Import pytest
+        run: pip install pytest
       - name: Run pytests
         run: pytest .
