@@ -21,8 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-with open(os.path.dirname(__file__) + "/../../secrets.json") as s:
-    SECRET_KEY = json.load(s)["django"] # TODO: implement secret key in CI
+SECRET_KEY = os.environ["DJANGO_API_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -42,6 +41,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'orders',
     'accounts',
+    'rest_framework',
+    'api'
 ]
 
 

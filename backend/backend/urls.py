@@ -16,10 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+
 from rest_framework import routers
 from .views import *
 from orders.views import OrderViewSet
 from accounts.views import AccountViewSet
+
 
 # define the router
 router = routers.DefaultRouter()
@@ -32,7 +34,11 @@ router.register(r'accounts', AccountViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
+
     path('api-auth/', include('rest_framework.urls'))
+
+    path('api/', include('api.urls'))
+
 ]
 
 # urlpatterns = [
