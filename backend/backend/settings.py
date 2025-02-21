@@ -42,9 +42,7 @@ INSTALLED_APPS = [
     'orders',
     'accounts',
     'corsheaders',
-    'rest_framework',
     'rest_framework_simplejwt',
-    'accounts',
     'api'
 ]
 
