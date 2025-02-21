@@ -13,4 +13,4 @@ class UserViewSet(viewsets.ModelViewSet):
         if request.auth is None:
             return Response(status=401)
         serializer = self.get_serializer(request.user)
-        return Response(serializer.data)
+        return Response(serializer.data, status=200)
