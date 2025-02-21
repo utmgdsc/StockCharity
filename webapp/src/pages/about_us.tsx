@@ -1,4 +1,5 @@
 import { JSX } from "react"; 
+import Image from "next/image";
 
 const AboutUs = (): JSX.Element => (
 <div className="font-sans">
@@ -6,10 +7,12 @@ const AboutUs = (): JSX.Element => (
       {/* Title */}
       <section className="flex flex-col lg:flex-row items-center justify-center min-h-screen bg-gray-100 p-8">
       {/* Left Column - Image */}
-        <div className="w-full lg:w-1/2 flex justify-center">
-          <img 
+        <div className="w-full h-full lg:w-1/2 flex justify-center">
+          <Image 
             src="/photos/stockphotoforstockcharity.jpeg" 
             alt="Sample Image" 
+            width={800}
+            height={500}
             className="max-w-full h-auto rounded-lg shadow-lg"
           />
         </div>
@@ -19,7 +22,7 @@ const AboutUs = (): JSX.Element => (
           <h1 className="text-4xl font-bold text-gray-900">Who We Are</h1>
           <p className="mt-4 text-lg text-gray-700">
             Explore the world of sustainable giving and make a lasting impact.  
-            We're the whatever doing something for different charities to get whatever. Our mission is simple: whatever. 
+            We&apos;re the whatever doing something for different charities to get whatever. Our mission is simple: whatever. 
           </p>
         </div>
       </section>
