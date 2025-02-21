@@ -7,26 +7,34 @@ const DonatePage: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleDonate = async (amount: number) => {
-    setLoading(true);
+    // setLoading(true);
+    // try {
+    //   const response = await fetch('http://localhost:8000/donate/', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({ amount }), // amount is in cents
+    //   });
+    //   const data = await response.json();
+    //   if (data.url) {
+    //     // Redirect to the Stripe checkout page
+    //     window.location.href = data.url;
+    //   } else {
+    //     console.error('Error creating session:', data.error);
+    //     setLoading(false);
+    //   }
+    // } catch (error) {
+    //   console.error('Request failed:', error);
+    //   setLoading(false);
+    // }
     try {
-      const response = await fetch('http://localhost:8000/create-checkout-session/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ amount }), // amount is in cents
-      });
+      const response = await fetch('http://localhost:8000/donate/');
       const data = await response.json();
-      if (data.url) {
-        // Redirect to the Stripe checkout page
-        window.location.href = data.url;
-      } else {
-        console.error('Error creating session:', data.error);
-        setLoading(false);
-      }
-    } catch (error) {
+      return data;
+    }
+    catch (error) {
       console.error('Request failed:', error);
-      setLoading(false);
     }
   };
 
