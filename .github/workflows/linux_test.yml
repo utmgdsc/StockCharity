@@ -50,11 +50,10 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+          cache: 'pip'
       - name: Import requirements
         run: pip install -r requirements.txt
       - name: Check migrations
         run: python manage.py migrate
-      - name: Import pytest
-        run: pip install pytest
-      - name: Run pytests
-        run: pytest .
+      - name: Run django tests
+        run: python manage.py test
