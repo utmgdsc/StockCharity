@@ -34,7 +34,7 @@ jobs:
     - name: Run tests
       run: npm test
 
-  test-backend:
+  build-backend:
     runs-on: ubuntu-latest
     defaults:
       run:
