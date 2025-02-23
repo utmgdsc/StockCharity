@@ -11,7 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ["email", "first_name", "last_name", "is_staff", "is_active", "password1", "password2"]
+        fields = ["email", "first_name", "last_name", "is_staff", "is_active", "password1", "password2", "total_donations", "total_dividends"]
 
     def validate(self, attrs):
         if attrs.get("password1") != attrs.get("password2"):
@@ -24,4 +24,6 @@ class UserSerializer(serializers.ModelSerializer):
         validated_data.pop("password2")
         user = get_user_model().objects.create_user(email, password, **validated_data)
         user.save()
+        total_dividends = 0
+        total_donations = 0
         return super().to_representation(user)

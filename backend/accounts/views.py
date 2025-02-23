@@ -93,7 +93,6 @@ class AccountViewSet(viewsets.ModelViewSet):
         return Response({'status': 'email updated successfully'}, status=200)
     
     @action(detail=True, methods=['delete'], url_path='delete-user')
-    @action(detail=True, methods=['delete'], url_path='delete-user')
     def delete_user(self, request, pk=None):
         '''
         This method will delete the given user
@@ -133,4 +132,104 @@ class AccountViewSet(viewsets.ModelViewSet):
 
         serializer = self.get_serializer(user)
         return Response(serializer.data, status=200)
+    
+    @action(detail=True, methods=['get'], url_path='donations')
+    def get_user_donations_total(self, request, pk=None):
+        '''This method returns the donations_total of a user
+        
+        Example cURL:
+        curl -X GET http://127.0.0.1:8000/accounts/1/donations/
+        '''
+        user_id = pk
+
+        if user_id is None:
+            return Response({'error': 'user_id is a required field.'}, status=400)
+        
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({'error': 'User not found.'}, status=404)
+        
+        donations = user.total_donations
+
+        return Response({'donations': donations}, status=200)
+    
+    @action(detail=True, methods=['patch'], url_path='increase-donations')
+    def increase_donations_total(self, request, pk=None):
+        '''This method increases donations_total by the given amount
+        
+        Example cURL:
+        curl -X PATCH http://127.0.0.1:8000/accounts/1/increase-donations/ -H "Content-Type: application/json" -d "{\"donation\": 100}"
+        '''
+
+        user_id = pk
+        donation_increase = request.data.get('donation')
+
+        if user_id is None or donation_increase is None:
+            return Response({'error': 'user_id and donation are required fields.'}, status=400)
+
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({'error': 'User not found.'}, status=404)
+
+        try:
+            donation_increase = float(donation_increase)
+        except ValueError:
+            return Response({'error': 'donation must be a number.'}, status=400)
+
+        user.total_donations += donation_increase
+        user.save()
+
+        return Response({'status': f'donation added successfully. The new total is {user.total_donations}'}, status=200)
+
+    @action(detail=True, methods=['get'], url_path='dividends')
+    def get_user_dividends_total(self, request, pk=None):
+        '''This method returns the dividends_total of a user
+        
+        Example cURL:
+        curl -X GET http://127.0.0.1:8000/accounts/1/dividends/
+        '''
+        user_id = pk
+
+        if user_id is None:
+            return Response({'error': 'user_id is a required field.'}, status=400)
+        
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({'error': 'User not found.'}, status=404)
+        
+        dividends = user.total_dividends
+
+        return Response({'dividends': dividends}, status=200)
+    
+    @action(detail=True, methods=['patch'], url_path='increase-dividends')
+    def increase_dividends_total(self, request, pk=None):
+        '''This method increases dividends_total by the given amount
+        
+        Example cURL:
+        curl -X PATCH http://127.0.0.1:8000/accounts/1/increase-dividends/ -H "Content-Type: application/json" -d "{\"dividend\": 100}"
+        '''
+
+        user_id = pk
+        dividend_increase = request.data.get('dividend')
+
+        if user_id is None or dividend_increase is None:
+            return Response({'error': 'user_id and dividend are required fields.'}, status=400)
+
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({'error': 'User not found.'}, status=404)
+
+        try:
+            dividend_increase = float(dividend_increase)
+        except ValueError:
+            return Response({'error': 'dividend must be a number.'}, status=400)
+
+        user.total_dividends += dividend_increase
+        user.save()
+
+        return Response({'status': f'dividend added successfully. The new total is {user.total_dividends}'}, status=200)
 
