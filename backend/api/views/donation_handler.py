@@ -1,20 +1,30 @@
-import requests
-
+import os
+import stripe
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import status 
+from rest_framework import status
 
-from django.shortcuts import render, redirect
+stripe.api_key = os.environ["STRIPE_SECRET_KEY"]
 
-import json
-import os # for environmental variables
-import stripe
-
-STRIPE_PUBLIC_KEY = os.environ["STRIPE_PUBLIC_KEY"]
-STRIPE_SECRET_KEY = os.environ["STRIPE_SECRET_KEY"]
 
 @api_view(['POST'])
-def payment_attempt_received(request):
-    stripe.api_key = STRIPE_SECRET_KEY
+def donation_handler(request):
+    amount = request.data.get('amount')
+    fixed = request.data.get('fixed')
 
-    return Response("Testing")
+    if (fixed == "true"):
+        try:
+            checkout_session = stripe.checkout.Session.create(
+                line_items=[
+                    {
+                        "price": "price_1QuK2kLtztZ9KxoQVWS2Hdm5", 
+                        "quantity": 1,
+                    }
+                ],
+                mode="payment",
+                success_url="https://google.com",
+                cancel_url="https://google.com"
+            )
+            return Response({"url": checkout_session.url}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
