@@ -93,7 +93,6 @@ class AccountViewSet(viewsets.ModelViewSet):
         return Response({'status': 'email updated successfully'}, status=200)
     
     @action(detail=True, methods=['delete'], url_path='delete-user')
-    @action(detail=True, methods=['delete'], url_path='delete-user')
     def delete_user(self, request, pk=None):
         '''
         This method will delete the given user
