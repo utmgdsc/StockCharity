@@ -24,6 +24,4 @@ class UserSerializer(serializers.ModelSerializer):
         validated_data.pop("password2")
         user = get_user_model().objects.create_user(email, password, **validated_data)
         user.save()
-        total_dividends = 0
-        total_donations = 0
         return super().to_representation(user)

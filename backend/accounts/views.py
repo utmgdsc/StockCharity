@@ -223,10 +223,7 @@ class AccountViewSet(viewsets.ModelViewSet):
         except User.DoesNotExist:
             return Response({'error': 'User not found.'}, status=404)
 
-        try:
-            dividend_increase = float(dividend_increase)
-        except ValueError:
-            return Response({'error': 'dividend must be a number.'}, status=400)
+
 
         user.total_dividends += dividend_increase
         user.save()
