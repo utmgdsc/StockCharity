@@ -33,6 +33,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
 
+    total_donations = models.FloatField(default=0)
+
+    total_dividends = models.FloatField(default=0)
+
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
