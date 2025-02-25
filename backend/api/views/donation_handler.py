@@ -11,7 +11,8 @@ stripe.api_key = os.environ["STRIPE_SECRET_KEY"]
 def donation_handler(request):
     donate_amount = request.data.get('amount') # "10" | "25" | "50"
     fixed_donation = request.data.get('fixed') # "true" | "false"
-
+    # TODO: 
+    # the /success page should have this format: "http://public_domain/success?session_id={CHECKOUT_SESSION_ID}"
     try:
         checkout_session = stripe.checkout.Session.create(
             line_items=[
@@ -21,8 +22,8 @@ def donation_handler(request):
                 }
             ],
             mode="payment",
-            success_url="https://google.com",
-            cancel_url="https://google.com"
+            success_url="https://google.com", # this should route to the /success page
+            cancel_url="https://google.com" # this should route back to the donate page
         )
         return Response({"url": checkout_session.url}, status=status.HTTP_200_OK)
     except Exception as e:
