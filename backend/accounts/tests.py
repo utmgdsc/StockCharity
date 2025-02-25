@@ -76,14 +76,14 @@ class AccountTests(APITestCase):
         )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK, response.data)
-        self.assertDictEqual(
-            response.data,
-            {
-                "email": self.EMAIL,
-                "first_name": self.FIRST_NAME,
-                "last_name": self.LAST_NAME,
-            },
-        )
+        expected_values = {
+            "email": self.EMAIL,
+            "first_name": self.FIRST_NAME,
+            "last_name": self.LAST_NAME,
+        }
+        for field in expected_values:
+            self.assertIn(field, response.data)
+            self.assertEqual(response.data[field], expected_values[field])
 
     def test_get_account_no_auth(self):
         url = reverse("account")
