@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Backend and Frontend CI testing
 
 on:
   push:
@@ -7,17 +7,20 @@ on:
     branches: [ "main" ]
 
 jobs:
-  Run-Test:
-
+  build-frontend:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [20.x]
+    defaults:
+      run:
+        working-directory: ./webapp
 
     steps:
     - name: Chekout the repository
       uses: actions/checkout@v4
+      with:
+        sparse-checkout: ./webapp
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
@@ -26,10 +29,31 @@ jobs:
         cache-dependency-path: ./webapp/package-lock.json
     - name: Install packages
       run: npm ci
-      working-directory: ./webapp
     - name: Build project
       run: npm run build
-      working-directory: ./webapp
     - name: Run tests
       run: npm test
-      working-directory: ./webapp
+
+  build-backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+    env:
+      DJANGO_API_KEY: EMPTY_KEY
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: ./backend
+      - name: Setup python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+      - name: Import requirements
+        run: pip install -r requirements.txt
+      - name: Check migrations
+        run: python manage.py migrate
+      - name: Run django tests
+        run: python manage.py test

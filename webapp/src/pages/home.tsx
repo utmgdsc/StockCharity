@@ -1,46 +1,58 @@
 import React from 'react';
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { useRouter } from 'next/navigation';
+
 
 export default function HomePage() {
+  const router = useRouter();
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-5xl">
-        {/* Left Section - What we do */}
-        <Card className="bg-gray-200 flex items-center justify-center">
-          <CardContent className="text-center">
-            <h2 className="mb-4">What we do</h2>
-            <p className="text-gray-700">
-              Donations for charities are inconsistent and many charities struggle with finances. 
-              To solve this problem, we are creating Stock Charity, a charity that uses donations 
-              to buy stocks that payout dividends and then uses those dividends to finance charities year-round.
-            </p>
-          </CardContent>
-        </Card>
+    <>
+      {/*Background Section with Donation call to action */}
+      <section 
+        className="relative w-full bg-stock-charity min-h-screen flex items-center justify-center bg-cover bg-center"
+      >
+        <div className="bg-white bg-opacity-90 p-8 rounded-lg shadow-2xl max-w-md w-full text-center lg:w-1/3">
+          {/* Title */}
+          <h1 className="text-4xl font-bold text-gray-900">Give to Charities Today!</h1>
 
-        {/* Right Section - Donate Button and Stats */}
-        <div className="flex flex-col items-center space-y-8">
+          {/* Subtitle */}
+          <h2 className="mt-4 text-lg text-gray-700">
+            Help charities secure long-term, sustainable funding for their initiatives.
+          </h2>
+
           {/* Donate Button */}
-          <Button 
-            className= "btn-primary text-2xl px-8 py-4"
-            route="/charity-signup">
-            DONATE
-          </Button>
+          <div className="mt-6">
+            <button className="w-full btn-login px-6 py-3" onClick={() => router.push('/donate')} >
+              Donate today!
+            </button>
+          </div>
+        </div>
+      </section>
 
-          {/* Stats Card */}
-          <Card className="bg-gray-200">
-            <CardContent className="text-center">
-              <p className="text-lg text-black">We have over</p>
-              <p className="text-3xl font-bold text-black">$xxx,xxx.xx</p>
-              <p className="text-lg text-black">in stocks</p>
-              <p className="text-lg text-black mt-4">which have paid out over</p>
-              <p className="text-3xl font-bold text-black">$xxx,xxx.xx</p>
-              <p className="text-lg text-black">in dividends to over</p>
-              <p className="text-3xl font-bold text-black">xxx charities</p>
-            </CardContent>
-          </Card>
+      {/*Stats Card*/}
+      <div className="bg-blue-200 py-16 w-full">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <dl className="grid grid-cols-1 md:grid-cols-3 gap-y-12 gap-x-8 text-center">
+            <div className="mx-auto flex max-w-xs flex-col gap-y-4">
+              <dt className="text-base text-gray-600">In total donations given</dt>
+              <dd className="order-first text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
+                $44 
+              </dd>
+            </div>
+            <div className="mx-auto flex max-w-xs flex-col gap-y-4">
+              <dt className="text-base text-gray-600">paid out in dividends</dt>
+              <dd className="order-first text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
+                $119 
+              </dd>
+            </div>
+            <div className="mx-auto flex max-w-xs flex-col gap-y-4">
+              <dt className="text-base text-gray-600">Charities working with us</dt>
+              <dd className="order-first text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
+                7
+              </dd>
+            </div>
+          </dl>
         </div>
       </div>
-    </div>
+    </>
   );
-}
+};

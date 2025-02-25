@@ -1,2 +1,4 @@
 *.sqlite3
 __pycache__/
+
+backend/migrations/__pycache__
