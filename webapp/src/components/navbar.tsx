@@ -39,7 +39,7 @@ const NavBar: React.FC = () => {
               <Link href="/home" className="hover:text-[#007bff] text-[#333] block font-semibold text-[15px]">Home</Link>
             </li>
             <li className="max-lg:border-b max-lg:py-3 px-3">
-              <Link href="/about_us_v2" className="hover:text-[#007bff] text-[#333] block font-semibold text-[15px]">About Us</Link>
+              <Link href="/about_us" className="hover:text-[#007bff] text-[#333] block font-semibold text-[15px]">About Us</Link>
             </li>
             <li className="max-lg:border-b max-lg:py-3 px-3">
               <Link href="/account" className="hover:text-[#007bff] text-[#333] block font-semibold text-[15px]">Account</Link>
