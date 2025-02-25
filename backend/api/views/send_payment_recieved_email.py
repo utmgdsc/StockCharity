@@ -27,7 +27,7 @@ def send_payment_recieved_email(request):
         from_email = Email(STOCK_CHARITY_EMAIL)
         to_email = To(request.data["receiver"])
         subject = "Thank you for supporting local charities!"
-        content = Content("text/plain", f"Your support is what keeps the kindness at {request.data["charity"]} going <3")
+        content = Content("text/plain", f"Your support is what keeps the kindness at {request.data['charity']} going <3")
         mail = Mail(from_email, to_email, subject, content)
 
         # Check if the response code
