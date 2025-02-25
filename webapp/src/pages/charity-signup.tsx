@@ -1,4 +1,5 @@
 import React from "react";
+import { CharityFormData } from "@/util/request";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -36,11 +37,10 @@ const CharitySignUp: React.FC = () => {
 
   const {
     register,
-    handleSubmit,
     setValue,
     trigger,
     formState: { errors, isValid },
-  } = useForm({
+  } = useForm<CharityFormData>({
     resolver: zodResolver(schema),
     mode: "onChange",
     defaultValues: {
@@ -72,11 +72,6 @@ const CharitySignUp: React.FC = () => {
     setIsAgreed(!isAgreed);
     setValue("isAgreed", !isAgreed); 
     trigger("isAgreed");
-  };
-
-  const onSubmit = (data: any) => {
-    alert("Form submitted successfully!");
-    console.log("Submitted Data:", data);
   };
 
   return (

@@ -30,6 +30,16 @@ export type RegisterType = {
     phone: string;
 }
 
+export type CharityFormData = {
+    firstName: string;
+    lastName: string;
+    charityName: string;
+    email: string;
+    phone: string;
+    message?: string;
+    isAgreed: boolean;
+}
+
 export type AccountType = {
     email: string;
     first_name: string;
