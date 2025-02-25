@@ -5,7 +5,7 @@ import axios from 'axios';
 const DonatePage: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
-  const handleDonate = async (fixed: String, amount: number) => {
+  const handleDonate = async (fixed: String, amount: String) => {
     setLoading(true);
     try {
       const response = await axios.post('http://localhost:8000/api/donate', {
@@ -39,21 +39,21 @@ const DonatePage: FC = () => {
       <h1 className="text-3xl font-bold mb-8">Donate</h1>
       <div className="flex flex-wrap justify-center gap-4 mb-6">
         <button
-          onClick={() => handleDonate("true", 10)}
+          onClick={() => handleDonate("true", "10")}
           disabled={loading}
           className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
         >
           Donate $10
         </button>
         <button
-          onClick={() => handleDonate("true", 25)}
+          onClick={() => handleDonate("true", "25")}
           disabled={loading}
           className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
         >
           Donate $25
         </button>
         <button
-          onClick={() => handleDonate("true", 50)}
+          onClick={() => handleDonate("true", "50")}
           disabled={loading}
           className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
         >
