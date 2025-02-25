@@ -21,7 +21,7 @@ from rest_framework import routers
 from .views import *
 from orders.views import OrderViewSet
 from accounts.views import AccountViewSet
-
+from donations.views import DonationViewSet
 
 # define the router
 router = routers.DefaultRouter()
@@ -29,6 +29,7 @@ router = routers.DefaultRouter()
 # define the router path and viewset to be used
 router.register(r'order', OrderViewSet)
 router.register(r'accounts', AccountViewSet)
+router.register(r'donations', DonationViewSet)
 
 # specify URL Path for rest_framework
 urlpatterns = [
