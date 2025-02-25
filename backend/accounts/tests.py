@@ -105,6 +105,7 @@ class AccountTests(APITestCase):
     PASSWORD = "password1"
     FIRST_NAME = "first_name"
     LAST_NAME = "last_name"
+    PHONE_NUMBER = '1234567890'
 
     def create_account(self):
         url = reverse("register")
@@ -114,6 +115,7 @@ class AccountTests(APITestCase):
             "password2": self.PASSWORD,
             "first_name": self.FIRST_NAME,
             "last_name": self.LAST_NAME,
+            "phone_number": self.PHONE_NUMBER
         }
         return self.client.post(url, data, format="json")
 
@@ -122,6 +124,7 @@ class AccountTests(APITestCase):
         data = {
             "email": self.EMAIL,
             "password": self.PASSWORD,
+            "phone_number": self.PHONE_NUMBER,
         }
         return self.client.post(url, data, format="json")
 
