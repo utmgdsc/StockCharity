@@ -21,5 +21,5 @@ class DonationViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'], url_path='total')
     def total(self, request):
         # Aggregate the total donation amount
-        total_amount = self.get_queryset().aggregate(total=Sum('amount'))['total'] or 0
+        total_amount = self.get_queryset().aggregate(total=Sum('donation_amount'))['total'] or 0
         return Response({'total_donated_amount': total_amount})
