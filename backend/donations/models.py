@@ -5,7 +5,7 @@ import uuid # for ID
 class Donation(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     charity_name = models.CharField(max_length=255)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    donation_amount = models.DecimalField(max_digits=10, decimal_places=2)
     donation_date = models.DateField()
 
     def __str__(self):
