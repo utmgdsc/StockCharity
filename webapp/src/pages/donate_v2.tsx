@@ -5,7 +5,7 @@ import axios from 'axios';
 const DonatePage: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
-  const handleDonate = async (fixed: String, amount: String) => {
+  const handleDonate = async (fixed: string, amount: string) => {
     setLoading(true);
     try {
       const response = await axios.post('http://localhost:8000/api/donate', {
