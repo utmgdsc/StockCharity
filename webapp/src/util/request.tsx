@@ -27,6 +27,7 @@ export type RegisterType = {
     password2: string;
     first_name: string;
     last_name: string;
+    phone: string;
 }
 
 export type AccountType = {
