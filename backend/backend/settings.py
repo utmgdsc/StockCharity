@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'orders',
     'accounts',
-    'dividends'
+    'dividends',
     'corsheaders',
     'rest_framework_simplejwt',
     'api'

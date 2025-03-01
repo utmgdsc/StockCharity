@@ -30,7 +30,7 @@ router = routers.DefaultRouter()
 # define the router path and viewset to be used
 router.register(r'order', OrderViewSet)
 router.register(r'accounts', AccountViewSet)
-router.register(r'dividends', DividendViewSet)
+router.register(r'dividend', DividendViewSet)
 
 # specify URL Path for rest_framework
 urlpatterns = [
@@ -40,13 +40,6 @@ urlpatterns = [
     path('api/', include('api.urls')),
     path('', include('accounts.urls')),
 ]
-
-# urlpatterns = [
-#     path('admin/', admin.site.urls),
-
-#     #Adding api urls
-#     path('', include("backend.urls"))
-# ]
 
 
 
