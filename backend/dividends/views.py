@@ -20,11 +20,18 @@ class DividendViewSet(viewsets.ModelViewSet):
 
         Example call: http://127.0.0.1:8000/dividend/12
         """
-        dividend = self.queryset.get(pk=pk)
+        print(f"dividend retrieve: getting id {[pk]}")
+        try:
+            dividend = self.queryset.get(pk=pk)
+
+        except DividendReceived.DoesNotExist:
+            return Response({'error': 'Invalid id'}, status=404)
+        
         serializer = DividendReceivedSerializer(dividend)
         return Response(serializer.data, status=200)
     
     def create(self, request):
+        print("dividend create: received data", request.data)
         serializer = DividendReceivedSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
@@ -61,7 +68,7 @@ class DividendViewSet(viewsets.ModelViewSet):
         If no start_date is specified, it will be set to the oldest date in the database.
         If no end_date is specified, it will be set to the current date.
         
-        Example call: http://127.0.0.1:8000/dividend/get_total_dividends_received/?start_date=2025-01-02&end_date=2025-02-18"""
+        Example call: http://127.0.0.1:8000/dividend/get_total_dividends_in_timeframe/?start_date=2025-01-02&end_date=2025-02-18"""
         start_date = request.query_params.get('start_date')
         end_date = request.query_params.get('end_date')
 
