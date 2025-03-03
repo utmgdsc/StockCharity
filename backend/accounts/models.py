@@ -18,7 +18,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(_("first name"), max_length=150, blank=True)
     last_name = models.CharField(_("last name"), max_length=150, blank=True)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
-    total_donations = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     is_staff = models.BooleanField(
         _("staff status"),
         default=False,

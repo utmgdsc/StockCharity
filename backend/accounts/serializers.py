@@ -18,6 +18,13 @@ class UserSerializer(serializers.ModelSerializer):
         if attrs.get("password1") != attrs.get("password2"):
             raise serializers.ValidationError({"password": "Passwords do not match"})
 
+        phone_number = attrs.get("phone_number", "").lstrip("+")
+        if not phone_number.isdigit() or len(phone_number) < 10:
+            raise serializers.ValidationError({"phone_number": "Invalid phone number format"})
+
+        # Update sanitized phone number in attrs
+        attrs["phone_number"] = phone_number
+
         if not attrs.get("phone_number").isdigit() or len(attrs.get("phone_number")) < 10:
             raise serializers.ValidationError({"phone_number": "Invalid phone number format"})
 
