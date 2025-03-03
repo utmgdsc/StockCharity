@@ -19,7 +19,6 @@ from django.contrib import admin
 from django.urls import path, include
 
 from rest_framework import routers
-from .views import *
 from orders.views import OrderViewSet
 from accounts.views import AccountViewSet
 from dividends.views import DividendViewSet
@@ -33,7 +32,7 @@ urlpatterns = [
     path("", include(router.urls)),
     path("api/", include("api.urls")),
     path("", include("accounts.urls")),
-    path("", include("order.urls")),
-    path("", include("dividend.urls")),
+    path("", include("orders.urls")),
+    path("", include("dividends.urls")),
     path("admin/", admin.site.urls),
 ]
