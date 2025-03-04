@@ -5,9 +5,16 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from django.db.models import Sum
 from datetime import date
+from rest_framework import status
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
+
+
 
 from .models import DonationOrder
 from .serializers import DonationOrderSerializer
+from .models import User
 
 class OrderViewSet(viewsets.ModelViewSet):
 
@@ -26,7 +33,95 @@ class OrderViewSet(viewsets.ModelViewSet):
     #     donations = DonationOrder.objects.filter(user=user)
     #     serializer = self.get_serializer(donations, many=True)
     #     return Response(serializer.data)
+
+    @action(detail=False, methods=['post'], url_path='create_order', permission_classes=[IsAuthenticated])
+    def create_order(self, request, *args, **kwargs):
+       '''
+       1- create a JWT token using the postman  http://127.0.0.1:8000/login/ 
+       2- use the create access token to create order 
+                http://127.0.0.1:8000/order/create_order/
+
+                {
+               "donation_total": 3500,
+                "time": "2025-03-03T22:35",
+                "status": "inProg",
+                "stripe_transaction_id": "5600"
+                }
+
+       '''
+       request_data = request.data.copy()  # Make a mutable copy of the request data
+        
+       
+       user = User.objects.get(email =request.user )
+
+       try:
+            donation_order = DonationOrder.objects.create(
+                donation_total=request_data.get('donation_total'),
+                account= user,  # Assigns the logged-in user
+                time=request_data.get('time'),
+                status=request_data.get('status'),  # Default status
+                stripe_transaction_id=request_data.get('stripe_transaction_id'),
+            )
+            return Response("success", status=200)
+
+       except Exception as e:
+            return Response({"error": str(e)}, status=400)
+        
     
+   
+
+    @action(detail=False, methods=['patch'], url_path='update_order',permission_classes=[IsAuthenticated])
+    def update_order(self, request, *args, **kwargs):
+       '''
+       1- create a JWT token using the postman  http://127.0.0.1:8000/login/ 
+       2- use the create access token to create order 
+                http://127.0.0.1:8000/order/update_order/
+
+                {
+                "id"=1,
+               "donation_total": 3500,
+                "time": "2025-03-03T22:35",
+                "status": "inProg",
+                "stripe_transaction_id": "5600"
+                }
+
+       '''
+       #need to get the loged in user 
+       user = User.objects.get(email =request.user )
+       request_data = request.data.copy()  # Make a mutable copy of request data
+
+       try:
+            # Fetch order by ID
+            order = DonationOrder.objects.get(id=request_data.get('id'))
+            
+       except DonationOrder.DoesNotExist:
+            return Response({"error": "Order not found"}, status=404)
+
+        #before you update make sure that the item belong to the user
+       print(order.account)
+       print(user)
+       if order.account != user:
+        return Response({"error": "Order dose not belong to the user"}, status=404)
+
+        # Update fields if they exist in request
+       if 'status' in request_data:
+            order.status = request_data['status']
+       if 'donation_total' in request_data:
+            order.donation_total = request_data['donation_total']
+       if 'time' in request_data:
+            order.time = request_data['time']
+       if 'stripe_transaction_id' in request_data:
+            order.stripe_transaction_id = request_data['stripe_transaction_id']
+
+        # Save changes
+       order.save()
+
+       return Response({
+            "message": "Order updated successfully",
+            "order_id": order.id,
+            "status": order.status
+       }, status=200)
+
     @action(detail=False, methods=['get'], url_path='total-donations')
     def get_total_donations(self, request) -> float:
         """This method will return the total value of all donations
