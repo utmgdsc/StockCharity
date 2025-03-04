@@ -1,0 +1,69 @@
+import os
+import requests
+from django.urls import reverse
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status 
+from datetime import date
+import json
+
+MAX_RETRIES = 3
+LIST_OF_STOCKS = {"ACNB": "whatever this is"}
+
+@api_view(['GET'])
+def check_dividends(request):
+    """
+    Makes api calls to check if we received any dividends and update our database
+    """
+    retries = 0
+    total_dividend = 0
+    # Make API call to TIINGO to check for dividends
+    for ticker, name in LIST_OF_STOCKS.items():
+        while retries < MAX_RETRIES:
+            print(f"check_dividends: getting {name} dividend data from TIINGO")
+            today = str(date(2025,2,28))
+            url = f"https://api.tiingo.com/tiingo/daily/{ticker}/prices?startExDate{today}&endExDate={today}"
+            headers = {
+                'Content-Type': 'application/json',
+                'Authorization': 'Token ' + os.environ['TIINGO_API_KEY']
+            }
+            
+            # Retry if the request failed
+            response = requests.get(url, headers=headers)
+            if response.status_code != 200:
+                print(f"check_dividends: {name} dividend data was not retrieved (retries={retries})")
+                print(f"check_dividends: status code {response.status_code}")
+                retries += 1
+                continue
+
+            # Add dividend entry
+            print(f"check_dividends: adding {name} dividend data to db")
+            url = reverse("dividend")
+            data = {
+                "value": response.json()[0]["divCash"]
+                }
+            
+            # Retry if the request failed
+            response = requests.post(url, data)       
+            if response.status_code != 200:
+                print(f"check_dividends: {name} dividend data was not added to db (retries={retries})")
+                print(f"check_dividends: status code {response.status_code}")
+                retries += 1
+                continue
+
+            # Update total dividend
+            print(f"check_dividends: {name} dividend data is successfully retrieved")
+            total_dividend += response.json()[0]["divCash"]
+
+            break
+    
+    # Update all users
+    #  total dividends earned * (users donation/total donations)
+    url = reverse("login")
+    login = {
+        "email": "therealstockcharity@gmail.com",
+        "password": "We<3Vamsi"
+    }
+    response = requests.post(url)
+
+    return Response("", status=200)
