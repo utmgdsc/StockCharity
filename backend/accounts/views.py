@@ -54,7 +54,6 @@ class AccountViewSet(viewsets.ModelViewSet):
             status=200,
         )
 
-    @action(detail=True, methods=["patch"], url_path="increase-dividends")
     def increase_dividends_total(self, request, pk=None):
         """This method increases dividends_total by the given amount
 
