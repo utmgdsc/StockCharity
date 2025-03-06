@@ -1,7 +1,7 @@
-from rest_framework.test import APITestCase 
+from rest_framework.test import APITestCase
 from django.test import TestCase
 from django.contrib.auth import get_user_model
-from accounts.serializers import UserSerializer 
+from accounts.serializers import UserSerializer
 from django.urls import reverse
 from rest_framework import status
 from .models import User
@@ -69,12 +69,12 @@ class UserSerializerTest(TestCase):
             "password2": "securepassword"
         }
         serializer = UserSerializer(data=data)
-        self.assertTrue(serializer.is_valid(), serializer.errors)  
-        
+        self.assertTrue(serializer.is_valid(), serializer.errors)
+
         user = serializer.save()  # Save user and check stored phone number
-        
-        self.assertEqual(user["email"], "test@example.com") 
-        self.assertEqual(user["phone_number"], "1234567890")  
+
+        self.assertEqual(user["email"], "test@example.com")
+        self.assertEqual(user["phone_number"], "1234567890")
 
     def test_serializer_fails_when_phone_number_is_missing(self):
         """Should fail validation when phone_number is missing."""
@@ -86,7 +86,7 @@ class UserSerializerTest(TestCase):
             "password2": "securepassword"
         }
         serializer = UserSerializer(data=data)
-        self.assertFalse(serializer.is_valid())  
+        self.assertFalse(serializer.is_valid())
         self.assertIn("phone_number", serializer.errors)
 
     def test_serializer_fails_when_phone_number_is_invalid(self):
@@ -100,7 +100,7 @@ class UserSerializerTest(TestCase):
             "password2": "securepassword"
         }
         serializer = UserSerializer(data=data)
-        self.assertFalse(serializer.is_valid())  
+        self.assertFalse(serializer.is_valid())
         self.assertIn("phone_number", serializer.errors)
 
 class AccountTests(APITestCase):
@@ -147,6 +147,17 @@ class AccountTests(APITestCase):
         self.assertEqual(userObject.email, self.EMAIL)
         self.assertEqual(userObject.first_name, self.FIRST_NAME)
         self.assertEqual(userObject.last_name, self.LAST_NAME)
+
+    def test_create_account_duplicate_email(self):
+        response = self.create_account()
+        self.assertEqual(
+            response.status_code, status.HTTP_201_CREATED, msg=response.data
+        )
+
+        response = self.create_account()
+        self.assertEqual(
+            response.status_code, status.HTTP_400_BAD_REQUEST, msg=response.data
+        )
 
     def test_login_ok(self):
         response = self.create_account()

@@ -1,10 +1,18 @@
 from django.contrib.auth import get_user_model
 
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 
 
 class UserSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(required=True)
+    email = serializers.EmailField(
+        required=True,
+        validators=[
+            UniqueValidator(
+                get_user_model().objects.all(), message="Email already registered"
+            )
+        ],
+    )
     first_name = serializers.CharField(required=True)
     last_name = serializers.CharField(required=True)
     phone_number = serializers.CharField(required=True)
