@@ -14,6 +14,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from rest_framework import routers
 from .views import *
 
@@ -22,5 +23,5 @@ from .views import *
 router = routers.DefaultRouter()
 
 # define the router path and viewset to be used
-router.register(r'dividend', DividendViewSet)
+router.register(r"dividend", DividendViewSet, basename="dividend")
 urlpatterns = router.urls
