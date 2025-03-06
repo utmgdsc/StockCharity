@@ -28,6 +28,7 @@ urlpatterns = [
     path("", include(router.urls)),
     path("api/", include("api.urls")),
     path("", include("accounts.urls")),
+    path("", include("charities.urls")),
     path("", include("orders.urls")),
     path("", include("dividends.urls")),
     path("admin/", admin.site.urls),
