@@ -2,8 +2,38 @@ import { RegisterType, sendRegister } from "@/util/request";
 import { ErrorMessage } from "@hookform/error-message";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { JSX, useState } from "react";
+import { JSX, useState, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { parsePhoneNumberFromString } from "libphonenumber-js";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import axios from "axios";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+
+const validatePhoneNumber = (phone: string) => {
+
+    if (!phone) return false;
+  
+    const formattedPhone = phone.startsWith("+") ? phone : `+${phone}`;
+    const parsed = parsePhoneNumberFromString(formattedPhone);
+    return parsed && parsed.isValid();
+};
+
+export const schema = z.object({
+    first_name: z.string().min(1, "First name is required"),  
+    last_name: z.string().min(1, "Last name is required"),    
+    email: z.string().email("Invalid email address"),
+    phone: z.string().refine(validatePhoneNumber, {
+      message: "Invalid phone number format",
+    }),
+    password1: z.string().min(6, "Password must be at least 6 characters long"),  
+    password2: z.string().min(6, "Password must be at least 6 characters long"),
+  }).refine((data) => data.password1 === data.password2, {
+    message: "Passwords must match",
+    path: ["password2"],
+  });
 
 const RegisterPage: () => JSX.Element = () => {
     const router = useRouter();
@@ -12,10 +42,33 @@ const RegisterPage: () => JSX.Element = () => {
         handleSubmit,
         getValues,
         setError,
+        trigger,
+        setValue, 
         formState: { errors },
-    } = useForm<RegisterType>();
+    } = useForm<RegisterType>({
+        resolver: zodResolver(schema), 
+        mode: "onSubmit"
+        });
 
     const [message, setMessage] = useState<string>("");
+    const [phoneNumber, setPhoneNumber] = useState<string>("");
+    const [userCountry, setUserCountry] = useState<string>("us"); // Default country
+
+    useEffect(() => {
+        axios.get("https://ipapi.co/json/")
+            .then((response) => {
+                setUserCountry(response.data.country_code.toLowerCase());
+            })
+            .catch(() => console.log("Could not fetch user location"));
+    }, []);
+
+    const handlePhoneChange = (value: string) => {
+        console.log("PhoneInput Raw Value:", value);
+        const formattedValue = value.startsWith("+") ? value : `+${value}`;
+        setPhoneNumber(formattedValue);
+        setValue("phone", formattedValue);
+        trigger("phone");
+    };
 
     const doRegister: SubmitHandler<RegisterType> = (data) => {
         setMessage("");
@@ -47,7 +100,7 @@ const RegisterPage: () => JSX.Element = () => {
                         className="input-style"
                         type="string"
                         placeholder="First Name"
-                        {...register("first_name", { required: "This is required" })}
+                        {...register("first_name")}
                     />
                     <div className="error">
                         <ErrorMessage errors={errors} name="first_name" />
@@ -61,7 +114,7 @@ const RegisterPage: () => JSX.Element = () => {
                         className="input-style"
                         type="string"
                         placeholder="Last Name"
-                        {...register("last_name", { required: "This is required" })}
+                        {...register("last_name")}
                     />
                     <div className="error">
                         <ErrorMessage errors={errors} name="last_name" />
@@ -76,7 +129,7 @@ const RegisterPage: () => JSX.Element = () => {
                     className="input-style"
                     type="email"
                     placeholder="email"
-                    {...register("email", { required: "This is required" })}
+                    {...register("email")}
                 />
                 <div className="error">
                     <ErrorMessage errors={errors} name="email" />
@@ -90,13 +143,35 @@ const RegisterPage: () => JSX.Element = () => {
                     className="input-style"
                     type="password"
                     placeholder="Password"
-                    {...register("password1", { required: "This is required" })}
+                    {...register("password1")}
                 />
                 <div className="error">
                     <ErrorMessage errors={errors} name="password1" />
                 </div>
             </div>
         </div>
+
+        <div className="field">
+                <label className="label-style">Phone Number</label>
+                <div className="control">
+                    <PhoneInput
+                        country={userCountry}
+                        value={phoneNumber}
+                        onChange={handlePhoneChange}
+                        inputStyle={{
+                            width: "100%",
+                            height: "40px",
+                            borderRadius: "5px",
+                            border: "1px solid #ccc",
+                            paddingLeft: "50px",
+                        }}
+                    />
+                    <div className="error">
+                        <ErrorMessage errors={errors} name="phone" />
+                    </div>
+                </div>
+            </div>
+
         <div className="field">
             <label className="label-style">Repeat Password</label>
             <div className="control">
@@ -105,7 +180,7 @@ const RegisterPage: () => JSX.Element = () => {
                     type="password"
                     placeholder="Repeat Password"
                     {...register("password2", {
-                        required: "This is required",
+                        required: "Please re-enter your password",
                         validate: (value) => {
                             if (value !== getValues("password1")) {
                                 return "Passwords do not match";

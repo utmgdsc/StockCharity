@@ -22,5 +22,5 @@ from .views import *
 router = routers.DefaultRouter()
 
 # define the router path and viewset to be used
-router.register(r'dividend', DividendViewSet)
+router.register(r"dividend", DividendViewSet, basename="dividend")
 urlpatterns = router.urls

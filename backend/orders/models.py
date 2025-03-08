@@ -1,23 +1,18 @@
 from django.db import models
+from django.core.validators import MinValueValidator
+
 from accounts.models import User
-
-
-# Place holder until we get the actual account class added.
-class Account():
-    def __init__(self):
-        self.just_testing = 0
 
 
 class DonationOrder(models.Model):
 
-    donation_total = models.FloatField()
-    account = models.ForeignKey(User, on_delete=models.CASCADE)
-    time = models.DateTimeField()
+    amount = models.FloatField(validators=[MinValueValidator(0.0)])
+    account = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="donations"
+    )
+    date = models.DateTimeField()
     status = models.CharField(max_length=10)
     stripe_transaction_id = models.TextField()
 
-
     def __str__(self):
-        return (self.account, "donated", f'{self.donation_total}', "at", self.time, 
-                ". The transaction is", self.status)
-                
+        return f"{self.account} donated {self.amount} at {self.date}. The transaction is {self.status}"
