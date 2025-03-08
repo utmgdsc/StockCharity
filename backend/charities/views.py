@@ -13,7 +13,7 @@ class CharityViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=["patch"], url_path="increase-donated")
     def increase_donations_received(self, request, pk=None):
-        """This method increases donations_total by the given amount
+        """This method increases donations_received by the given amount
 
         Example call: http://127.0.0.1:8000/charity/?1/increase-donated/  -d "{\"donation\": 100}"
         """
@@ -38,8 +38,5 @@ class CharityViewSet(viewsets.ModelViewSet):
         charity.save()
 
         return Response(
-            {
-                "status": f"Donation received by the charity. The new total is {charity.donations_received}"
-            },
-            status=200,
+            {"donations_received": charity.donations_received}, status=200,
         )

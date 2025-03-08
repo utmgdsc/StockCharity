@@ -21,11 +21,11 @@ class DividendTestCase(APITestCase):
         return self.client.post(url, data, format="json")
     
     def update_donation_received(self):
-        url = reverse("increase-donated")
+        url = reverse("charity-increase-donations-received", args=[1])
         data = {
             "donation": 1
             }
-        return self.client.post(url, data, format="json")
+        return self.client.patch(url, data, format="json")
 
     def test_create_charity_ok(self):
         response = self.create_charity()
@@ -37,3 +37,10 @@ class DividendTestCase(APITestCase):
         response = self.create_charity()
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(Charity.objects.count(), 1)
+
+    def test_update_donation_received(self):
+        self.create_charity()
+        response = self.update_donation_received()
+        self.assertEqual(
+            {"donations_received": 1,}, response.data
+        )

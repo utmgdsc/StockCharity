@@ -14,5 +14,7 @@ class Charity(models.Model):
     phone_number = models.CharField(max_length=15, blank=True, null=True)
 
     is_active = models.BooleanField(default=True)
+
+    is_approved = models.BooleanField(default=True)
     
     donations_received = models.FloatField(default=0)
