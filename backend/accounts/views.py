@@ -54,6 +54,26 @@ class AccountViewSet(viewsets.ModelViewSet):
             status=200,
         )
 
+    def get_user_dividends_total(self, request, pk=None):
+        """This method returns the dividends_total of a user
+
+        Example cURL:
+        curl -X GET http://127.0.0.1:8000/accounts/1/dividends/
+        """
+        user_id = pk
+
+        if user_id is None:
+            return Response({"error": "user_id is a required field."}, status=400)
+
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({"error": "User not found."}, status=404)
+
+        dividends = user.total_dividends
+
+        return Response({"dividends": dividends}, status=200)
+
     @action(detail=True, methods=["patch"], url_path="increase-dividends")
     def increase_dividends_total(self, request, pk=None):
         """This method increases dividends_total by the given amount
