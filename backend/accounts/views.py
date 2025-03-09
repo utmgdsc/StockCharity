@@ -20,28 +20,6 @@ class AccountViewSet(viewsets.ModelViewSet):
         # Serialize the user that authenticated request
         serializer = self.get_serializer(request.user)
         return Response(serializer.data, status=200)
-    
-    def list(self, request):
-        """This method returns all the user info in the db
-
-        Example cURL:
-        curl -X GET http://127.0.0.1:8000/accounts/?include_staff=False
-        """
-        if request.auth is None:
-            return Response({"error": "You are not logged in"}, status=401)
-        serializer = self.get_serializer(request.user)
-        if not serializer.data["is_staff"]:
-            return Response({"error": "You are not staff"}, status=401)
-        
-        # The user is an authenticated staff member
-        include_staff = request.query_params.get("include_staff")
-
-        if include_staff == "True":
-            user_set = self.queryset
-        else: 
-            user_set = self.queryset.filter(is_staff=False)
-        
-        return Response(self.get_serializer(user_set, many=True).data, status=200)
 
     def increase_donations_total(self, request, pk=None):
         """This method increases donations_total by the given amount
