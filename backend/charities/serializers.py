@@ -14,6 +14,7 @@ class CharitySerializer(serializers.ModelSerializer):
     name = serializers.CharField(required=True)
     phone_number = serializers.CharField(required=True)
     donations_received = serializers.FloatField(required=False)
+    is_approved = serializers.BooleanField(required=False)
 
     class Meta:
         model = Charity
@@ -22,5 +23,6 @@ class CharitySerializer(serializers.ModelSerializer):
             "email",
             "name",
             "phone_number",
-            "donations_received"
+            "donations_received",
+            "is_approved"
         ]
