@@ -15,7 +15,7 @@ class CharityViewSet(viewsets.ModelViewSet):
     def increase_donations_received(self, request, pk=None):
         """This method increases donations_received by the given amount
 
-        Example call: http://127.0.0.1:8000/charity/?1/increase-donated/  -d "{\"donation\": 100}"
+        Example call: http://127.0.0.1:8000/charity/1/increase-donated/  -d "{\"donation\": 100}"
         """
 
         charity_id = pk
