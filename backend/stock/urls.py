@@ -7,4 +7,5 @@ router.register(r'stock', StockViewSet, basename='stock')
 
 urlpatterns = [
     path('api/', include(router.urls)), 
+    path('', include('stocks.urls'))
 ]
