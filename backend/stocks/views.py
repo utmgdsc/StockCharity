@@ -4,7 +4,7 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from .models import Stock
-from .serializers import DonationSerializer
+from .serializers import StockSerializer
 
 class StockViewSet(viewsets.ModelViewSet):
     # Already include the following CRUD operations:
