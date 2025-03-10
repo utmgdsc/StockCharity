@@ -18,6 +18,7 @@ class DonationViewSet(viewsets.ModelViewSet):
     #TODO:
     # There's no auth checking atm 
 
+
     @action(detail=False, methods=['get'], url_path='total')
     def total(self, request):
         # Aggregate the total donation amount

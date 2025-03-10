@@ -4,7 +4,7 @@ import uuid # for ID
 # Create your models here.
 class Donation(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    charity_name = models.CharField(max_length=255)
+    charity_name = models.CharField(max_length=255) # this should be a foreign key to a charity
     donation_amount = models.DecimalField(max_digits=10, decimal_places=2)
     donation_date = models.DateField()
 
