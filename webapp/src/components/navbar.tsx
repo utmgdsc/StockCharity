@@ -10,10 +10,10 @@ const NavBar: React.FC = () => {
       <div className="flex flex-wrap items-center justify-between gap-4 w-full">
         
         {/*  Screen Logo */}
-        <Link href="/" className="lg:absolute max-lg:left-10 lg:top-2/4 lg:left-2/4 lg:-translate-x-1/2 lg:-translate-y-1/2 max-sm:hidden">
+        <Link href="/home" className="lg:absolute max-lg:left-10 lg:top-2/4 lg:left-2/4 lg:-translate-x-1/2 lg:-translate-y-1/2 max-sm:hidden">
           <h1>Stock Charity</h1>
         </Link>
-        <Link href="/" className="hidden max-sm:block">
+        <Link href="/home" className="hidden max-sm:block">
           <h1>Stock Charity</h1>
         </Link>
 
@@ -39,7 +39,7 @@ const NavBar: React.FC = () => {
               <Link href="/home" className="hover:text-[#007bff] text-[#333] block font-semibold text-[15px]">Home</Link>
             </li>
             <li className="max-lg:border-b max-lg:py-3 px-3">
-              <Link href="/about_us" className="hover:text-[#007bff] text-[#333] block font-semibold text-[15px]">About Us</Link>
+              <Link href="/about-us" className="hover:text-[#007bff] text-[#333] block font-semibold text-[15px]">About Us</Link>
             </li>
             <li className="max-lg:border-b max-lg:py-3 px-3">
               <Link href="/account" className="hover:text-[#007bff] text-[#333] block font-semibold text-[15px]">Account</Link>
@@ -48,7 +48,7 @@ const NavBar: React.FC = () => {
               <Link href="/donate" className="hover:text-[#007bff] text-[#333] block font-semibold text-[15px]">Donate</Link>
             </li>
             <li className="max-lg:border-b max-lg:py-3 px-3">
-              <Link href="/charity-signup" className="hover:text-[#007bff] text-[#333] block font-semibold text-[15px]">Charity</Link>
+              <Link href="/charity-signup" className="hover:text-[#007bff] text-[#333] block font-semibold text-[15px]">Charity Sign-Up</Link>
             </li>
           </ul>
         </div>

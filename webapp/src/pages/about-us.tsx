@@ -9,7 +9,7 @@ const AboutUs = (): JSX.Element => (
       {/* Left Column - Image */}
         <div className="w-full h-full lg:w-1/2 flex justify-center">
           <Image 
-            src="/photos/stockphotoforstockcharity.jpeg" 
+            src="/photos/1000+poorpeoplepictures.jpg" 
             alt="Sample Image" 
             width={800}
             height={500}
@@ -56,6 +56,5 @@ const AboutUs = (): JSX.Element => (
       </div>
   </div>
   );
-
 
 export default AboutUs;

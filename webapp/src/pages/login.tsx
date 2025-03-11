@@ -35,7 +35,7 @@ const LoginPage: () => JSX.Element = () => {
             });
     }
 
-    return <form className="w-1/2 m-auto" onSubmit={handleSubmit(doLogin)}>
+    return <form className="w-1/2 mt-10 m-auto" onSubmit={handleSubmit(doLogin)}>
         <div className="field">
             <label className="label-style">Email</label>
             <div className="control">
@@ -65,9 +65,10 @@ const LoginPage: () => JSX.Element = () => {
             </div>
         </div>
         <div className="error">{message}</div>
-        <Link href="/register">Don&apos;t have an account? Sign Up</Link>
+        <span>Don&apos;t have an account? </span>
+        <Link href="/register" className="text-[#007bff] hover:underline">Register</Link>
         <div className="field mt-5">
-            <div className="control">
+            <div className="btn-primary h-10 flex items-center justify-center">
                 <input className="button" type="submit" value="Login" />
             </div>
         </div>
