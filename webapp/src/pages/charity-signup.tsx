@@ -8,6 +8,7 @@ import axios from "axios";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import Link from "next/link";
 
 const validatePhoneNumber = (phone: string) => {
 
@@ -211,9 +212,9 @@ const CharitySignUp: React.FC = () => {
 
             <label className="text-sm text-gray-600">
               By selecting this, you agree to our{" "}
-              <a href="#" className="font-semibold text-blue-600">
+              <Link href="/privacy-policy" className="font-semibold text-blue-600">
                 privacy&nbsp;policy
-              </a>
+              </Link>
               .
             </label>
           </div>
@@ -231,8 +232,8 @@ const CharitySignUp: React.FC = () => {
             Submit
           </button>
         </div>
-        
       </form>
+      
     </div>
   );
 };
