@@ -14,6 +14,7 @@
     "@hookform/resolvers": "^4.1.2",
     "axios": "^1.7.9",
     "cookie": "^1.0.2",
+    "jwt-decode": "^4.0.0",
     "libphonenumber-js": "^1.11.20",
     "next": "15.1.5",
     "react": "^19.0.0",

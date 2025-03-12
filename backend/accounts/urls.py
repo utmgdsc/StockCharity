@@ -7,6 +7,7 @@ urlpatterns = [
     path("login/", TokenObtainPairView.as_view(), name="login"),
     path("login/refresh/", TokenRefreshView.as_view(), name="token-refresh"),
     path("account/", AccountViewSet.as_view({"get": "retrieve"}), name="account"),
+    path("account/<int:pk>/", AccountViewSet.as_view({"get": "retrieve"}), name="account-detail"),,
     path(
         "increase-donations/<int:pk>",
         AccountViewSet.as_view({"patch": "increase_donations_total"}),
