@@ -91,7 +91,7 @@ const RegisterPage: () => JSX.Element = () => {
                 }
             });
     };
-    return <form className="w-1/2 m-auto" onSubmit={handleSubmit(doRegister)}>
+    return <form className="w-1/2 mt-10 m-auto" onSubmit={handleSubmit(doRegister)}>
         <div className="flex flex-row gap-x-2">
             <div className="field grow">
                 <label className="label-style">First Name</label>
@@ -136,20 +136,6 @@ const RegisterPage: () => JSX.Element = () => {
                 </div>
             </div>
         </div>
-        <div className="field">
-            <label className="label-style">Password</label>
-            <div className="control">
-                <input
-                    className="input-style"
-                    type="password"
-                    placeholder="Password"
-                    {...register("password1")}
-                />
-                <div className="error">
-                    <ErrorMessage errors={errors} name="password1" />
-                </div>
-            </div>
-        </div>
 
         <div className="field">
                 <label className="label-style">Phone Number</label>
@@ -173,6 +159,21 @@ const RegisterPage: () => JSX.Element = () => {
             </div>
 
         <div className="field">
+            <label className="label-style">Password</label>
+            <div className="control">
+                <input
+                    className="input-style"
+                    type="password"
+                    placeholder="Password"
+                    {...register("password1")}
+                />
+                <div className="error">
+                    <ErrorMessage errors={errors} name="password1" />
+                </div>
+            </div>
+        </div>
+
+        <div className="field">
             <label className="label-style">Repeat Password</label>
             <div className="control">
                 <input
@@ -194,10 +195,12 @@ const RegisterPage: () => JSX.Element = () => {
                 </div>
             </div>
         </div>
+
         <div>{message}</div>
-        <Link href="/login">Already have an account? Sign In</Link>
+        <span>Already have an account? </span>
+        <Link href="/login" className="text-[#007bff] hover:underline">Log In</Link>
         <div className="field mt-5">
-            <div className="control">
+            <div className="btn-primary h-10 flex items-center justify-center">
                 <input className="button" type="submit" value="Register" />
             </div>
         </div>
