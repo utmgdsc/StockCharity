@@ -31,6 +31,7 @@ urlpatterns = [
     path("", include("accounts.urls")),
     path("", include("charities.urls")),
     path("", include("orders.urls")),
+    path("", include("stock.urls")),
     path("", include("dividends.urls")),
     path("admin/", admin.site.urls),
 ]

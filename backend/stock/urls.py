@@ -4,8 +4,4 @@ from .views import StockViewSet
 
 router = DefaultRouter()
 router.register(r'stock', StockViewSet, basename='stock') 
-
-urlpatterns = [
-    path('api/', include(router.urls)), 
-    path('', include('stocks.urls'))
-]
+urlpatterns = router.urls
