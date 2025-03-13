@@ -11,7 +11,6 @@ from .serializers import DividendReceivedSerializer
 
 START_DATE = "2025-01-01"
 
-
 class DividendViewSet(viewsets.ModelViewSet):
 
     queryset = DividendReceived.objects.all()

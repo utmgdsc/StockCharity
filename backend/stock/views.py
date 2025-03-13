@@ -3,5 +3,5 @@ from .models import Stock
 from .serializers import StockSerializer
 
 class StockViewSet(viewsets.ModelViewSet):
-    queryset = stock.objects.all()
+    queryset = Stock.objects.all()
     serializer_class = StockSerializer

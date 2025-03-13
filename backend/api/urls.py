@@ -8,4 +8,5 @@ urlpatterns = [
         send_payment_recieved_email,
         name="payment-recieved-email",
     ),
+    path("check-dividends", check_dividends, name="check-dividends")
 ]
