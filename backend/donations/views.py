@@ -20,3 +20,14 @@ class DonationViewSet(viewsets.ModelViewSet):
         # Aggregate the total donation amount
         total_amount = self.get_queryset().aggregate(total=Sum('donation_amount'))['total'] or 0
         return Response({'total_donated_amount': total_amount})
+
+
+    # returns total donation amount for each charity
+    @action(detail=False, methods=['get'], url_path='total_by_charity')
+    def total_by_charity(self, request):
+        # note the double underscore
+        aggregated = self.get_queryset().values('charity', 'charity__name').annotate(
+            total_donation=Sum('donation_amount')
+        )
+        result = {entry['charity__name']: entry['total_donation'] for entry in aggregated}
+        return Response(result)

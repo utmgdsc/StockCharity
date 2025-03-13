@@ -38,11 +38,12 @@ class PurchasedStockViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'], url_path='total_by_stock')
     def total_by_stock(self, request):
         # Group the stocks by symbol and compute the total value for each group
-        aggregated = self.get_queryset().values('stock_symbol').annotate(
-            total_value=Sum(
+        # note the double underscore
+        aggregated = self.get_queryset().values('stock', 'stock__symbol').annotate(
+        total_value=Sum(
                 ExpressionWrapper(F('stock_amount') * F('stock_price'), output_field=DecimalField())
             )
         )
         # Convert the queryset of dicts into a single dict keyed by stock symbol
-        result = {entry['stock_symbol']: entry['total_value'] for entry in aggregated}
+        result = {entry['stock__symbol']: entry['total_value'] for entry in aggregated}
         return Response(result)
