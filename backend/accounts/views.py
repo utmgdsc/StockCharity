@@ -13,10 +13,14 @@ class AccountViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-    def retrieve(self, request):
+    def retrieve(self, request, pk=None):
         if request.auth is None:
             # Request is coming from an un-authorized user
             return Response(status=401)
+        if pk is not None and int(pk) != request.user.id:
+            # Request is coming from the authenticated user, 
+            # but is trying to query other user's data
+            return Response(status=403)
         # Serialize the user that authenticated request
         serializer = self.get_serializer(request.user)
         return Response(serializer.data, status=200)
