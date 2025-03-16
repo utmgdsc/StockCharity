@@ -16,3 +16,7 @@ class Charity(models.Model):
     is_approved = models.BooleanField(default=False)
     
     donations_received = models.FloatField(default=0)
+
+    logo_path = models.CharField(blank=True, max_length=50, help_text='The path of the logo stored relative to root.')
+
+    description = models.CharField(blank=True, max_length=300, help_text='A brief description about the charity that will be shown on our website.')

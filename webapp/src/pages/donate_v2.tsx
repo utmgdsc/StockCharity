@@ -1,9 +1,40 @@
 // pages/donate.tsx
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 import axios from 'axios';
 
 const DonatePage: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [donationData, setdonationData] = useState(null);
+
+  useEffect(() => {
+    const fetchDonations = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get('http://localhost:8000/charity/total-donations/', {
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          responseType: 'text',
+          validateStatus: () => true
+        });
+  
+        // Parse response data (handles both JSON and text responses)
+        const data = JSON.parse(response.data);
+  
+        if (data) {
+          setdonationData(data);
+          setLoading(false);
+        } else {
+          console.error('Error creating session:', data.error);
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error('Request failed:', error);
+        setLoading(false);
+      }
+    };
+    fetchDonations()
+  }, []);
 
   const handleDonate = async (fixed: string, amount: string) => {
     setLoading(true);
@@ -68,6 +99,12 @@ const DonatePage: FC = () => {
         </button>
       </div>
       {loading && <p className="text-gray-500">Redirecting to payment...</p>}
+      <div className="pt-10">
+        <h1>Not convinced? Here is our impact so far...</h1>
+        <h2 className="text-gray-900">We have donated this much so far</h2>
+        <pre>{JSON.stringify(donationData, null, 2)}</pre>
+      </div>
+
     </div>
   );
 };

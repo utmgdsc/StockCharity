@@ -24,7 +24,9 @@ class CharitySerializer(serializers.ModelSerializer):
             "name",
             "phone_number",
             "donations_received",
-            "is_approved"
+            "is_approved",
+            "logo_path",
+            "description"
         ]
 
 class CharityDonationSerializer(serializers.ModelSerializer):
