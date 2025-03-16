@@ -26,3 +26,13 @@ class CharitySerializer(serializers.ModelSerializer):
             "donations_received",
             "is_approved"
         ]
+
+class CharityDonationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Charity
+        fields = [
+            "id",
+            "name",
+            "donations_received",
+        ]
