@@ -1,39 +1,25 @@
 // pages/donate.tsx
 import { FC, useState, useEffect } from 'react';
 import axios from 'axios';
+import {fetchDonations, fetchInfo} from '@/util/charity';
+import ImageWithDescription from '@/components/charity-card';
 
 const DonatePage: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [donationData, setdonationData] = useState(null);
+  const [donationData, setDonationData] = useState(null);
+  const [charityData, setCharityData] = useState(null);
 
   useEffect(() => {
-    const fetchDonations = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get('http://localhost:8000/charity/total-donations/', {
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          responseType: 'text',
-          validateStatus: () => true
-        });
-  
-        // Parse response data (handles both JSON and text responses)
-        const data = JSON.parse(response.data);
-  
-        if (data) {
-          setdonationData(data);
-          setLoading(false);
-        } else {
-          console.error('Error creating session:', data.error);
-          setLoading(false);
-        }
-      } catch (error) {
-        console.error('Request failed:', error);
-        setLoading(false);
-      }
+
+    const loadData = async () => {
+      let data = await fetchDonations();
+      setDonationData(data);
+      data = await fetchInfo(1);
+      setCharityData(data);
     };
-    fetchDonations()
+
+    // Uncomment this if we have data in the db to showcase
+    loadData()
   }, []);
 
   const handleDonate = async (fixed: string, amount: string) => {
@@ -99,11 +85,31 @@ const DonatePage: FC = () => {
         </button>
       </div>
       {loading && <p className="text-gray-500">Redirecting to payment...</p>}
-      <div className="pt-10">
-        <h1>Not convinced? Here is our impact so far...</h1>
-        <h2 className="text-gray-900">We have donated this much so far</h2>
-        <pre>{JSON.stringify(donationData, null, 2)}</pre>
+      <div className="pt-10 text-center">
+        <h1>Not convinced? Here is our impact: </h1>
+        {donationData ? (
+          <>
+          <h2 className="text-gray-500 pt-3">We have donated ${donationData.amount} to these charities!</h2> 
+          </>
+        ) : (
+        <h3>Loading donations...</h3>
+      )}
       </div>
+      {charityData ? (
+        <>
+          <ImageWithDescription 
+            // replace with charityData.logo_path
+            imageSrc={"static/charity.jpg"}
+            // replace with charityData.description
+            description={"Here at charity A, we are committed to give all children an equal opportunity to learn anything they would like. \
+              No matter what kind of needs they require, we try our best to accomodate and make sure they are in the best place to learn. \
+              More talking here because it makes this component look better if its not that empty."}
+            imagePosition="left" 
+          />
+        </>
+      ) : (
+        <h3>Loading donations...</h3>
+      )}
 
     </div>
   );
