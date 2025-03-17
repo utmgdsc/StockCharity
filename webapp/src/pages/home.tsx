@@ -10,7 +10,7 @@ export default function HomePage() {
   useEffect(() => {
 
     const loadData = async () => {
-      let data = await fetchDonations();
+      const data = await fetchDonations();
       setDonationData(data);
     };
 

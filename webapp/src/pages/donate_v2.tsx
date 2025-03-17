@@ -111,6 +111,22 @@ const DonatePage: FC = () => {
         <h3>Loading donations...</h3>
       )}
 
+      {charityData ? (
+        <>
+          <ImageWithDescription 
+            // replace with charityData.logo_path
+            imageSrc={"static/charity.jpg"}
+            // replace with charityData.description
+            description={"Here at charity A, we are committed to give all children an equal opportunity to learn anything they would like. \
+              No matter what kind of needs they require, we try our best to accomodate and make sure they are in the best place to learn. \
+              More talking here because it makes this component look better if its not that empty."}
+            imagePosition="left" 
+          />
+        </>
+      ) : (
+        <h3>Loading donations...</h3>
+      )}
+
     </div>
   );
 };
