@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-const ImageWithDescription = ({ imageSrc, description, imagePosition = "left" }) => {
+const ImageWithDescription = ({ imageSrc, description }) => {
     return (
       <div className="w-3/4 mx-auto flex items-center gap-4 px-8 pt-2
                       md:px-16 lg:px-24 
@@ -10,7 +10,7 @@ const ImageWithDescription = ({ imageSrc, description, imagePosition = "left" })
       >
         <Image
           src={imageSrc}
-          alt="Description"
+          alt="Charity image"
           className="w-1/3 h-auto rounded-lg"
         />
         <p className="text-lg w-2/3">{description}</p>
