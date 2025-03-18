@@ -47,10 +47,11 @@ class CharityViewSet(viewsets.ModelViewSet):
 
         Example call: http://127.0.0.1:8000/charity/all-donations/
         """
+        approved_charities = self.get_queryset().filter(is_approved=True)
         return Response(
-            CharityDonationSerializer(self.get_queryset().filter(is_approved=True), many=True).data, status=200,
+            CharityDonationSerializer(approved_charities, many=True).data, status=200,
         )
-    
+
     @action(detail=False, methods=["get"], url_path="total-donations", url_name="total-donations")
     def get_total_donations(self, request):
         """This method returns the total amount earned by all approved charities till date
@@ -61,28 +62,4 @@ class CharityViewSet(viewsets.ModelViewSet):
             {"amount": self.get_queryset().filter(is_approved=True).aggregate(
             Sum("donations_received")
         )["donations_received__sum"]}, status=200,
-        )
-
-    @action(detail=True, methods=["get"], url_path="charity-info", url_name="charity-info")
-    def get_charity_information(self, request, pk=None):
-        """This method returns the information of a charity
-
-        Example call: http://127.0.0.1:8000/charity/1/charity-info/
-        """
-        charity_id = pk
-
-        if charity_id is None:
-            return Response(
-                {"error": "charity_id and donation are required fields."}, status=400
-            )
-
-        try:
-            charity = Charity.objects.get(id=charity_id)
-        except Charity.DoesNotExist:
-            return Response({"error": "Charity not found."}, status=404)
-        
-        return Response(
-            {   "logo_path": charity.logo_path,
-                "description": charity.description
-            }, status=200,
         )

@@ -46,9 +46,9 @@ export const fetchDonationAmount = async () => {
     }
   };
 
-export const fetchInfo = async (id) => {
+export const fetchInfo = async (id: number) => {
     try {
-      const response = await axios.get(`http://localhost:8000/charity/${id}/charity-info/`, {
+      const response = await axios.get(`http://localhost:8000/charity/${id}`, {
         headers: {
           'Content-Type': 'application/json'
         },
@@ -68,5 +68,3 @@ export const fetchInfo = async (id) => {
       console.error('Request failed:', error);
     }
   };
-
-

@@ -4,10 +4,19 @@ import axios from 'axios';
 import {fetchDonations, fetchInfo} from '@/util/charity';
 import ImageWithDescription from '@/components/charity-card';
 
+interface DonationData {
+  amount: number;
+}
+
+interface CharityData {
+  logo_path: string;
+  description: string;
+}
+
 const DonatePage: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [donationData, setDonationData] = useState(null);
-  const [charityData, setCharityData] = useState(null);
+  const [donationData, setDonationData] = useState<DonationData | null>(null);
+  const [charityData, setCharityData] = useState<CharityData | null>(null);
 
   useEffect(() => {
 

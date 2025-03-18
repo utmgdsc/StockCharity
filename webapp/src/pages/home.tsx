@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import {fetchDonations} from '@/util/charity';
 
+interface DonationData {
+  amount: number;
+}
 
 export default function HomePage() {
   const router = useRouter();
-  const [donationData, setDonationData] = useState(null);
+  const [donationData, setDonationData] = useState<DonationData | null>(null);
 
   useEffect(() => {
 
