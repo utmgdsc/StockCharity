@@ -9,12 +9,14 @@ from django_filters import FilterSet
 
 from .models import DonationOrder
 from .serializers import DonationOrderSerializer
+from backend.permissions import DisableUserDelete, DisableUserUpdate
 
 
 class DonationViewSet(viewsets.ModelViewSet):
 
     queryset = DonationOrder.objects.all()
     serializer_class = DonationOrderSerializer
+    permission_classes = [DisableUserDelete, DisableUserUpdate]
 
     class DonationFilter(FilterSet):
         class Meta:

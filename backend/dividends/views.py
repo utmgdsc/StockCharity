@@ -8,13 +8,16 @@ from django_filters import FilterSet
 
 from .models import DividendReceived
 from .serializers import DividendReceivedSerializer
+from backend.permissions import DisableUserDelete, DisableUserUpdate
 
 START_DATE = "2025-01-01"
+
 
 class DividendViewSet(viewsets.ModelViewSet):
 
     queryset = DividendReceived.objects.all()
     serializer_class = DividendReceivedSerializer
+    permission_classes = [DisableUserDelete, DisableUserUpdate]
 
     class DividendFilter(FilterSet):
         class Meta:
