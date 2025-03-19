@@ -108,7 +108,7 @@ const DonatePage: FC = () => {
         <>
           <ImageWithDescription 
             // replace with charityData.logo_path
-            imageSrc={"static/charity.jpg"}
+            imageSrc={"/photos/charity.jpg"}
             // replace with charityData.description
             description={"Here at charity A, we are committed to give all children an equal opportunity to learn anything they would like. \
               No matter what kind of needs they require, we try our best to accomodate and make sure they are in the best place to learn. \
@@ -123,7 +123,7 @@ const DonatePage: FC = () => {
         <>
           <ImageWithDescription 
             // replace with charityData.logo_path
-            imageSrc={"static/charity.jpg"}
+            imageSrc={"/photos/charity.jpg"}
             // replace with charityData.description
             description={"Here at charity A, we are committed to give all children an equal opportunity to learn anything they would like. \
               No matter what kind of needs they require, we try our best to accomodate and make sure they are in the best place to learn. \

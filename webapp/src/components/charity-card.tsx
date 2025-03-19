@@ -16,6 +16,8 @@ const ImageWithDescription = ({ imageSrc, description }: ImageWithDescriptionPro
         <Image
           src={imageSrc}
           alt="Charity image"
+          width={500}
+          height={300}
           className="w-1/3 h-auto rounded-lg"
         />
         <p className="text-lg w-2/3">{description}</p>
