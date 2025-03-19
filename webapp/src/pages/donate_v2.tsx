@@ -1,9 +1,35 @@
 // pages/donate.tsx
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 import axios from 'axios';
+import {fetchDonations, fetchInfo} from '@/util/charity';
+import ImageWithDescription from '@/components/charity-card';
+
+interface DonationData {
+  amount: number;
+}
+
+interface CharityData {
+  logo_path: string;
+  description: string;
+}
 
 const DonatePage: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [donationData, setDonationData] = useState<DonationData | null>(null);
+  const [charityData, setCharityData] = useState<CharityData | null>(null);
+
+  useEffect(() => {
+
+    const loadData = async () => {
+      let data = await fetchDonations();
+      setDonationData(data);
+      data = await fetchInfo(1);
+      setCharityData(data);
+    };
+
+    // Uncomment this if we have data in the db to showcase
+    loadData()
+  }, []);
 
   const handleDonate = async (fixed: string, amount: string) => {
     setLoading(true);
@@ -68,6 +94,46 @@ const DonatePage: FC = () => {
         </button>
       </div>
       {loading && <p className="text-gray-500">Redirecting to payment...</p>}
+      <div className="pt-10 text-center">
+        <h1>Not convinced? Here is our impact: </h1>
+        {donationData ? (
+          <>
+          <h2 className="text-gray-500 pt-3">We have donated ${donationData.amount} to these charities!</h2> 
+          </>
+        ) : (
+        <h3>Loading donations...</h3>
+      )}
+      </div>
+      {charityData ? (
+        <>
+          <ImageWithDescription 
+            // replace with charityData.logo_path
+            imageSrc={"static/charity.jpg"}
+            // replace with charityData.description
+            description={"Here at charity A, we are committed to give all children an equal opportunity to learn anything they would like. \
+              No matter what kind of needs they require, we try our best to accomodate and make sure they are in the best place to learn. \
+              More talking here because it makes this component look better if its not that empty."}
+          />
+        </>
+      ) : (
+        <h3>Loading donations...</h3>
+      )}
+
+      {charityData ? (
+        <>
+          <ImageWithDescription 
+            // replace with charityData.logo_path
+            imageSrc={"static/charity.jpg"}
+            // replace with charityData.description
+            description={"Here at charity A, we are committed to give all children an equal opportunity to learn anything they would like. \
+              No matter what kind of needs they require, we try our best to accomodate and make sure they are in the best place to learn. \
+              More talking here because it makes this component look better if its not that empty."}
+          />
+        </>
+      ) : (
+        <h3>Loading donations...</h3>
+      )}
+
     </div>
   );
 };

@@ -1,9 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import {fetchDonations} from '@/util/charity';
 
+interface DonationData {
+  amount: number;
+}
 
 export default function HomePage() {
   const router = useRouter();
+  const [donationData, setDonationData] = useState<DonationData | null>(null);
+
+  useEffect(() => {
+
+    const loadData = async () => {
+      const data = await fetchDonations();
+      setDonationData(data);
+    };
+
+    // Uncomment this if we have data in the db to showcase
+    loadData()
+  }, []);
+
   return (
     <>
       {/*Background Section with Donation call to action */}
@@ -34,9 +51,15 @@ export default function HomePage() {
           <dl className="grid grid-cols-1 md:grid-cols-3 gap-y-12 gap-x-8 text-center">
             <div className="mx-auto flex max-w-xs flex-col gap-y-4">
               <dt className="text-base text-gray-600">In total donations given</dt>
-              <dd className="order-first text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
-                $44 
-              </dd>
+              {donationData ? (
+                  <>
+                  <dd className="order-first text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
+                    ${donationData.amount}
+                  </dd>
+                  </>
+                ) : (
+                <h3>Loading donations...</h3>
+              )}
             </div>
             <div className="mx-auto flex max-w-xs flex-col gap-y-4">
               <dt className="text-base text-gray-600">paid out in dividends</dt>
