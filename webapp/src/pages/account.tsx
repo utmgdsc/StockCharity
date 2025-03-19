@@ -1,6 +1,6 @@
 import { JSX, useEffect, useState } from "react";
 import PieChart from "@/components/pie-chart";
-import { AccountType, getAccountInfo } from "@/util/request";
+import { AccountType, getAccountInfo, DonationsListType, getUserDonations } from "@/util/request";
 import { useRouter } from "next/navigation";
 
 
@@ -10,16 +10,20 @@ const Account = (): JSX.Element => {
     useEffect(() => {
         getAccountInfo().then((response) => setAccountInfo(response.data)).catch(() =>
             router.push("login"))
-    });
+    }, []);
+
+    
+
+    const [donations, setDonations] = useState<DonationsListType>();
+    useEffect(() => {
+        getUserDonations().then((response) => setDonations(response.data));
+    }, []);
 
     // Variables are hard coded for now to demo until backend is implemented.
-    const stocks_owned = ["Stock 1", "Stock 2", "Stock 3", "Stock 4", "Stock 5", "Stock 6", "Stock 7"];
-    const stocks_owned_values = [300.50, 500.00, 199.50, 100.009, 50.119, 50.00, 150.34];
-    const number_of_stocks_owned_per_stock = [3, 1, 1, 4, 1, 1, 3];
-    let stock_total_value = 0;
-    stocks_owned_values.forEach((value, idx) => {
-        stock_total_value += value * number_of_stocks_owned_per_stock[idx];
-    })
+    // const stocks_owned = ["Stock 1", "Stock 2", "Stock 3", "Stock 4", "Stock 5", "Stock 6", "Stock 7"];
+    // const stocks_owned_values = [300.50, 500.00, 199.50, 100.009, 50.119, 50.00, 150.34];
+    // const number_of_stocks_owned_per_stock = [3, 1, 1, 4, 1, 1, 3];
+
     const charities_donated_to = [
         "Charity 1", "Charity 2", "Charity 3", "Charity 4", "Charity 5",
         "Charity 6", "Charity 7", "Charity 8", "Charity 9",
@@ -49,25 +53,27 @@ const Account = (): JSX.Element => {
 
                             {/* Stocks owned */}
                             <div className="bg-gray-300 p-2 rounded-md">
-                                <h3 className="text-lg font-bold">Stocks owned:</h3>
-                                <p>Total stock value: ${stock_total_value.toFixed(2)}</p>
+                                <h3 className="text-lg font-bold">Donations:</h3>
+                                 <p>Total Donations: {accountInfo?.total_donations?.toLocaleString('en-US', { style: 'currency', currency: 'CAD' })}</p>
                                 <br></br>
-
-
-                                {stocks_owned.map((stock, index) => (
-                                    <ul key={index}>{number_of_stocks_owned_per_stock[index]} stocks of {stock} worth ${stocks_owned_values[index].toFixed(2)} each</ul>
+                                {donations?.donations_list?.[0]?.map((donation, index) => (
+                                    <p key={index}>
+                                        {donation.toLocaleString('en-US', { style: 'currency', currency: 'CAD' })} on {new Date(donations?.donations_list?.[1]?.[index]).toLocaleDateString('en-US')}
+                                    </p>
                                 ))}
+
+                                
 
                             </div>
 
                             {/* Dividends earned */}
                             <div className="bg-gray-300 p-2 rounded-md">
                                 <h3 className="text-lg font-bold">Dividends earned:</h3>
-                                <p>Total dividends earned: $27.62</p>
-                                <br></br>
+                                <p>Total dividends earned: {accountInfo?.total_dividends.toLocaleString('en-US', { style: 'currency', currency: 'CAD' })}</p>
+                                {/* <br></br>
                                 <p>$5.43 on Jan. 16th 2025 from {stocks_owned[2]}</p>
                                 <p>$6.76 on Oct. 23th 2024 from {stocks_owned[1]}</p>
-                                <p>$15.43 on Aug. 6th 2024 from {stocks_owned[0]}</p>
+                                <p>$15.43 on Aug. 6th 2024 from {stocks_owned[0]}</p> */}
 
 
                             </div>

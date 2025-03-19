@@ -44,3 +44,23 @@ class DonationViewSet(viewsets.ModelViewSet):
             total=Sum("amount")
         )["total"]
         return Response({"donation_total": total_donations}, status=200)
+    
+
+    def get_account_donations(self, request):
+        """This method will return a 2-dimensional list of all the donations
+        made by a user. The first row will be the donation amount and the second
+        row will be the date of the donation"""
+
+        donation_amounts = []
+        donation_dates = []
+
+        donations = self.filter_queryset(self.get_queryset().filter(account=request.user))
+        
+        for donation in donations:
+            donation_amounts.append(donation.amount)
+            donation_dates.append(donation.date) 
+        donation_list = [donation_amounts, donation_dates]
+        # donation_list = [
+        #     [donation.amount, donation.date] for donation in donations
+        # ]
+        return Response({"donations_list": donation_list}, status=200)

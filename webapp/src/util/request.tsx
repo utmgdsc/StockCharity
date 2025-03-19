@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import cookie from "cookie";
 
+
 const BASE_URL = "http://localhost:8000/";
 
 const backendConfig = axios.create({
@@ -44,6 +45,14 @@ export type AccountType = {
     email: string;
     first_name: string;
     last_name: string;
+    total_dividends: number;
+    total_donations: number;
+};
+
+export type DonationsListType = {
+    // amount: Array<number>;
+    // date: Array<Date>;
+    donations_list: Array<[number, Date]>;
 };
 
 export const sendRegister: (
@@ -61,3 +70,5 @@ export const sendLogin: ({
 
 
 export const getAccountInfo: () => Promise<AxiosResponse<AccountType>> = () => backendConfig.get("account/");
+
+export const getUserDonations: () => Promise<AxiosResponse<DonationsListType>> = () => backendConfig.get("user-donations/");
