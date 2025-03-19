@@ -8,7 +8,7 @@ const DonatePage: FC = () => {
   const handleDonate = async (fixed: string, amount: string) => {
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:8000/api/donate', {
+        const response = await axios.post('http://localhost:8000/api/donation', {
         fixed,
         amount
       }, {

@@ -15,15 +15,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from .views import DonationViewSet
+from rest_framework.routers import DefaultRouter
 
 
-# define the router
-router = routers.DefaultRouter()
+router = DefaultRouter()
+router.register(r'order', DonationViewSet, basename='donation')
 
-# define the router path and viewset to be used
-router.register(r"order", DonationViewSet, basename="donation")
-urlpatterns = router.urls
+urlpatterns = [
+    path('', include(router.urls)),
+    path(
+        "user-donations/",
+        DonationViewSet.as_view({"get": "get_account_donations"}),
+        name="user-donations",
+    ),
+]

@@ -3,6 +3,8 @@ import stripe
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from django.views.decorators.csrf import csrf_exempt
+
 
 stripe.api_key = os.environ["STRIPE_SECRET_KEY"]
 
@@ -42,3 +44,34 @@ def amount_to_price_id(fixed_donation, donate_amount):
             return "price_1QwQioLtztZ9KxoQdil8ZPj0"
         case ("false", _):
             return "price_1QuMCdLtztZ9KxoQXBt26UDy"
+        
+
+@csrf_exempt
+@api_view(['POST'])
+def stripe_webhook(request):
+    payload = request.body
+    sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, endpoint_secret
+        )
+    except ValueError as e:
+        # Invalid payload
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    except stripe.error.SignatureVerificationError as e:
+        # Invalid signature
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    # Handle the event
+    if event['type'] == 'checkout.session.completed':
+        session = event['data']['object']
+        # Fulfill the purchase...
+        handle_checkout_session(session)
+
+    return Response(status=status.HTTP_200_OK)
+
+def handle_checkout_session(session):
+    # TODO: Update your database or perform other actions
+    print("Payment was successful.")
+    print(session)
