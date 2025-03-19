@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 
-stripe.api_key = os.environ["STRIPE_SECRET_KEY"]
+stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 
 
 @api_view(['POST'])
