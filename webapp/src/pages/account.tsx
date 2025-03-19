@@ -17,10 +17,6 @@ const Account = (): JSX.Element => {
     const [donations, setDonations] = useState<DonationsListType>();
     useEffect(() => {
         getUserDonations().then((response) => setDonations(response.data));
-        console.log(donations);
-        console.log(donations?.donations_list);
-        console.log(donations?.donations_list?.[0]);
-        console.log(donations?.donations_list?.[0]?.[0]);
     }, []);
 
     // Variables are hard coded for now to demo until backend is implemented.

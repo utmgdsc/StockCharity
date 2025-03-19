@@ -52,7 +52,7 @@ export type AccountType = {
 export type DonationsListType = {
     // amount: Array<number>;
     // date: Array<Date>;
-    donations_list: Array<[number, string]>;
+    donations_list: Array<[number, Date]>;
 };
 
 export const sendRegister: (
