@@ -2,13 +2,12 @@ from rest_framework import serializers
 from .models import Charity
 from rest_framework.validators import UniqueValidator
 
+
 class CharitySerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
         required=True,
         validators=[
-            UniqueValidator(
-                Charity.objects.all(), message="Email already registered"
-            )
+            UniqueValidator(Charity.objects.all(), message="Email already registered")
         ],
     )
     name = serializers.CharField(required=True)
@@ -26,8 +25,9 @@ class CharitySerializer(serializers.ModelSerializer):
             "donations_received",
             "is_approved",
             "logo_path",
-            "description"
+            "description",
         ]
+
 
 class CharityDonationSerializer(serializers.ModelSerializer):
 

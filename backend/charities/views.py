@@ -1,15 +1,20 @@
 from django.db.models import Sum
+
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import action
+
 from .models import Charity
 from .serializers import CharitySerializer, CharityDonationSerializer
+from backend.permissions import DisableUserDelete, DisableUserUpdate
+
 
 # Create your views here.
 class CharityViewSet(viewsets.ModelViewSet):
 
     queryset = Charity.objects.all()
     serializer_class = CharitySerializer
+    permission_classes = [DisableUserDelete, DisableUserUpdate]
 
     @action(detail=True, methods=["patch"], url_path="increase-donated")
     def increase_donations_received(self, request, pk=None):
@@ -38,10 +43,16 @@ class CharityViewSet(viewsets.ModelViewSet):
         charity.save()
 
         return Response(
-            {"donations_received": charity.donations_received}, status=200,
+            {"donations_received": charity.donations_received},
+            status=200,
         )
 
-    @action(detail=False, methods=["get"], url_path="all-donations", url_name="all-donations")
+    @action(
+        detail=False,
+        methods=["get"],
+        url_path="all-donations",
+        url_name="all-donations",
+    )
     def get_charity_donations(self, request):
         """This method returns the amount earned by each approved charity till date
 
@@ -49,17 +60,26 @@ class CharityViewSet(viewsets.ModelViewSet):
         """
         approved_charities = self.get_queryset().filter(is_approved=True)
         return Response(
-            CharityDonationSerializer(approved_charities, many=True).data, status=200,
+            CharityDonationSerializer(approved_charities, many=True).data,
+            status=200,
         )
 
-    @action(detail=False, methods=["get"], url_path="total-donations", url_name="total-donations")
+    @action(
+        detail=False,
+        methods=["get"],
+        url_path="total-donations",
+        url_name="total-donations",
+    )
     def get_total_donations(self, request):
         """This method returns the total amount earned by all approved charities till date
 
         Example call: http://127.0.0.1:8000/charity/total-donations/
         """
         return Response(
-            {"amount": self.get_queryset().filter(is_approved=True).aggregate(
-            Sum("donations_received")
-        )["donations_received__sum"]}, status=200,
+            {
+                "amount": self.get_queryset()
+                .filter(is_approved=True)
+                .aggregate(Sum("donations_received"))["donations_received__sum"]
+            },
+            status=200,
         )
