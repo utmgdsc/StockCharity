@@ -28,6 +28,11 @@ class CharitySerializer(serializers.ModelSerializer):
             "description",
         ]
 
+    def create(self, validated_data):
+        if "is_approved" in validated_data:
+            del validated_data["is_approved"]
+        return super().create(validated_data)
+
 
 class CharityDonationSerializer(serializers.ModelSerializer):
 
