@@ -1,4 +1,5 @@
 from django.urls import reverse
+from django.conf import settings
 
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -9,22 +10,17 @@ EMAIL = "some@email.com"
 NAME = "Charity"
 PHONE_NO = 123123123
 
+
 class DividendTestCase(APITestCase):
 
     def create_charity(self):
         url = reverse("charity-list")
-        data = {
-            "email": EMAIL,
-            "name": NAME,
-            "phone_number": PHONE_NO
-            }
+        data = {"email": EMAIL, "name": NAME, "phone_number": PHONE_NO}
         return self.client.post(url, data, format="json")
-    
+
     def update_donation_received(self):
         url = reverse("charity-increase-donations-received", args=[1])
-        data = {
-            "donation": 1
-            }
+        data = {"secret": settings.SECRET_KEY, "donation": 1}
         return self.client.patch(url, data, format="json")
 
     def test_create_charity_ok(self):
@@ -42,5 +38,8 @@ class DividendTestCase(APITestCase):
         self.create_charity()
         response = self.update_donation_received()
         self.assertEqual(
-            {"donations_received": 1,}, response.data
+            {
+                "donations_received": 1,
+            },
+            response.data,
         )
