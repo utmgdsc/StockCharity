@@ -38,7 +38,7 @@ const SuccessPage: FC = () => {
         const charity = "Lorem Ipsum";
 
         // making request to backend
-        await axios.post('/api/send-payment-recieved-email/', { receiver: email, charity });
+        await axios.post('http://localhost:8000/api/send-payment-recieved-email/', { receiver: email, charity });
       } catch (error) {
         console.error("Error sending payment received email:", error);
         // TODO: Still need to add the donation record to the DB somehow
