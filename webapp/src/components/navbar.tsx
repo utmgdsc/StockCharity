@@ -8,7 +8,7 @@ const NavBar: React.FC = () => {
   return (
     <header className="flex shadow-lg py-4 px-4 sm:px-10 bg-white font-[sans-serif] min-h-[70px] tracking-wide relative z-50">
       <div className="flex flex-wrap items-center justify-between gap-4 w-full">
-        
+
         {/*  Screen Logo */}
         <Link href="/home" className="lg:absolute max-lg:left-10 lg:top-2/4 lg:left-2/4 lg:-translate-x-1/2 lg:-translate-y-1/2 max-sm:hidden">
           <h1>Stock Charity</h1>
@@ -18,7 +18,7 @@ const NavBar: React.FC = () => {
         </Link>
 
         {/* Mobile Menu */}
-        <div id="collapseMenu" className={`${ menuOpen ? "block fixed w-full h-full bg-white z-50 p-6 shadow-md" : "hidden lg:block"} max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0`}>
+        <div id="collapseMenu" className={`${menuOpen ? "block fixed w-full h-full bg-white z-50 p-6 shadow-md" : "hidden lg:block"} max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0`}>
           {menuOpen && (
             <button onClick={() => setMenuOpen(false)} className="lg:hidden fixed top-2 right-4 z-[100] rounded-full bg-white w-9 h-9 flex items-center justify-center border">
               <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5 fill-black" viewBox="0 0 320.591 320.591">
@@ -56,7 +56,7 @@ const NavBar: React.FC = () => {
         {/* Right Side Buttons */}
         <div className="flex items-center ml-auto space-x-6">
           <button className='.btn-primary'>
-            <Link href="/donate" className="text-[#007bff] hover:underline">Login</Link>
+            <Link href="/login" className="text-[#007bff] hover:underline">Login</Link>
           </button>
           <button className="px-4 py-2 btn-login">Sign up</button>
 
