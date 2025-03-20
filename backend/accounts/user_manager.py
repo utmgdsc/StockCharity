@@ -16,7 +16,7 @@ class UserManager(BaseUserManager):
             raise ValueError("Phone number is required")
 
         email = self.normalize_email(email)
-        phone_number = phone_number.lstrip("+") 
+        phone_number = phone_number.lstrip("+")
         user = self.model(email=email, phone_number=phone_number, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
@@ -27,7 +27,7 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault("is_superuser", False)
         return self._create_user(email, phone_number, password, **extra_fields)
 
-    def create_superuser(self, email, phone_number, password, **extra_fields):
+    def create_superuser(self, email, password, phone_number="1234567890", **extra_fields):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
         assert(extra_fields.get("is_staff"))
