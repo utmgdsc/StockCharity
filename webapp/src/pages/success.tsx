@@ -24,8 +24,14 @@ const SuccessPage: FC = () => {
         const decoded = jwtDecode<JwtPayload>(cookies.token);
         const userId = decoded.user_id;
 
+        const config = {
+          headers: {
+            Authorization: `Bearer ${cookies.token}`,
+          },
+        };
+
         // request the account info from /account/<userId> endpoint
-        const accountResponse = await axios.get(`http://localhost:8000/account/${userId}/`);
+        const accountResponse = await axios.get(`http://localhost:8000/account/${userId}/`, config);
         const { email } = accountResponse.data;
 
         // why does the api endpoint also require charity name?
@@ -39,7 +45,7 @@ const SuccessPage: FC = () => {
       }
     }
     sendEmail();
-  }, [cookies.token]);
+  }, []);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-8 bg-gray-50">
