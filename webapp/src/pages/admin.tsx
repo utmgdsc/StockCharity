@@ -43,7 +43,7 @@ const Admin = (): JSX.Element => {
                     </tr>
                 </thead>
                 <tbody>
-                    {charities?.map((charity) => <tr>
+                    {charities?.map((charity) => <tr key={charity.id}>
                         <td></td>
                         <td>{charity.name}</td>
                         <td>{charity.email}</td>
