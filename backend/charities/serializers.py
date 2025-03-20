@@ -12,8 +12,7 @@ class CharitySerializer(serializers.ModelSerializer):
     )
     name = serializers.CharField(required=True)
     phone_number = serializers.CharField(required=True)
-    donations_received = serializers.FloatField(required=False)
-    is_approved = serializers.BooleanField(required=False)
+    donations_received = serializers.FloatField(required=False, read_only=True)
 
     class Meta:
         model = Charity
@@ -27,6 +26,11 @@ class CharitySerializer(serializers.ModelSerializer):
             "logo_path",
             "description",
         ]
+
+    def create(self, validated_data):
+        if "is_approved" in validated_data:
+            del validated_data["is_approved"]
+        return super().create(validated_data)
 
 
 class CharityDonationSerializer(serializers.ModelSerializer):
