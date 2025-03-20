@@ -25,7 +25,7 @@ class DividendTestCase(APITestCase):
 
     def test_create_charity_ok(self):
         response = self.create_charity()
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED, response.data)
         self.assertEqual(Charity.objects.count(), 1)
 
     def test_create_charity_bad(self):
