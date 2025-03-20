@@ -51,14 +51,6 @@ class UserSerializer(serializers.ModelSerializer):
         # Update sanitized phone number in attrs
         attrs["phone_number"] = phone_number
 
-        if (
-            not attrs.get("phone_number").isdigit()
-            or len(attrs.get("phone_number")) < 10
-        ):
-            raise serializers.ValidationError(
-                {"phone_number": "Invalid phone number format"}
-            )
-
         return super().validate(attrs)
 
     def create(self, validated_data):

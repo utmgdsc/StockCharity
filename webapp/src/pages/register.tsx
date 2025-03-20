@@ -25,7 +25,7 @@ export const schema = z.object({
     first_name: z.string().min(1, "First name is required"),  
     last_name: z.string().min(1, "Last name is required"),    
     email: z.string().email("Invalid email address"),
-    phone: z.string().refine(validatePhoneNumber, {
+    phone_number: z.string().refine(validatePhoneNumber, {
       message: "Invalid phone number format",
     }),
     password1: z.string().min(6, "Password must be at least 6 characters long"),  
@@ -66,8 +66,8 @@ const RegisterPage: () => JSX.Element = () => {
         console.log("PhoneInput Raw Value:", value);
         const formattedValue = value.startsWith("+") ? value : `+${value}`;
         setPhoneNumber(formattedValue);
-        setValue("phone", formattedValue);
-        trigger("phone");
+        setValue("phone_number", formattedValue);
+        trigger("phone_number");
     };
 
     const doRegister: SubmitHandler<RegisterType> = (data) => {
@@ -153,7 +153,7 @@ const RegisterPage: () => JSX.Element = () => {
                         }}
                     />
                     <div className="error">
-                        <ErrorMessage errors={errors} name="phone" />
+                        <ErrorMessage errors={errors} name="phone_number" />
                     </div>
                 </div>
             </div>
