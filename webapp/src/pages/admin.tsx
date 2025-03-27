@@ -48,7 +48,8 @@ const Admin = (): JSX.Element => {
                         <td>{charity.name}</td>
                         <td>{charity.email}</td>
                         <td>{charity.phone_number}</td>
-                        <td><button onClick={() => {
+                        <td className="content-center"><button className="block m-auto"
+                        onClick={() => {
                             setCharityApproved(charity.id, !charity.is_approved).then(() => updateCharityList());
                         }}>{charity.is_approved ? <FaCircleCheck color="green" /> : <FaCircleXmark color="red" />}</button></td>
                     </tr>)}

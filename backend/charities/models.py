@@ -13,11 +13,7 @@ class Charity(models.Model):
 
     donations_received = models.FloatField(default=0)
 
-    logo_path = models.CharField(
-        blank=True,
-        max_length=50,
-        help_text="The path of the logo stored relative to root.",
-    )
+    logo_path = models.ImageField(blank=True)
 
     description = models.CharField(
         blank=True,
