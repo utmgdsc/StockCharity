@@ -18,6 +18,10 @@ class UserSerializer(serializers.ModelSerializer):
     phone_number = serializers.CharField(required=True)
     password1 = serializers.CharField(required=True, write_only=True)
     password2 = serializers.CharField(required=True, write_only=True)
+    is_staff = serializers.BooleanField(read_only=True)
+    is_active = serializers.BooleanField(read_only=True)
+    total_donations = serializers.FloatField(read_only=True)
+    total_dividends = serializers.FloatField(read_only=True)
 
     class Meta:
         model = get_user_model()

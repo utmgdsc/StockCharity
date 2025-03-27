@@ -4,6 +4,8 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import action
 
+from django_filters import FilterSet
+
 from .models import Charity
 from .serializers import CharitySerializer, CharityDonationSerializer
 from backend.permissions import DisableUserDelete, DisableUserUpdate
@@ -15,6 +17,13 @@ class CharityViewSet(viewsets.ModelViewSet):
     queryset = Charity.objects.all()
     serializer_class = CharitySerializer
     permission_classes = [DisableUserDelete, DisableUserUpdate]
+
+    class CharityFilter(FilterSet):
+        class Meta:
+            model = Charity
+            fields = {"is_approved": ["exact"]}
+
+    filterset_class = CharityFilter
 
     @action(detail=True, methods=["patch"], url_path="increase-donated")
     def increase_donations_received(self, request, pk=None):

@@ -59,6 +59,18 @@ h3 {
     @apply block w-full rounded-md border border-gray-300 bg-white px-3.5 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2;
 
   }
+
+  table {
+    @apply w-full
+  }
+
+  table>thead>tr>th {
+    @apply border-2 p-1
+  }
+
+  table>tbody>tr>td {
+    @apply border-2 p-1
+  }
 }
 
 /* Forms */
