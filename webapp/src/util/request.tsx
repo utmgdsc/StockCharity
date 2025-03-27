@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { Axios, AxiosResponse } from "axios";
 import Cookie from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 
@@ -38,16 +38,16 @@ backendConfig.interceptors.response.use(response => response, async (error) => {
     if (error.response.status == 401 && !error.config?._refresh_retry) {
         error.config._refresh_retry = true;
         console.log("Try refresh")
-        return refreshToken().then(()=>backendConfig(error.config)).catch(()=>error);
+        return refreshToken().then(() => backendConfig(error.config)).catch(() => error);
     }
     return error
 })
 
-export const isLoggedIn:()=>Promise<void> = async () => {
+export const isLoggedIn: () => Promise<void> = async () => {
     const cookie = Cookie.get("token");
     if (cookie) {
         try {
-            const {exp} = jwtDecode(cookie);
+            const { exp } = jwtDecode(cookie);
             const date = new Date();
             if (exp && exp < date.getTime() / 1000) {
                 return refreshToken();
@@ -133,8 +133,8 @@ export const sendLogin: ({
     password,
 }) => backendConfig.post("login/", { email, password });
 
-export const sendCharity: (data: CharityFormData) => 
-    Promise<AxiosResponse<{ message: string }>> = (data) => 
+export const sendCharity: (data: CharityFormData) =>
+    Promise<AxiosResponse<{ message: string }>> = (data) =>
         backendConfig.post("charity/", data);
 
 
@@ -142,10 +142,12 @@ export const getAccountInfo: () => Promise<AxiosResponse<AccountType>> = () => b
 
 export const getUserDonations: () => Promise<AxiosResponse<DonationsListType>> = () => backendConfig.get("user-donations/");
 
-export const getCharities: () => Promise<AxiosResponse<CharityType[]>> = () => backendConfig.get("charity/")
+export const getCharities: () => Promise<AxiosResponse<CharityType[]>> = () => backendConfig.get("charity/");
 
 export const setCharityApproved: (id: number, approved: boolean) => Promise<AxiosResponse<CharityType>> = (id: number, approved: boolean) => backendConfig.patch(`charity/${id}/`, { "is_approved": approved })
 
 export const getTotalCharities: () => Promise<AxiosResponse<CharityNumType>> = () => backendConfig.get("total-charities/")
 
 export const getTotalDonations: () => Promise<AxiosResponse<DonationsTotalType>> = () => backendConfig.get("total-donations/")
+
+export const getTotalDividends: () => Promise<AxiosResponse<{ total_dividends: number }>> = () => backendConfig.get("dividend/total");
