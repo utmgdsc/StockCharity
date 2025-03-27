@@ -48,7 +48,8 @@ export const isLoggedIn:()=>Promise<void> = async () => {
     if (cookie) {
         try {
             const {exp} = jwtDecode(cookie);
-            if (exp && exp < Date.now() / 1000) {
+            const date = new Date();
+            if (exp && exp < date.getTime() / 1000) {
                 return refreshToken();
             }
             return Promise.resolve();
