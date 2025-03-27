@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import Cookie from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 
 
 const BASE_URL = "http://localhost:8000/";
@@ -17,24 +18,45 @@ backendConfig.interceptors.request.use((config) => {
     return config;
 });
 
+const refreshToken: () => Promise<void> = () => {
+    const refresh_cookie = Cookie.get("refresh");
+    if (refresh_cookie) {
+        return backendConfig.post("login/refresh/", { "refresh": refresh_cookie }).then((refresh_response) => {
+            Cookie.set("token", refresh_response.data.access);
+            return Promise.resolve();
+        }).catch((refresh_error) => {
+            console.log(refresh_error);
+            Cookie.remove("token")
+            return Promise.reject();
+        });
+    }
+    return Promise.reject();
+}
+
 /* Auto refresh token */
-backendConfig.interceptors.response.use(response => response, (error) => {
-    console.log(error);
-    if (error.response.status == 401 && !error.config._refresh_retry && error.response.data.code === "token_not_valid") {
+backendConfig.interceptors.response.use(response => response, async (error) => {
+    if (error.response.status == 401 && !error.config?._refresh_retry) {
         error.config._refresh_retry = true;
-        const refresh_cookie = Cookie.get("refresh");
-        if (refresh_cookie) {
-            return backendConfig.post("login/refresh/", { "refresh": refresh_cookie }).then((refresh_response) => {
-                Cookie.set("token", refresh_response.data.access);
-                return backendConfig(error.config);
-            }).catch((refresh_error) => {
-                console.log(refresh_error);
-                return error;
-            })
-        }
+        console.log("Try refresh")
+        return refreshToken().then(()=>backendConfig(error.config)).catch(()=>error);
     }
     return error
 })
+
+export const isLoggedIn:()=>Promise<void> = async () => {
+    const cookie = Cookie.get("token");
+    if (cookie) {
+        try {
+            const {exp} = jwtDecode(cookie);
+            if (exp && exp < Date.now() / 1000) {
+                return refreshToken();
+            }
+            return Promise.resolve();
+        } catch {
+        }
+    }
+    return Promise.reject();
+}
 
 export type LoginType = {
     email: string;
