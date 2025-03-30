@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Tiingo API Key
-TIINGO_API_KEY = os.getenv("TIINGO_API_KEY")
+TIINGO_API_KEY = os.environ["TIINGO_API_KEY"]
 
 class StockViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Stock.objects.all()
@@ -33,8 +33,8 @@ class StockPortfolioView(APIView):
             if response.status_code == 200:
                 data = response.json()
                 if isinstance(data, list) and len(data) > 0:
-                    price = data[0].get("tngoLast", 0.0)  # Use 'tngoLast' instead of 'last'
-                    return float(price) if price else 0.0
+                    price = data[0].get("tngoLast", 0.0) 
+                    return price
             return 0.0
         except Exception as e:
             print(f"Error fetching stock price for {symbol}: {e}")

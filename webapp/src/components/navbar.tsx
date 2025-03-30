@@ -45,7 +45,7 @@ const NavBar: React.FC = () => {
               <Link href="/account" className="hover:text-[#007bff] text-[#333] block font-semibold text-[15px]">Account</Link>
             </li>
             <li className="max-lg:border-b max-lg:py-3 px-3">
-              <Link href="/donate_v2" className="hover:text-[#007bff] text-[#333] block font-semibold text-[15px]">Donate</Link>
+              <Link href="/donate" className="hover:text-[#007bff] text-[#333] block font-semibold text-[15px]">Donate</Link>
             </li>
             <li className="max-lg:border-b max-lg:py-3 px-3">
               <Link href="/charity-signup" className="hover:text-[#007bff] text-[#333] block font-semibold text-[15px]">Charity Sign-Up</Link>
@@ -58,7 +58,9 @@ const NavBar: React.FC = () => {
           <button className='.btn-primary'>
             <Link href="/login" className="text-[#007bff] hover:underline">Login</Link>
           </button>
-          <button className="px-4 py-2 btn-login">Sign up</button>
+          <button className="px-4 py-2 btn-login">
+            <Link href="/register">Sign up</Link>
+          </button>
 
           {/* Mobile Menu Toggle Button */}
           <button onClick={() => setMenuOpen(!menuOpen)} className="lg:hidden">
