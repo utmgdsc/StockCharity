@@ -51,7 +51,7 @@ class UserSerializer(serializers.ModelSerializer):
         # Update sanitized phone number in attrs
         attrs["phone_number"] = phone_number
 
-        if (
+        if(
             not attrs.get("phone_number").isdigit()
             or len(attrs.get("phone_number")) < 10
         ):

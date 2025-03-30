@@ -87,7 +87,7 @@ const PrivacyPolicy = () => {
         If you have any questions about this <u>privacy policy</u>, you can contact us:
       </p>
       <ul className="list-disc list-inside mb-4">
-        <li>Email: <Link href="mailto:stockcharity@gmail.com" className="text-blue-500 hover:underline">stockcharity@gmail.com</Link></li>
+        <li>Email: <Link href="mailto:therealstockcharity@gmail.com" className="text-blue-500 hover:underline">stockcharity@gmail.com</Link></li>
         <li>Website: <Link href="https://www.stockcharity.com" className="text-blue-500 hover:underline">www.stockcharity.com</Link></li>
       </ul>
     </div>
