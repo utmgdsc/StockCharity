@@ -1,4 +1,4 @@
-import axios, { Axios, AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 import Cookie from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 
