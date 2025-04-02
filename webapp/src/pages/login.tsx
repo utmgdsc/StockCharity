@@ -23,7 +23,6 @@ const LoginPage: () => JSX.Element = () => {
         setMessage("");
         sendLogin({ email, password })
             .then((response) => {
-                console.log(response);
                 setCookie("token", response.data.access, { maxAge: 86400, path: "/" });
                 setCookie("refresh", response.data.refresh, { path: "/" });
                 router.push("account");
