@@ -83,3 +83,5 @@ class CharityViewSet(viewsets.ModelViewSet):
             },
             status=200,
         )
+    
+    
