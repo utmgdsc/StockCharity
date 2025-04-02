@@ -14,10 +14,12 @@ const LoginPage: () => JSX.Element = () => {
         formState: { errors },
     } = useForm<LoginType>();
 
+    const [disabled, setDisabled] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
     const [, setCookie] = useCookies(["token", "refresh"]);
 
     const doLogin: SubmitHandler<LoginType> = ({ email, password }) => {
+        setDisabled(true);
         setMessage("");
         sendLogin({ email, password })
             .then((response) => {
@@ -32,6 +34,7 @@ const LoginPage: () => JSX.Element = () => {
                 } else {
                     setMessage("Login Failed.");
                 }
+                setDisabled(false);
             });
     }
 
@@ -69,7 +72,7 @@ const LoginPage: () => JSX.Element = () => {
         <Link href="/register" className="text-[#007bff] hover:underline">Register</Link>
         <div className="field mt-5">
             <div className="btn-primary h-10 flex items-center justify-center">
-                <input className="button" type="submit" value="Login" />
+                <input className="button" type="submit" value="Login" disabled={disabled}/>
             </div>
         </div>
     </form>
