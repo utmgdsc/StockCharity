@@ -98,6 +98,8 @@ const CharitySignUp: React.FC = () => {
         console.log("Charity data submitted successfully");
         // Clear form fields
         Object.keys(data).forEach((key) => setValue(key as keyof CharityFormData, ""));
+        // Reset phone number
+        setPhoneNumber("+");
         setIsAgreed(false); // Reset agreement toggle
       })
       .catch((error) => {
