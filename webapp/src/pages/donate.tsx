@@ -1,51 +1,141 @@
-import { JSX } from "react";
+// pages/donate.tsx
+import { FC, useState, useEffect } from 'react';
+import axios from 'axios';
+import {fetchDonations, fetchInfo} from '@/util/charity';
+import ImageWithDescription from '@/components/charity-card';
 
-const Donate = (): JSX.Element => (
-  <>
-  <div className="text-center my-8"><h1>Donate</h1></div>
-      <form action="#" method="POST" className="mx-auto w-full max-w-lg sm:mt-0">
-        <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
-          
-          <div className="sm:col-span-2">
-            <label htmlFor="email" className="label-style">Email</label>
-            <input id="email" type="email" name="email" autoComplete="email" className="input-style" placeholder="Email" required />
-          </div>
+interface DonationData {
+  amount: number;
+}
 
-          <div className="sm:col-span-2">
-            <label htmlFor="card-number" className="label-style">Card Number</label>
-            <input id="card-number" type="number" name="card-number" autoComplete="cc-number" className="input-style" placeholder="Card Number" required />
-          </div>
+interface CharityData {
+  logo_path: string;
+  description: string;
+}
 
-          <div className="flex gap-x-2 sm:col-span-2">
-            <div className="w-1/2">
-              <label htmlFor="expiry-date" className="label-style">Expiry Date</label>
-              <input id="expiry-date" type="date" name="expiry-date" autoComplete="cc-exp" className="input-style" required />
-            </div>
-            <div className="w-1/2">
-              <label htmlFor="cvc" className="label-style">CVC</label>
-              <input id="cvc" type="number" name="cvc" autoComplete="cc-csc" className="input-style" placeholder="CVC" required />
-            </div>
-          </div>
+const DonatePage: FC = () => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [donationData, setDonationData] = useState<DonationData | null>(null);
+  const [charityData, setCharityData] = useState<CharityData | null>(null);
 
-          <div className="sm:col-span-2">
-            <label htmlFor="name" className="label-style">Cardholder Name</label>
-            <input id="name" type="text" name="name" autoComplete="cc-name" className="input-style" placeholder="Full Name" required />
-          </div>
+  useEffect(() => {
 
-          <div className="sm:col-span-2">
-            <label htmlFor="country" className="label-style">Country</label>
-            <input id="country" type="text" name="country" autoComplete="country-name" className="input-style" placeholder="Country" required />
-          </div>
-        </div>
+    const loadData = async () => {
+      let data = await fetchDonations();
+      setDonationData(data);
+      data = await fetchInfo(1);
+      setCharityData(data);
+    };
 
-        {/* Submit Button */}
-        <div className="mt-6">
-          <button type="submit" className="btn-primary w-full px-4 py-2.5 text-sm font-semibold text-white shadow-sm">
-            Pay Now
-          </button>
-        </div>
-      </form>
-  </>
-);
+    // Uncomment this if we have data in the db to showcase
+    loadData()
+  }, []);
 
-export default Donate;
+  const handleDonate = async (fixed: string, amount: string) => {
+    setLoading(true);
+    try {
+        const response = await axios.post('http://localhost:8000/api/donation', {
+        fixed,
+        amount
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        responseType: 'text',
+        validateStatus: () => true
+      });
+
+      // Parse response data (handles both JSON and text responses)
+      const data = JSON.parse(response.data);
+
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        console.error('Error creating session:', data.error);
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error('Request failed:', error);
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="flex flex-col items-center min-h-screen py-8">
+      <h1 className="text-3xl font-bold mb-8">Donate</h1>
+      <div className="flex flex-wrap justify-center gap-4 mb-6">
+        <button
+          onClick={() => handleDonate("true", "10")}
+          disabled={loading}
+          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+        >
+          Donate $10
+        </button>
+        <button
+          onClick={() => handleDonate("true", "25")}
+          disabled={loading}
+          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+        >
+          Donate $25
+        </button>
+        <button
+          onClick={() => handleDonate("true", "50")}
+          disabled={loading}
+          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+        >
+          Donate $50
+        </button>
+        <button
+          onClick={() => handleDonate("false", "0")}
+          disabled={loading}
+          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+        >
+          Donate Any Amount
+        </button>
+      </div>
+      {loading && <p className="text-gray-500">Redirecting to payment...</p>}
+      <div className="pt-10 text-center">
+        <h1>Not convinced? Here is our impact: </h1>
+        {donationData ? (
+          <>
+          <h2 className="text-gray-500 pt-3">We have donated ${donationData.amount} to these charities!</h2> 
+          </>
+        ) : (
+        <h3>Loading donations...</h3>
+      )}
+      </div>
+      {charityData ? (
+        <>
+          <ImageWithDescription 
+            // replace with charityData.logo_path
+            imageSrc={"/photos/charity.jpg"}
+            // replace with charityData.description
+            description={"Here at charity A, we are committed to give all children an equal opportunity to learn anything they would like. \
+              No matter what kind of needs they require, we try our best to accomodate and make sure they are in the best place to learn. \
+              More talking here because it makes this component look better if its not that empty."}
+          />
+        </>
+      ) : (
+        <h3>Loading donations...</h3>
+      )}
+
+      {charityData ? (
+        <>
+          <ImageWithDescription 
+            // replace with charityData.logo_path
+            imageSrc={"/photos/charity.jpg"}
+            // replace with charityData.description
+            description={"Here at charity A, we are committed to give all children an equal opportunity to learn anything they would like. \
+              No matter what kind of needs they require, we try our best to accomodate and make sure they are in the best place to learn. \
+              More talking here because it makes this component look better if its not that empty."}
+          />
+        </>
+      ) : (
+        <h3>Loading donations...</h3>
+      )}
+
+    </div>
+  );
+};
+
+export default DonatePage;

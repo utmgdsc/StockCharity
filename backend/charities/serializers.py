@@ -10,10 +10,12 @@ class CharitySerializer(serializers.ModelSerializer):
             UniqueValidator(Charity.objects.all(), message="Email already registered")
         ],
     )
+
     charity_name = serializers.CharField(required=True)
     charity_phone_number = serializers.CharField(required=True)
     donations_received = serializers.FloatField(required=False)
     is_approved = serializers.BooleanField(required=False)
+
 
     contact_first_name = serializers.CharField(required=True)
     contact_last_name = serializers.CharField(required=True)
@@ -40,6 +42,11 @@ class CharitySerializer(serializers.ModelSerializer):
             "is_approved",
             "logo_path",
         ]
+
+    def create(self, validated_data):
+        if "is_approved" in validated_data:
+            del validated_data["is_approved"]
+        return super().create(validated_data)
 
 
 class CharityDonationSerializer(serializers.ModelSerializer):
