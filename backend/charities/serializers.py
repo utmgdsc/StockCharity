@@ -57,4 +57,6 @@ class CharityDonationSerializer(serializers.ModelSerializer):
             "id",
             "name",
             "donations_received",
+            "description",
+            "logo_path",
         ]
