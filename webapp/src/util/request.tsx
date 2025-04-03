@@ -27,7 +27,7 @@ const refreshToken: () => Promise<void> = () => {
         }).catch((refresh_error) => {
             Cookie.remove("token");
             Cookie.remove("refresh");
-            return Promise.reject();
+            return Promise.reject(refresh_error);
         });
     }
     return Promise.reject();
@@ -99,12 +99,6 @@ export type AccountType = {
     }[];
 };
 
-export type DonationsListType = {
-    // amount: Array<number>;
-    // date: Array<Date>;
-    donations_list: Array<[number, Date]>;
-};
-
 export type CharityType = {
     id: number;
     charity_email: string;
@@ -143,8 +137,6 @@ export const sendCharity: (data: CharityFormData) =>
 
 
 export const getAccountInfo: () => Promise<AxiosResponse<AccountType>> = () => backendConfig.get("account/");
-
-export const getUserDonations: () => Promise<AxiosResponse<DonationsListType>> = () => backendConfig.get("user-donations/");
 
 export const getCharities: () => Promise<AxiosResponse<CharityType[]>> = () => backendConfig.get("charity/");
 
