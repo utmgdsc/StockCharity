@@ -63,7 +63,7 @@ const NavBar: React.FC = () => {
         {/* Right Side Buttons */}
         <div className="flex items-center ml-auto space-x-6">
           {loggedIn ?
-            <button className="text-[#007bff] hover:underline" onClick={() => { removeCookie("token"), removeCookie("refresh") }}>Logout</button> :
+            <button className="text-[#007bff] hover:underline" onClick={() => { removeCookie("token"); removeCookie("refresh"); }}>Logout</button> :
             <>
               <button className='.btn-primary'>
                 <Link href="/login" className="text-[#007bff] hover:underline">Login</Link>
