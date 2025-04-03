@@ -84,11 +84,17 @@ class CharityViewSet(viewsets.ModelViewSet):
 
         Example call: http://127.0.0.1:8000/charity/total-donations/
         """
+        total_donations = self.get_queryset().filter(is_approved=True).aggregate(Sum("donations_received"))["donations_received__sum"]
+        if total_donations is None:
+            total_donations = -1
         return Response(
             {
-                "amount": self.get_queryset()
-                .filter(is_approved=True)
-                .aggregate(Sum("donations_received"))["donations_received__sum"]
+            "amount": total_donations
             },
             status=200,
         )
+    
+    def get_total_charities(self, request):
+        """This method returns the total number of charities stored."""
+
+        return Response({"totalCharities": Charity.objects.count()}, status=200)

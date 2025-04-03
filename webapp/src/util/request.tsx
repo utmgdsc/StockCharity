@@ -88,6 +88,14 @@ export type CharityType = {
     description: string;
 }
 
+export type CharityNumType = {
+    totalCharities: number;
+}
+
+export type DonationsTotalType = {
+    donation_total: number;
+}
+
 export const sendRegister: (
     data: RegisterType
 ) => Promise<AxiosResponse<AccountType>> = (data) =>
@@ -109,3 +117,7 @@ export const getUserDonations: () => Promise<AxiosResponse<DonationsListType>> =
 export const getCharities: () => Promise<AxiosResponse<CharityType[]>> = () => backendConfig.get("charity/")
 
 export const setCharityApproved: (id: number, approved: boolean) => Promise<AxiosResponse<CharityType>> = (id: number, approved: boolean) => backendConfig.patch(`charity/${id}/`, { "is_approved": approved })
+
+export const getTotalCharities: () => Promise<AxiosResponse<CharityNumType>> = () => backendConfig.get("total-charities/")
+
+export const getTotalDonations: () => Promise<AxiosResponse<DonationsTotalType>> = () => backendConfig.get("total-donations/")
