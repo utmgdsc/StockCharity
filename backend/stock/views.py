@@ -1,12 +1,16 @@
-import requests
 import os
+import requests
+from dotenv import load_dotenv
+from datetime import datetime, timedelta
+
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Stock
-from .serializers import StockSerializer
-from django.conf import settings
-from dotenv import load_dotenv
+
+from .models import Stock, StockInfo
+from .serializers import StockSerializer, StockInfoEntrySerializer
+
+
 
 # Load environment variables
 load_dotenv()
@@ -14,31 +18,56 @@ load_dotenv()
 # Tiingo API Key
 TIINGO_API_KEY = os.environ["TIINGO_API_KEY"]
 
+
+def get_tiingo_stock_data(symbol: str):
+    try:
+        stock_info = StockInfo.objects.get(pk=symbol)
+        # Check if we've updated this info within the last 24-hrs
+    except StockInfo.DoesNotExist:
+        # Create the info object
+        stock_info = StockInfo(symbol=symbol)
+        stock_info.save()
+    if not stock_info.last_update or datetime.date(
+        datetime.now()
+    ) - stock_info.last_update > timedelta(days=1):
+        # Get new data
+        response = requests.get(
+            f"http://api.tiingo.com/tiingo/daily/{symbol}/prices",
+            headers={"Authorization": f"Token {TIINGO_API_KEY}"},
+            params={
+                "startDate": (
+                    stock_info.last_update
+                    or datetime.date(datetime.now() - timedelta(days=7))
+                ).strftime("%Y-%m-%d"),
+                "columns": ",".join(["date", "close", "divCash", "splitFactor"]),
+            },
+        )
+        # If we don't get OK, raise an error
+        if response.status_code != 200:
+            raise Exception(response.text)
+
+        # Deserialize the json information returned into some model
+        serializer = StockInfoEntrySerializer(context={"stock":symbol}, data=response.json(), many=True)
+
+        # Save the models created by the serializer
+        if not serializer.is_valid():
+            raise Exception(serializer.errors)
+        serializer.save()
+
+        # Save the last update time
+        stock_info.last_update = datetime.date(datetime.now())
+        stock_info.save()
+    if stock_info.entries.count() == 0:
+        return None
+    return stock_info.entries.latest("date")
+
+
 class StockViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Stock.objects.all()
     serializer_class = StockSerializer
 
 class StockPortfolioView(APIView):
     """Fetches stock holdings and computes total investment"""
-
-    def get_stock_price(self, symbol):
-        """Fetch stock price from Tiingo API and return a valid float value"""
-        try:
-            print(f"Fetching stock price for: {symbol}")
-            url = f"https://api.tiingo.com/iex/{symbol}?token={TIINGO_API_KEY}"
-            response = requests.get(url)
-
-            print(f"API Response ({symbol}):", response.status_code, response.text)
-
-            if response.status_code == 200:
-                data = response.json()
-                if isinstance(data, list) and len(data) > 0:
-                    price = data[0].get("tngoLast", 0.0) 
-                    return price
-            return 0.0
-        except Exception as e:
-            print(f"Error fetching stock price for {symbol}: {e}")
-            return 0.0
 
     def get(self, request):
         """Handles GET request to return portfolio information"""
@@ -50,7 +79,8 @@ class StockPortfolioView(APIView):
             total_investment = 0
 
             for stock in stocks:
-                current_price = self.get_stock_price(stock.symbol)
+                info = get_tiingo_stock_data(stock.symbol)
+                current_price = info.price if info else 0.0
                 stock_value = current_price * stock.quantity
                 total_investment += stock_value
 
