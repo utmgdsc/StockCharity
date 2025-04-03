@@ -40,7 +40,6 @@ export default function HomePage() {
       const donationsResponse = await getTotalDonations();
       const donations = donationsResponse?.data?.donation_total || -1; // Safely access donation_total and alert that something is wrong by using -1
       setDonationStockData({ amount: donations });
-      console.log(donationsResponse.data);
     };
     fetchData();
   }, []);

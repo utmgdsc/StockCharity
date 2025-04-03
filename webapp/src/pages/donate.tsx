@@ -3,6 +3,7 @@ import { FC, useState, useEffect } from 'react';
 import axios from 'axios';
 import {fetchDonations, fetchInfo} from '@/util/charity';
 import ImageWithDescription from '@/components/charity-card';
+import { useCookies } from 'react-cookie';
 
 interface DonationData {
   amount: number;
@@ -17,6 +18,7 @@ const DonatePage: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [donationData, setDonationData] = useState<DonationData | null>(null);
   const [charityData, setCharityData] = useState<CharityData | null>(null);
+  const [cookies] = useCookies(['token']);
 
   useEffect(() => {
 
@@ -39,7 +41,8 @@ const DonatePage: FC = () => {
         amount
       }, {
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${cookies.token}`
         },
         responseType: 'text',
         validateStatus: () => true
