@@ -74,13 +74,14 @@ export type RegisterType = {
 }
 
 export type CharityFormData = {
-    firstName: string;
-    lastName: string;
-    charityName: string;
-    email: string;
-    phone: string;
-    message?: string;
-    isAgreed: boolean;
+    contact_first_name: string;
+    contact_last_name: string;
+    contact_email: string;
+    contact_phone_number: string;
+    charity_name: string;
+    charity_email: string;
+    charity_phone_number: string;
+    is_approved: boolean;
 }
 
 export type AccountType = {
@@ -102,9 +103,9 @@ export type DonationsListType = {
 
 export type CharityType = {
     id: number;
-    email: string;
-    name: string;
-    phone_number: string;
+    charity_email: string;
+    charity_name: string;
+    charity_phone_number: string;
     donations_received: number;
     is_approved: boolean;
     logo_path: string;
@@ -131,6 +132,10 @@ export const sendLogin: ({
     email,
     password,
 }) => backendConfig.post("login/", { email, password });
+
+export const sendCharity: (data: CharityFormData) => 
+    Promise<AxiosResponse<{ message: string }>> = (data) => 
+        backendConfig.post("charity/", data);
 
 
 export const getAccountInfo: () => Promise<AxiosResponse<AccountType>> = () => backendConfig.get("account/");

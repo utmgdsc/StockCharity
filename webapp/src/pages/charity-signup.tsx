@@ -1,5 +1,5 @@
 import React from "react";
-import { CharityFormData } from "@/util/request";
+import { CharityFormData, sendCharity } from "@/util/request";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,15 +20,18 @@ const validatePhoneNumber = (phone: string) => {
 };
 
 const schema = z.object({
-  firstName: z.string().min(1, "First name is required"),
-  lastName: z.string().min(1, "Last name is required"),
-  charityName: z.string().min(1, "Charity name is required"),
-  email: z.string().email("Invalid email address"),
-  phone: z.string().refine(validatePhoneNumber, {
+  contact_first_name: z.string().min(1, "First name is required"),
+  contact_last_name: z.string().min(1, "Last name is required"),
+  contact_email: z.string().email("Invalid email address"),
+  contact_phone_number: z.string().refine(validatePhoneNumber, {
     message: "Invalid phone number format",
   }),
-  message: z.string().optional(),
-  isAgreed: z.boolean().refine(val => val === true, "You must accept the privacy policy"),
+  charity_name: z.string().min(1, "Charity name is required"),
+  charity_email: z.string().email("Invalid email address"),
+  charity_phone_number: z.string().refine(validatePhoneNumber, {
+    message: "Invalid phone number format",
+  }),
+  is_approved: z.boolean().refine(val => val === true, "You must accept the privacy policy"),
 });
 
 const CharitySignUp: React.FC = () => {
@@ -40,25 +43,35 @@ const CharitySignUp: React.FC = () => {
     register,
     setValue,
     trigger,
+    handleSubmit,
     formState: { errors, isValid },
   } = useForm<CharityFormData>({
     resolver: zodResolver(schema),
     mode: "onChange",
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      charityName: "",
-      email: "",
-      phone: "",
-      message: "",
-      isAgreed: false,
+      contact_first_name: "",
+      contact_last_name: "",
+      contact_email: "",
+      contact_phone_number: "",
+      charity_name: "",
+      charity_email: "",
+      charity_phone_number: "",
+      is_approved: false,
     },
   });
 
-  const handlePhoneChange = (value: string) => {
-    setPhoneNumber(value); 
-    setValue("phone", value); 
-    trigger("phone");
+  
+
+  const handleCharityPhoneChange = (value: string) => {
+    setPhoneNumber(""); 
+    setValue("charity_phone_number", value); 
+    trigger("charity_phone_number");
+  };
+
+  const handleContactPhoneChange = (value: string) => {
+    setPhoneNumber(""); 
+    setValue("contact_phone_number", value); 
+    trigger("contact_phone_number");
   };
   
   useEffect(() => {
@@ -71,9 +84,33 @@ const CharitySignUp: React.FC = () => {
 
   const toggleAgreement = () => {
     setIsAgreed(!isAgreed);
-    setValue("isAgreed", !isAgreed); 
-    trigger("isAgreed");
+    setValue("is_approved", !isAgreed); 
+    trigger("is_approved");
   };
+
+  
+
+  const onSubmit = (data: CharityFormData) => {
+    console.log("Submitting Charity Data:", data);
+    sendCharity(data)
+      .then((response) => {
+        console.log(response);
+        console.log("Charity data submitted successfully");
+        // Clear form fields
+        Object.keys(data).forEach((key) => setValue(key as keyof CharityFormData, ""));
+        // Reset phone number
+        setPhoneNumber("+");
+        setIsAgreed(false); // Reset agreement toggle
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log("Error submitting charity data");
+      });
+  };
+
+
+
+
 
   return (
     <div className="grid grid-cols-2 relative isolate bg-white px-6 py-24 sm:py-10 lg:px-8">
@@ -102,92 +139,126 @@ const CharitySignUp: React.FC = () => {
       </div>
 
       <form action="#" method="POST" className="mx-auto w-full max-w-lg sm:mt-0">
-        <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+        <h1>Charity Info</h1>
+        <div className="grid grid-cols-1 gap-x-8 gap-y-6 ">
           <div>
-            <label htmlFor="first-name" className="label-style"> First name</label>   
+          <label htmlFor="charityname" className="label-style"> Charity Name</label>   
             <div className="mt-2.5">
               <input
                 type="text"
-                {...register("firstName")}
-                id="first-name"
+                {...register("charity_name")}
+                id="charity-name"
+                // autoComplete="given-name"
+                className="input-style"
+              />
+              {errors.charity_name && <p className="text-red-500">{errors.charity_name.message}</p>}
+            </div>
+          </div>
+        </div>
+
+        <div className="sm:col-span-2 grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+          <div>
+            <label htmlFor="charity-email" className="label-style">Charity Email</label>
+            <div className="mt-2.5">
+              <input
+          type="email"
+          {...register("charity_email")}
+          id="charity-email"
+          className="input-style"
+              />
+              {errors.charity_email && <p className="text-red-500">{errors.charity_email.message}</p>}
+            </div>
+          </div>
+
+          <div>
+            <label htmlFor="charity-phone-number" className="label-style">Charity Phone Number</label>
+            <div className="mt-2.5">
+              <div className="flex rounded-md border border-gray-300 bg-white focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2">
+          <PhoneInput
+            country={userCountry}
+            value={phoneNumber}
+            onChange={handleCharityPhoneChange}
+            inputStyle={{
+              width: "100%",
+              height: "40px",
+              borderRadius: "5px",
+              border: "1px solid #ccc",
+              paddingLeft: "50px",
+            }}
+          />
+              </div>
+              {errors.charity_phone_number && <p className="text-red-500">{errors.charity_phone_number.message}</p>}
+            </div>
+          </div>
+        </div>
+        
+
+
+        <h1>Contact Info</h1>
+
+        <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+          <div>
+            <label htmlFor="contact-first-name" className="label-style"> Contact First name</label>   
+            <div className="mt-2.5">
+              <input
+                type="text"
+                {...register("contact_first_name")}
+                id="contact-first-name"
                 autoComplete="given-name"
                 className="input-style"
               />
-              {errors.firstName && <p className="text-red-500">{errors.firstName.message}</p>}
+              {errors.contact_first_name && <p className="text-red-500">{errors.contact_first_name.message}</p>}
             </div>
           </div>
           
           <div>
-            <label htmlFor="last-name" className="label-style">Last name</label>
+            <label htmlFor="contact-last-name" className="label-style">Contact Last name</label>
             <div className="mt-2.5">
               <input
                 type="text"
-                {...register("lastName")}
-                id="last-name"
+                {...register("contact_last_name")}
+                id="contact-last-name"
                 autoComplete="family-name"
                 className="input-style"
               />
-               {errors.lastName && <p className="text-red-500">{errors.lastName.message}</p>}
+               {errors.contact_last_name && <p className="text-red-500">{errors.contact_last_name.message}</p>}
             </div>
           </div>
           
-          <div className="sm:col-span-2">
-            <label htmlFor="charity-name" className="label-style">Charity Name</label>
-            <div className="mt-2.5">
+            <div className="sm:col-span-2 grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+            <div>
+              <label htmlFor="contact-email" className="label-style"> Contact Email </label>
+              <div className="mt-2.5">
               <input
-                type="text"
-                {...register("charityName")}
-                id="charity-name"
-                autoComplete="organization"
+                type="contact-email"
+                {...register("contact_email")}
+                id="contact-email"
+                autoComplete="contact-email"
                 className="input-style"
               />
-              {errors.charityName && <p className="text-red-500">{errors.charityName.message}</p>}
+              {errors.contact_email && <p className="text-red-500">{errors.contact_email.message}</p>}
+              </div>
             </div>
-          </div>
-          
-          <div className="sm:col-span-2">
-            <label htmlFor="email"className="label-style"> Email </label>
-            <div className="mt-2.5">
-              <input
-                type="email"
-                {...register("email")}
-                id="email"
-                autoComplete="email"
-                className="input-style"
-              />
-              {errors.email && <p className="text-red-500">{errors.email.message}</p>}
-            </div>
-          </div>
-          
-          <div className="sm:col-span-2">
-            <label htmlFor="phone-number" className="label-style">Phone number</label>
-            <div className="mt-2.5">
+            
+            <div>
+              <label htmlFor="contact-phone-number" className="label-style">Contact Phone umber</label>
+              <div className="mt-2.5">
               <div className="flex rounded-md border border-gray-300 bg-white focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2">
-                    <PhoneInput
-                  country={userCountry}
-                  value={phoneNumber}
-                  onChange={handlePhoneChange}
-                  inputStyle={{
-                    width: "100%",
-                    height: "40px",
-                    borderRadius: "5px",
-                    border: "1px solid #ccc",
-                    paddingLeft: "50px",
-                  }}
+                <PhoneInput
+                country={userCountry}
+                value={phoneNumber}
+                onChange={handleContactPhoneChange}
+                inputStyle={{
+                  width: "100%",
+                  height: "40px",
+                  borderRadius: "5px",
+                  border: "1px solid #ccc",
+                  paddingLeft: "50px",
+                }}
                 />
               </div>
-              {errors.phone && <p className="text-red-500">{errors.phone.message}</p>}
-            </div>
-          </div>
-          <div className="sm:col-span-2">
-            <label htmlFor="message" className="label-style">Message</label>
-            <div className="mt-2.5">
-              <textarea
-                {...register("message")}
-                id="message"
-                rows={3}
-                className="input-style"
-              ></textarea>
+              {errors.contact_phone_number && <p className="text-red-500">{errors.contact_phone_number.message}</p>}
+              </div>
             </div>
           </div>
 
@@ -218,20 +289,23 @@ const CharitySignUp: React.FC = () => {
               .
             </label>
           </div>
-          {errors.isAgreed && <p className="text-red-500">{errors.isAgreed.message}</p>}
+          {errors.is_approved && <p className="text-red-500">{errors.is_approved.message}</p>}
         </div>
         
         <div className="mt-10">
           <button
             type="submit"
             disabled={!isValid}
+            onClick={handleSubmit(onSubmit)}
             className={`btn-primary px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm w-full ${
               isValid ? "bg-blue-500 hover:bg-blue-600" : "bg-gray-400 cursor-not-allowed"
             }`}
           >
             Submit
           </button>
+
         </div>
+
       </form>
       
     </div>
