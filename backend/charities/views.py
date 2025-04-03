@@ -86,7 +86,7 @@ class CharityViewSet(viewsets.ModelViewSet):
         """
         total_donations = self.get_queryset().filter(is_approved=True).aggregate(Sum("donations_received"))["donations_received__sum"]
         if total_donations is None:
-            total_donations = -1
+            total_donations = 0
         return Response(
             {
             "amount": total_donations
