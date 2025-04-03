@@ -1,23 +1,21 @@
 import { JSX, useEffect, useState } from "react";
 import PieChart from "@/components/pie-chart";
-import { AccountType, getAccountInfo, DonationsListType, getUserDonations } from "@/util/request";
+import { AccountType, getAccountInfo, isLoggedIn } from "@/util/request";
 import { useRouter } from "next/navigation";
+import { useCookies } from "react-cookie";
 
 
 const Account = (): JSX.Element => {
     const router = useRouter();
     const [accountInfo, setAccountInfo] = useState<AccountType>();
+    const [cookie] = useCookies(["token"])
     useEffect(() => {
-        getAccountInfo().then((response) => setAccountInfo(response.data)).catch(() =>
-            router.push("login"))
-    }, []);
-
-    
-
-    const [donations, setDonations] = useState<DonationsListType>();
-    useEffect(() => {
-        getUserDonations().then((response) => setDonations(response.data));
-    }, []);
+        isLoggedIn().then(() =>
+            getAccountInfo().then((response) => setAccountInfo(response.data)).catch(() => router.push("login"))
+        ).catch(
+            () => router.push("login")
+        );
+    }, [cookie]);
 
     // Variables are hard coded for now to demo until backend is implemented.
     // const stocks_owned = ["Stock 1", "Stock 2", "Stock 3", "Stock 4", "Stock 5", "Stock 6", "Stock 7"];
@@ -54,15 +52,15 @@ const Account = (): JSX.Element => {
                             {/* Stocks owned */}
                             <div className="bg-gray-300 p-2 rounded-md">
                                 <h3 className="text-lg font-bold">Donations:</h3>
-                                 <p>Total Donations: {accountInfo?.total_donations?.toLocaleString('en-US', { style: 'currency', currency: 'CAD' })}</p>
+                                <p>Total Donations: {accountInfo?.total_donations?.toLocaleString('en-US', { style: 'currency', currency: 'CAD' })}</p>
                                 <br></br>
-                                {donations?.donations_list?.[0]?.map((donation, index) => (
+                                {accountInfo?.donations.map((donation, index) => (
                                     <p key={index}>
-                                        {donation.toLocaleString('en-US', { style: 'currency', currency: 'CAD' })} on {new Date(donations?.donations_list?.[1]?.[index]).toLocaleDateString('en-US')}
+                                        {donation.amount.toLocaleString('en-US', { style: 'currency', currency: 'CAD' })} on {new Date(donation.date).toLocaleDateString('en-US')}
                                     </p>
                                 ))}
 
-                                
+
 
                             </div>
 

@@ -21,26 +21,25 @@ backendConfig.interceptors.request.use((config) => {
 const refreshToken: () => Promise<void> = () => {
     const refresh_cookie = Cookie.get("refresh");
     if (refresh_cookie) {
-        return backendConfig.post("login/refresh/", { "refresh": refresh_cookie }).then((refresh_response) => {
+        return backendConfig.post("login/refresh/", { "refresh": refresh_cookie }).then(refresh_response => {
             Cookie.set("token", refresh_response.data.access);
             return Promise.resolve();
         }).catch((refresh_error) => {
-            console.log(refresh_error);
-            Cookie.remove("token")
-            return Promise.reject();
+            Cookie.remove("token");
+            Cookie.remove("refresh");
+            return Promise.reject(refresh_error);
         });
     }
     return Promise.reject();
 }
 
 /* Auto refresh token */
-backendConfig.interceptors.response.use(response => response, async (error) => {
-    if (error.response.status == 401 && !error.config?._refresh_retry) {
+backendConfig.interceptors.response.use(response => response, error => {
+    if (error.response.status === 401 && !error.config?._refresh_retry && error.config.url !== "login/refresh/") {
         error.config._refresh_retry = true;
-        console.log("Try refresh")
         return refreshToken().then(() => backendConfig(error.config)).catch(() => error);
     }
-    return error
+    return Promise.reject(error);
 })
 
 export const isLoggedIn: () => Promise<void> = async () => {
@@ -93,12 +92,11 @@ export type AccountType = {
     is_active: boolean;
     total_dividends: number;
     total_donations: number;
-};
-
-export type DonationsListType = {
-    // amount: Array<number>;
-    // date: Array<Date>;
-    donations_list: Array<[number, Date]>;
+    donations: {
+        amount: number;
+        date: string;
+        status: string;
+    }[];
 };
 
 export type CharityType = {
@@ -139,8 +137,6 @@ export const sendCharity: (data: CharityFormData) =>
 
 
 export const getAccountInfo: () => Promise<AxiosResponse<AccountType>> = () => backendConfig.get("account/");
-
-export const getUserDonations: () => Promise<AxiosResponse<DonationsListType>> = () => backendConfig.get("user-donations/");
 
 export const getCharities: () => Promise<AxiosResponse<CharityType[]>> = () => backendConfig.get("charity/");
 

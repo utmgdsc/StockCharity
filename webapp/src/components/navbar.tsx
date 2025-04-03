@@ -6,11 +6,11 @@ import { isLoggedIn } from '@/util/request';
 
 const NavBar: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [cookie,,removeCookie] = useCookies(["token"]);
+  const [cookie, , removeCookie] = useCookies(["token", "refresh"]);
   const [loggedIn, setIsLoggedIn] = useState<boolean>(false);
-  useMemo(()=>{
-    isLoggedIn().then(()=>setIsLoggedIn(true)).catch(()=>setIsLoggedIn(false));
-  },[cookie]);
+  useMemo(() => {
+    isLoggedIn().then(() => setIsLoggedIn(true)).catch(() => setIsLoggedIn(false));
+  }, [cookie]);
 
   return (
     <header className="flex shadow-lg py-4 px-4 sm:px-10 bg-white font-[sans-serif] min-h-[70px] tracking-wide relative z-50">
@@ -63,15 +63,15 @@ const NavBar: React.FC = () => {
         {/* Right Side Buttons */}
         <div className="flex items-center ml-auto space-x-6">
           {loggedIn ?
-          <button className="text-[#007bff] hover:underline" onClick={()=>removeCookie("token")}>Logout</button>:
-          <>
-            <button className='.btn-primary'>
-              <Link href="/login" className="text-[#007bff] hover:underline">Login</Link>
-            </button>
-            <button className="px-4 py-2 btn-login">
-              <Link href="/register">Sign up</Link>
-            </button>
-          </>
+            <button className="text-[#007bff] hover:underline" onClick={() => { removeCookie("token"); removeCookie("refresh"); }}>Logout</button> :
+            <>
+              <button className='.btn-primary'>
+                <Link href="/login" className="text-[#007bff] hover:underline">Login</Link>
+              </button>
+              <button className="px-4 py-2 btn-login">
+                <Link href="/register">Sign up</Link>
+              </button>
+            </>
           }
 
           {/* Mobile Menu Toggle Button */}
