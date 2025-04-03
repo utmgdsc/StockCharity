@@ -21,12 +21,12 @@ backendConfig.interceptors.request.use((config) => {
 const refreshToken: () => Promise<void> = () => {
     const refresh_cookie = Cookie.get("refresh");
     if (refresh_cookie) {
-        return backendConfig.post("login/refresh/", { "refresh": refresh_cookie }).then((refresh_response) => {
+        return backendConfig.post("login/refresh/", { "refresh": refresh_cookie }).then(refresh_response => {
             Cookie.set("token", refresh_response.data.access);
             return Promise.resolve();
         }).catch((refresh_error) => {
-            console.log(refresh_error);
-            Cookie.remove("token")
+            Cookie.remove("token");
+            Cookie.remove("refresh");
             return Promise.reject();
         });
     }
@@ -34,13 +34,12 @@ const refreshToken: () => Promise<void> = () => {
 }
 
 /* Auto refresh token */
-backendConfig.interceptors.response.use(response => response, async (error) => {
-    if (error.response.status == 401 && !error.config?._refresh_retry) {
+backendConfig.interceptors.response.use(response => response, error => {
+    if (error.response.status === 401 && !error.config?._refresh_retry && error.config.url !== "login/refresh/") {
         error.config._refresh_retry = true;
-        console.log("Try refresh")
         return refreshToken().then(() => backendConfig(error.config)).catch(() => error);
     }
-    return error
+    return Promise.reject(error);
 })
 
 export const isLoggedIn: () => Promise<void> = async () => {
@@ -93,6 +92,11 @@ export type AccountType = {
     is_active: boolean;
     total_dividends: number;
     total_donations: number;
+    donations: {
+        amount: number;
+        date: string;
+        status: string;
+    }[];
 };
 
 export type DonationsListType = {
