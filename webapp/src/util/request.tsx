@@ -80,9 +80,9 @@ export type DonationsListType = {
 
 export type CharityType = {
     id: number;
-    email: string;
-    name: string;
-    phone_number: string;
+    charity_email: string;
+    charity_name: string;
+    charity_phone_number: string;
     donations_received: number;
     is_approved: boolean;
     logo_path: string;
