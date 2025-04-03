@@ -1,53 +1,50 @@
-// pages/donate.tsx
 import { FC, useState, useEffect } from 'react';
 import axios from 'axios';
-import {fetchDonations, fetchInfo} from '@/util/charity';
-import ImageWithDescription from '@/components/charity-card';
+import { fetchDonations, fetchDonationAmount } from '@/util/charity';
 
 interface DonationData {
   amount: number;
 }
 
 interface CharityData {
-  logo_path: string;
+  id: number;
+  logo_url: string;
   description: string;
+  name: string;
+  donations_received: number;
 }
 
 const DonatePage: FC = () => {
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
   const [donationData, setDonationData] = useState<DonationData | null>(null);
-  const [charityData, setCharityData] = useState<CharityData | null>(null);
+  const [charities, setCharities] = useState<CharityData[]>([]);
 
   useEffect(() => {
-
     const loadData = async () => {
-      let data = await fetchDonations();
-      setDonationData(data);
-      data = await fetchInfo(1);
-      setCharityData(data);
+      const donationResult = await fetchDonations();
+      setDonationData(donationResult);
+
+      const charityList = await fetchDonationAmount();
+      setCharities(charityList);
     };
 
-    // Uncomment this if we have data in the db to showcase
-    loadData()
+    loadData();
   }, []);
 
   const handleDonate = async (fixed: string, amount: string) => {
     setLoading(true);
     try {
-        const response = await axios.post('http://localhost:8000/api/donation', {
-        fixed,
-        amount
-      }, {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        responseType: 'text',
-        validateStatus: () => true
-      });
+      const response = await axios.post(
+        'http://localhost:8000/api/donation',
+        { fixed, amount },
+        {
+          headers: { 'Content-Type': 'application/json' },
+          responseType: 'text',
+          validateStatus: () => true,
+        }
+      );
 
-      // Parse response data (handles both JSON and text responses)
       const data = JSON.parse(response.data);
-
       if (data.url) {
         window.location.href = data.url;
       } else {
@@ -61,79 +58,75 @@ const DonatePage: FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen py-8">
-      <h1 className="text-3xl font-bold mb-8">Donate</h1>
-      <div className="flex flex-wrap justify-center gap-4 mb-6">
-        <button
-          onClick={() => handleDonate("true", "10")}
-          disabled={loading}
-          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
-        >
-          Donate $10
-        </button>
-        <button
-          onClick={() => handleDonate("true", "25")}
-          disabled={loading}
-          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
-        >
-          Donate $25
-        </button>
-        <button
-          onClick={() => handleDonate("true", "50")}
-          disabled={loading}
-          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
-        >
-          Donate $50
-        </button>
-        <button
-          onClick={() => handleDonate("false", "0")}
-          disabled={loading}
-          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
-        >
-          Donate Any Amount
-        </button>
-      </div>
-      {loading && <p className="text-gray-500">Redirecting to payment...</p>}
-      <div className="pt-10 text-center">
-        <h1>Not convinced? Here is our impact: </h1>
+    <div className="min-h-screen flex flex-col lg:flex-row">
+      {/* LEFT: Donation Section */}
+      <div className="lg:w-1/2 w-full p-8 flex flex-col items-center justify-center bg-gray-100">
+        <h1 className="text-3xl font-bold mb-6">Donate</h1>
+        <div className="flex flex-wrap justify-center gap-4 mb-4">
+          {['10', '25', '50'].map((amt) => (
+            <button
+              key={amt}
+              onClick={() => handleDonate('true', amt)}
+              disabled={loading}
+              className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+            >
+              Donate ${amt}
+            </button>
+          ))}
+          <button
+            onClick={() => handleDonate('false', '0')}
+            disabled={loading}
+            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+          >
+            Donate Any Amount
+          </button>
+        </div>
+        {loading && <p className="text-gray-500 mb-4">Redirecting to payment...</p>}
+
+        <h2 className="text-xl font-semibold text-center mt-6">Here&apos;s our impact:</h2>
         {donationData ? (
-          <>
-          <h2 className="text-gray-500 pt-3">We have donated ${donationData.amount} to these charities!</h2> 
-          </>
+          <p className="text-gray-700 text-center mt-2">
+            We&apos;ve donated <span className="font-bold">${donationData.amount.toFixed(2)}</span> to charities!
+          </p>
         ) : (
-        <h3>Loading donations...</h3>
-      )}
+          <p className="text-gray-500 mt-2">Loading donation stats...</p>
+        )}
       </div>
-      {charityData ? (
-        <>
-          <ImageWithDescription 
-            // replace with charityData.logo_path
-            imageSrc={"/photos/charity.jpg"}
-            // replace with charityData.description
-            description={"Here at charity A, we are committed to give all children an equal opportunity to learn anything they would like. \
-              No matter what kind of needs they require, we try our best to accomodate and make sure they are in the best place to learn. \
-              More talking here because it makes this component look better if its not that empty."}
-          />
-        </>
-      ) : (
-        <h3>Loading donations...</h3>
-      )}
 
-      {charityData ? (
-        <>
-          <ImageWithDescription 
-            // replace with charityData.logo_path
-            imageSrc={"/photos/charity.jpg"}
-            // replace with charityData.description
-            description={"Here at charity A, we are committed to give all children an equal opportunity to learn anything they would like. \
-              No matter what kind of needs they require, we try our best to accomodate and make sure they are in the best place to learn. \
-              More talking here because it makes this component look better if its not that empty."}
-          />
-        </>
-      ) : (
-        <h3>Loading donations...</h3>
-      )}
+      {/* RIGHT: Charity Carousel */}
+      <div className="lg:w-1/2 w-full p-6 bg-white overflow-y-auto max-h-screen">
+        <h2 className="text-2xl font-bold mb-4 text-center">Supported Charities</h2>
+        <div className="space-y-6">
+          {charities.length > 0 ? (
+            charities.map((charity, index) => {
+              const bgColor = index % 2 === 0 ? 'bg-sky-900' : 'bg-emerald-400';
+              const textColor = index % 2 === 0 ? 'text-gray-100' : 'text-sky-950';
 
+              return (
+                <div
+                  key={charity.id}
+                  className={`shadow-md rounded-lg p-4 border border-gray-200 hover:shadow-lg transition-shadow flex items-start gap-4 ${bgColor}`}
+                >
+                  <img
+                    src={charity.logo_url || '/photos/charity.jpg'}
+                    alt={charity.name}
+                    className="w-20 h-20 object-contain rounded border"
+                  />
+                  <div>
+                    <h2 className={`font-semibold mb-1 ${textColor}`}>{charity.name}</h2>
+                    <h3 className={`text-sm mb-2 ${textColor}`}>{charity.description}</h3>
+                    <p className={`font-bold ${textColor}`}>
+                      ${charity.donations_received.toFixed(2)} raised
+                    </p>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <p className="text-center text-gray-500">Loading charities...</p>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
