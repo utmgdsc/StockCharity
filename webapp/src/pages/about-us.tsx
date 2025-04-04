@@ -88,7 +88,7 @@ const AboutUs = (): JSX.Element => {
           <input type="radio" name="faq" defaultChecked />
           <div className="collapse-title text-xl font-medium">Which Stocks Do We Invest In?</div>
           <div className="collapse-content">
-            <p>The following is a list of our current investments and the total investments in every stock. We try to invest in companies that are actively not ruining the world around us, while still returning high dividends</p>
+            <p>The following is a list of our current investments and the total investments in every stock. We try to invest in companies that are actively not ruining the world around us, while still returning high dividends.</p>
             {portfolio.length > 0 ? (
               <table className="w-full border-collapse border border-gray-300 rounded-lg">
                 <thead className="bg-gray-200 text-gray-800">
@@ -133,7 +133,7 @@ const AboutUs = (): JSX.Element => {
             <br /><br />
             <p className="font-bold text-center">
               From the inception of StockCharity, we have accumulated {dividendTotal.toLocaleString('en-US', { style: 'currency', currency: 'CAD' })} in total donations for
-              all our partnered charities. We hope that the work we're doing here ends up benefitting our partners for years to come.  
+              all our partnered charities. We hope that the work we&apos;re doing here ends up benefitting our partners for years to come.  
             </p>
 
           </div>
