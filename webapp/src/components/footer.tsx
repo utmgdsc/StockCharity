@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Footer = () => {
     return (
-      <footer className="bg-white rounded-lg shadow-sm m-4 dark:bg-blue-500">
+      <footer className="bg-white rounded-lg shadow-sm m-4 dark:bg-sky-900">
         <div className="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
           <span className="text-sm text-white sm:text-center dark:text-white">
             © {new Date().getFullYear()} <Link href="https://stockcharity.com/" className="hover:underline">Stock Charity</Link>. All Rights Reserved.
@@ -18,7 +18,14 @@ const Footer = () => {
               <Link href="/terms-and-conditions" className="hover:underline me-4 md:me-6">Terms and Conditions</Link>
             </li>
             <li>
-              <Link href="#" className="hover:underline">Contact Us</Link>
+              <button
+                onClick={() => {
+                  window.location.href = 'mailto:therealstockcharity@gmail.com';
+                }}
+                className="hover:underline me-4 md:me-6"
+              >
+                Contact Us
+              </button>
             </li>
           </ul>
         </div>
