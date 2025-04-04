@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import NavBar from "./navbar";
 import Footer from "./footer";
 
-const showFooterOn = ["/charity-signup", "/about-us", "/home"]; 
+const showFooterOn = ["/charity-signup", "/about-us", "/home", '/donate']; 
 
 const Layout = ({ children }: { children: JSX.Element }) => {
     const router = useRouter(); 

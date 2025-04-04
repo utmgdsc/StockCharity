@@ -59,7 +59,7 @@ const SuccessPage: FC = () => {
       )}
       <button
         onClick={() => router.push('/')}
-        className="mt-8 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+        className="mt-8 bg-sky-900 hover:bg-sky-900 text-white px-4 py-2 rounded"
       >
         Return Home
       </button>
