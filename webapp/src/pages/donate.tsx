@@ -1,7 +1,5 @@
 import { FC, useState, useEffect } from 'react';
 import axios from 'axios';
-import {fetchDonations, fetchInfo} from '@/util/charity';
-import ImageWithDescription from '@/components/charity-card';
 import { useCookies } from 'react-cookie';
 import { fetchDonations, fetchDonationAmount } from '@/util/charity';
 
