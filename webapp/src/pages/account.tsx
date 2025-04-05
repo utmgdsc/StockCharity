@@ -1,8 +1,9 @@
 import { JSX, useEffect, useState } from "react";
-import PieChart from "@/components/pie-chart";
+import dynamic from 'next/dynamic';
 import { AccountType, getAccountInfo, DonationsListType, getUserDonations } from "@/util/request";
 import { useRouter } from "next/navigation";
 
+const LineGraph = dynamic(() => import('@/components/line-graph'), { ssr: false });
 
 const Account = (): JSX.Element => {
     const router = useRouter();
@@ -12,7 +13,12 @@ const Account = (): JSX.Element => {
             router.push("login"))
     }, []);
 
-    
+    // const [dividends, setDividends] = useState<AccountType>();
+    // useEffect(() => {
+    //     getAccountInfo().then((response) => setAccountInfo(response.data)).catch(() =>
+    //         router.push("login"))
+    // }, []);
+
 
     const [donations, setDonations] = useState<DonationsListType>();
     useEffect(() => {
@@ -83,8 +89,8 @@ const Account = (): JSX.Element => {
                 </div>
                 {/* Pie chart of stocks owned */}
                 <div className="flex flex-col items-center justify-center py-9 text-black">
-                    <p className="text-lg font-bold">Your impact:</p>
-                    <PieChart data={donations_made} labels={charities_donated_to} />
+                    <p className="text-lg font-bold pb-3">Your impact:</p>
+                    <LineGraph />
                 </div>
             </div>
         </>
