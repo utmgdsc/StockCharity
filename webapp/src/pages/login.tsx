@@ -23,7 +23,6 @@ const LoginPage: () => JSX.Element = () => {
         setMessage("");
         sendLogin({ email, password })
             .then((response) => {
-                console.log(response);
                 setCookie("token", response.data.access, { maxAge: 86400, path: "/" });
                 setCookie("refresh", response.data.refresh, { path: "/" });
                 router.push("account");
@@ -72,7 +71,7 @@ const LoginPage: () => JSX.Element = () => {
         <Link href="/register" className="text-[#007bff] hover:underline">Register</Link>
         <div className="field mt-5">
             <div className="btn-primary h-10 flex items-center justify-center">
-                <input className="button" type="submit" value="Login" disabled={disabled}/>
+                <input className="button" type="submit" value="Login" disabled={disabled} />
             </div>
         </div>
     </form>

@@ -1,5 +1,6 @@
-import { JSX, useEffect, useState } from "react"; 
+import { JSX, useEffect, useState } from "react";
 import Image from "next/image";
+import { getTotalDividends } from "@/util/request";
 
 interface Stock {
   stock_name: string;
@@ -12,8 +13,11 @@ interface Stock {
 const AboutUs = (): JSX.Element => {
   const [portfolio, setPortfolio] = useState<Stock[]>([]);
   const [totalInvestment, setTotalInvestment] = useState<number>(0);
+  const [dividendTotal, setDividendTotal] = useState<number>(NaN);
 
   useEffect(() => {
+    // Fetch total dividends
+    getTotalDividends().then(response=>setDividendTotal(response.data.total_dividends));
     // Fetch portfolio from backend
     fetch("http://127.0.0.1:8000/api/portfolio/")
       .then((response) => response.json())
@@ -29,27 +33,34 @@ const AboutUs = (): JSX.Element => {
     <div className="font-sans">
 
       {/* Title Section */}
-      <section className="flex flex-col lg:flex-row items-center justify-center min-h-screen bg-gray-100 p-8">
-        {/* Left Column - Image */}
-        <div className="w-full h-full lg:w-1/2 flex justify-center">
-          <Image 
-            src="/photos/1000+poorpeoplepictures.jpg" 
-            alt="Sample Image" 
-            width={800}
-            height={500}
-            className="max-w-full h-auto rounded-lg shadow-lg"
-          />
-        </div>
 
-        <div className="w-full lg:w-1/2 p-6 text-center lg:text-left">
-          <h1 className="text-4xl font-bold text-gray-900">Who We Are</h1>
-          <p className="mt-4 text-lg text-gray-700">
-            Explore the world of sustainable giving and make a lasting impact.  
-            We&apos;re the whatever doing something for different charities to get whatever. Our mission is simple: whatever. 
-          </p>
+      <section className="min-h-screen bg-gray-100 p-8">
+        <div className="flex flex-col justify-center p-8">
+          <h1 className="m-auto">Lifetime Dividends Gain:</h1>
+          <h2 className="m-auto">{dividendTotal.toLocaleString('en-US', { style: 'currency', currency: 'CAD' })}</h2>
+        </div>
+        <div className="flex flex-col lg:flex-row items-center justify-center">
+          {/* Left Column - Image */}
+          <div className="w-full h-full lg:w-1/2 flex justify-center">
+            <Image
+              src="/photos/1000+poorpeoplepictures.jpg"
+              alt="Sample Image"
+              width={800}
+              height={500}
+              className="max-w-full h-auto rounded-lg shadow-lg"
+            />
+          </div>
+
+          <div className="w-full lg:w-1/2 p-6 text-center lg:text-left">
+            <h1 className="text-4xl font-bold text-gray-900">Who We Are</h1>
+            <p className="mt-4 text-lg text-gray-700">
+              Explore the world of sustainable giving and make a lasting impact.
+              We&apos;re the whatever doing something for different charities to get whatever. Our mission is simple: whatever.
+            </p>
+          </div>
         </div>
       </section>
-      
+
       {/* FAQ Section */}
       <div className="text-center my-8">
         <h2 className="text-3xl font-bold">Frequently Asked Questions</h2>
