@@ -3,6 +3,9 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useCookies } from 'react-cookie';
 import { isLoggedIn } from '@/util/request';
+import Image from "next/image";
+
+
 
 const NavBar: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -16,12 +19,19 @@ const NavBar: React.FC = () => {
     <header className="flex shadow-lg py-4 px-4 sm:px-10 bg-white font-[sans-serif] min-h-[70px] tracking-wide relative z-50">
       <div className="flex flex-wrap items-center justify-between gap-4 w-full">
 
-        {/*  Screen Logo */}
-        <Link href="/home" className="lg:absolute max-lg:left-10 lg:top-2/4 lg:left-2/4 lg:-translate-x-1/2 lg:-translate-y-1/2 max-sm:hidden">
-          <h1>Stock Charity</h1>
+        {/* Screen Logo (Large screens) */}
+        <Link
+          href="/home"
+          className="lg:absolute max-lg:left-10 lg:top-2/4 lg:left-2/4 lg:-translate-x-1/2 lg:-translate-y-1/2 max-sm:hidden flex items-center space-x-2"
+        >
+          <Image src={"/photos/logo.svg" } alt="Stock Charity Logo" width={250} height={30} />
         </Link>
-        <Link href="/home" className="hidden max-sm:block">
-          <h1>Stock Charity</h1>
+
+        <Link
+          href="/home"
+          className="hidden max-sm:flex items-center space-x-2"
+        >
+          <Image src={"/photos/logo_small.svg" } alt="StockCharity Logo" width={50} height={50} />
         </Link>
 
         {/* Mobile Menu */}
@@ -43,19 +53,19 @@ const NavBar: React.FC = () => {
               </Link>
             </li>
             <li>
-              <Link href="/home" className="hover:text-[#007bff] text-[#333] block font-semibold text-[15px]">Home</Link>
+              <Link href="/home" className="hover:text-sky-800 text-[#333] block font-semibold text-[15px]">Home</Link>
             </li>
             <li className="max-lg:border-b max-lg:py-3 px-3">
-              <Link href="/about-us" className="hover:text-[#007bff] text-[#333] block font-semibold text-[15px]">About Us</Link>
+              <Link href="/about-us" className="hover:text-sky-800 text-[#333] block font-semibold text-[15px]">About Us</Link>
             </li>
             <li className="max-lg:border-b max-lg:py-3 px-3">
-              <Link href="/account" className="hover:text-[#007bff] text-[#333] block font-semibold text-[15px]">Account</Link>
+              <Link href="/account" className="hover:text-sky-800 text-[#333] block font-semibold text-[15px]">Account</Link>
             </li>
             <li className="max-lg:border-b max-lg:py-3 px-3">
-              <Link href="/donate" className="hover:text-[#007bff] text-[#333] block font-semibold text-[15px]">Donate</Link>
+              <Link href="/donate" className="hover:text-sky-800 text-[#333] block font-semibold text-[15px]">Donate</Link>
             </li>
             <li className="max-lg:border-b max-lg:py-3 px-3">
-              <Link href="/charity-signup" className="hover:text-[#007bff] text-[#333] block font-semibold text-[15px]">Charity Sign-Up</Link>
+              <Link href="/charity-signup" className="hover:text-sky-900 text-[#333] block font-semibold text-[15px]">Charity Sign-Up</Link>
             </li>
           </ul>
         </div>
@@ -63,10 +73,10 @@ const NavBar: React.FC = () => {
         {/* Right Side Buttons */}
         <div className="flex items-center ml-auto space-x-6">
           {loggedIn ?
-            <button className="text-[#007bff] hover:underline" onClick={() => { removeCookie("token"); removeCookie("refresh"); }}>Logout</button> :
+            <button className="text-sky-900 hover:underline" onClick={() => { removeCookie("token"); removeCookie("refresh"); }}>Logout</button> :
             <>
               <button className='.btn-primary'>
-                <Link href="/login" className="text-[#007bff] hover:underline">Login</Link>
+                <Link href="/login" className="text-sky-900 hover:underline">Login</Link>
               </button>
               <button className="px-4 py-2 btn-login">
                 <Link href="/register">Sign up</Link>

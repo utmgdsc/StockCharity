@@ -55,7 +55,7 @@ class CharityDonationSerializer(serializers.ModelSerializer):
         model = Charity
         fields = [
             "id",
-            "name",
+            "charity_name",
             "donations_received",
             "description",
             "logo_path",
