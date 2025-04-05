@@ -11,7 +11,7 @@ interface CharityData {
   id: number;
   logo_url: string;
   description: string;
-  name: string;
+  charity_name: string;
   donations_received: number;
 }
 
@@ -65,14 +65,14 @@ const DonatePage: FC = () => {
     <div className="min-h-screen flex flex-col lg:flex-row">
       {/* LEFT: Donation Section */}
       <div className="lg:w-1/2 w-full p-8 flex flex-col items-center justify-center bg-gray-100">
-        <h1 className="text-3xl font-bold mb-6">Donate</h1>
+        <h1 className="mb-6">Donate</h1>
         <div className="flex flex-wrap justify-center gap-4 mb-4">
           {['10', '25', '50'].map((amt) => (
             <button
               key={amt}
               onClick={() => handleDonate('true', amt)}
               disabled={loading}
-              className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+              className="btn-primary py-2 px-4"
             >
               Donate ${amt}
             </button>
@@ -80,7 +80,7 @@ const DonatePage: FC = () => {
           <button
             onClick={() => handleDonate('false', '0')}
             disabled={loading}
-            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+            className="btn-primary py-2 px-4"
           >
             Donate Any Amount
           </button>
@@ -99,11 +99,11 @@ const DonatePage: FC = () => {
 
       {/* RIGHT: Charity Carousel */}
       <div className="lg:w-1/2 w-full p-6 bg-white overflow-y-auto max-h-screen">
-        <h2 className="text-2xl font-bold mb-4 text-center">Supported Charities</h2>
+        <h2 className="mb-4 text-center text-sky-950">Supported Charities</h2>
         <div className="space-y-6">
           {charities.length > 0 ? (
             charities.map((charity, index) => {
-              const bgColor = index % 2 === 0 ? 'bg-sky-900' : 'bg-emerald-400';
+              const bgColor = index % 2 === 0 ? 'bg-sky-900' : 'bg-[#8AC79F]';
               const textColor = index % 2 === 0 ? 'text-gray-100' : 'text-sky-950';
 
               return (
@@ -113,11 +113,11 @@ const DonatePage: FC = () => {
                 >
                   <img
                     src={charity.logo_url || '/photos/charity.jpg'}
-                    alt={charity.name}
+                    alt={charity.charity_name}
                     className="w-20 h-20 object-contain rounded border"
                   />
                   <div>
-                    <h2 className={`font-semibold mb-1 ${textColor}`}>{charity.name}</h2>
+                    <h2 className={`font-semibold mb-1 ${textColor}`}>{charity.charity_name}</h2>
                     <h3 className={`text-sm mb-2 ${textColor}`}>{charity.description}</h3>
                     <p className={`font-bold ${textColor}`}>
                       ${charity.donations_received.toFixed(2)} raised

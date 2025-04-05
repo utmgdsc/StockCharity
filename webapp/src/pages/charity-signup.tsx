@@ -11,9 +11,7 @@ import "react-phone-input-2/lib/style.css";
 import Link from "next/link";
 
 const validatePhoneNumber = (phone: string) => {
-
   if (!phone) return false;
-
   const formattedPhone = phone.startsWith("+") ? phone : `+${phone}`;
   const parsed = parsePhoneNumberFromString(formattedPhone);
   return parsed && parsed.isValid();
@@ -36,7 +34,7 @@ const schema = z.object({
 
 const CharitySignUp: React.FC = () => {
   const [isAgreed, setIsAgreed] = useState(false);
-  const [userCountry, setUserCountry] = useState("can"); 
+  const [userCountry, setUserCountry] = useState("can");
   const [phoneNumber, setPhoneNumber] = useState("+");
 
   const {
@@ -73,7 +71,7 @@ const CharitySignUp: React.FC = () => {
     setValue("contact_phone_number", value); 
     trigger("contact_phone_number");
   };
-  
+
   useEffect(() => {
     axios.get("https://ipapi.co/json/")
       .then((response) => {
@@ -108,38 +106,33 @@ const CharitySignUp: React.FC = () => {
       });
   };
 
-
-
-
-
   return (
-    <div className="grid grid-cols-2 relative isolate bg-white px-6 py-24 sm:py-10 lg:px-8">
-      <div
-        className="absolute inset-x-0 top-[-10rem] -z-10 transform overflow-hidden blur-3xl sm:top-[-20rem]"
-        aria-hidden="true"
-      >
-        <div
-          className="relative left-1/2 w-[36.125rem] -translate-x-1/2"
-        ></div>
+    <div className="flex flex-col lg:grid lg:grid-cols-2 gap-10 relative isolate bg-white px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+      <div className="absolute inset-x-0 top-[-10rem] -z-10 transform overflow-hidden blur-3xl sm:top-[-20rem]" aria-hidden="true">
+        <div className="relative left-1/2 w-[36.125rem] -translate-x-1/2" />
       </div>
 
-      <div className="mx-auto w-full max-w-lg grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="text-center md:text-left flex flex-col justify-start">
-            <h2 className="text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
-                Charity Sign-Up      
-            </h2>
-            <p className="mt-4 text-lg text-gray-600">
-                Register as a charity today!
-            </p>
-            <ul className="list-disc list-inside text-gray-600">
-                <li>Requirement 1</li>
-                <li>Requirement 2</li>
-            </ul>          
-        </div>
+      {/* Info Section */}
+      <div className="w-full lg:w-4/5 text-center lg:text-left mx-auto">
+        <h2 className="text-2xl sm:text-4xl font-semibold tracking-tight text-gray-900">
+          Charity Sign-Up
+        </h2>
+        <p className="mt-4 text-base sm:text-lg text-gray-600">
+          Register as a charity today!
+        </p>
+        <ul className="list-disc list-inside text-gray-600 mt-4 space-y-2 text-sm sm:text-base">
+          <li>Access a consistent stream of funding through dividend investments</li>
+          <li>Get featured on our platform and increase your visibility</li>
+          <li>Receive quarterly reports on donations and investment impact</li>
+          <li>100% of investment earnings go directly to registered charities</li>
+          <li>Join a growing network of community-focused organizations</li>
+          <li>Tax-exempt support provided through our registered charity status</li>
+          <li>Minimal paperwork — quick and simple onboarding</li>
+        </ul>
       </div>
 
       <form action="#" method="POST" className="mx-auto w-full max-w-lg sm:mt-0">
-        <h1>Charity Info</h1>
+        <h2>Charity Information</h2>
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 ">
           <div>
           <label htmlFor="charityname" className="label-style"> Charity Name</label>   
@@ -170,9 +163,10 @@ const CharitySignUp: React.FC = () => {
             </div>
           </div>
 
+
           <div>
             <label htmlFor="charity-phone-number" className="label-style">Charity Phone Number</label>
-            <div className="mt-2.5">
+            <div className="mt-2.5 mb-5">
               <div className="flex rounded-md border border-gray-300 bg-white focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2">
           <PhoneInput
             country={userCountry}
@@ -194,9 +188,9 @@ const CharitySignUp: React.FC = () => {
         
 
 
-        <h1>Contact Info</h1>
+        <h2 className="mb-2">Contact Information</h2>
 
-        <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-6 mb-4 sm:grid-cols-2">
           <div>
             <label htmlFor="contact-first-name" className="label-style"> Contact First name</label>   
             <div className="mt-2.5">
@@ -262,12 +256,12 @@ const CharitySignUp: React.FC = () => {
             </div>
           </div>
 
-          {/* Privacy Agreement Section */}
+          {/* Privacy Policy Agreement */}
           <div className="flex items-center gap-x-4 sm:col-span-2">
             <button
               type="button"
               className={`relative flex w-8 h-4 cursor-pointer rounded-full ${
-                isAgreed ? "bg-blue-500" : "bg-gray-200"
+                isAgreed ? "bg-sky-900" : "bg-gray-200"
               } transition-colors duration-200 ease-in-out`}
               role="switch"
               aria-checked={isAgreed}
@@ -280,19 +274,17 @@ const CharitySignUp: React.FC = () => {
                 }`}
               ></span>
             </button>
-
             <label className="text-sm text-gray-600">
               By selecting this, you agree to our{" "}
-              <Link href="/privacy-policy" className="font-semibold text-blue-600">
+              <Link href="/privacy-policy" className="font-semibold text-[#8AC79F]">
                 privacy&nbsp;policy
-              </Link>
-              .
+              </Link>.
             </label>
           </div>
           {errors.is_approved && <p className="text-red-500">{errors.is_approved.message}</p>}
         </div>
-        
-        <div className="mt-10">
+
+        <div className="mt-8">
           <button
             type="submit"
             disabled={!isValid}
@@ -307,7 +299,6 @@ const CharitySignUp: React.FC = () => {
         </div>
 
       </form>
-      
     </div>
   );
 };
