@@ -1,5 +1,6 @@
 import { FC, useState, useEffect } from 'react';
 import axios from 'axios';
+import { useCookies } from 'react-cookie';
 import { fetchDonations, fetchDonationAmount } from '@/util/charity';
 
 interface DonationData {
@@ -17,6 +18,7 @@ interface CharityData {
 const DonatePage: FC = () => {
   const [loading, setLoading] = useState(false);
   const [donationData, setDonationData] = useState<DonationData | null>(null);
+  const [cookies] = useCookies(['token']);
   const [charities, setCharities] = useState<CharityData[]>([]);
 
   useEffect(() => {
@@ -34,15 +36,17 @@ const DonatePage: FC = () => {
   const handleDonate = async (fixed: string, amount: string) => {
     setLoading(true);
     try {
-      const response = await axios.post(
-        'http://localhost:8000/api/donation',
-        { fixed, amount },
-        {
-          headers: { 'Content-Type': 'application/json' },
-          responseType: 'text',
-          validateStatus: () => true,
-        }
-      );
+        const response = await axios.post('http://localhost:8000/api/donation', {
+        fixed,
+        amount
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${cookies.token}`
+        },
+        responseType: 'text',
+        validateStatus: () => true
+      });
 
       const data = JSON.parse(response.data);
       if (data.url) {

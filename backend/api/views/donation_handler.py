@@ -26,8 +26,8 @@ def donation_handler(request):
                 }
             ],
             mode="payment",
-            success_url="https://google.com",  # this should route to the /success page
-            cancel_url="https://google.com",  # this should route back to the donate page
+            success_url="http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}",  # this should route to the /success page
+            cancel_url="http://localhost:3000/donate",  # this should route back to the donate page
         )
         return Response({"url": checkout_session.url}, status=status.HTTP_200_OK)
     except Exception as e:

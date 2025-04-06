@@ -22,7 +22,6 @@ const AboutUs = (): JSX.Element => {
     fetch("http://127.0.0.1:8000/api/portfolio/")
       .then((response) => response.json())
       .then((data) => {
-        console.log("API Data:", data);
         setPortfolio(data.portfolio || []);
         setTotalInvestment(data.total_investment || 0);
       })
