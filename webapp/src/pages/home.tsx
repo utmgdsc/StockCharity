@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import {fetchDonations} from '@/util/charity';
+import {getTotalCharities, getTotalDonations} from '@/util/request';
 
 interface DonationData {
   amount: number;
@@ -19,6 +20,28 @@ export default function HomePage() {
 
     // Uncomment this if we have data in the db to showcase
     loadData()
+  }, []);
+
+  const [charityData, setCharityData] = useState<DonationData | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const charitiesResponse = await getTotalCharities();
+      const charities = charitiesResponse.data.totalCharities; // Ensure correct property access
+      setCharityData({ amount: charities });
+    };
+    fetchData();
+  }, []);
+
+  const [donationStockData, setDonationStockData] = useState<DonationData | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const donationsResponse = await getTotalDonations();
+      const donations = donationsResponse?.data?.donation_total || -1; // Safely access donation_total and alert that something is wrong by using -1
+      setDonationStockData({ amount: donations });
+    };
+    fetchData();
   }, []);
 
   return (
@@ -54,7 +77,8 @@ export default function HomePage() {
               {donationData ? (
                   <>
                   <dd className="order-first text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
-                    ${donationData.amount}
+                    
+                    ${donationStockData ? donationStockData.amount.toFixed(2) : "0.00"}
                   </dd>
                   </>
                 ) : (
@@ -64,13 +88,13 @@ export default function HomePage() {
             <div className="mx-auto flex max-w-xs flex-col gap-y-4">
               <dt className="text-base text-gray-600">paid out in dividends</dt>
               <dd className="order-first text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
-                $119 
+                ${donationData ? donationData.amount.toFixed(2) : "0.00"}
               </dd>
             </div>
             <div className="mx-auto flex max-w-xs flex-col gap-y-4">
               <dt className="text-base text-gray-600">Charities working with us</dt>
               <dd className="order-first text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
-                7
+              {charityData ? charityData.amount : 0}
               </dd>
             </div>
           </dl>

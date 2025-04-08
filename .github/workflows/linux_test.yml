@@ -42,6 +42,7 @@ jobs:
     env:
       DJANGO_API_KEY: EMPTY_KEY
       STRIPE_SECRET_KEY: EMPTY_KEY
+      TIINGO_API_KEY: EMPTY_KEY
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

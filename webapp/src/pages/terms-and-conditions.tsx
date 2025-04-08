@@ -66,7 +66,7 @@ const TermsAndConditions = () => {
       <h2 className="text-2xl font-semibold mt-8">Contact Us</h2>
       <p className="mb-4">If <u>you</u> have any questions about these <u>terms and conditions</u>, <u>you</u> can contact us:</p>
       <ul className="list-disc list-inside mb-4">
-        <li>Email: <Link href="mailto:stockcharity@gmail.com" className="text-blue-500 hover:underline">stockcharity@gmail.com</Link></li>
+        <li>Email: <Link href="mailto:therealstockcharity@gmail.com" className="text-blue-500 hover:underline">stockcharity@gmail.com</Link></li>
       </ul>
     </div>
   );

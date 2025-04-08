@@ -38,7 +38,7 @@ const SuccessPage: FC = () => {
         const charity = "Lorem Ipsum";
 
         // making request to backend
-        await axios.post('http://localhost:8000/api/send-payment-recieved-email/', { receiver: email, charity });
+        await axios.post('http://localhost:8000/api/send-payment-recieved-email', { receiver: email, charity });
       } catch (error) {
         console.error("Error sending payment received email:", error);
         // TODO: Still need to add the donation record to the DB somehow
@@ -59,7 +59,7 @@ const SuccessPage: FC = () => {
       )}
       <button
         onClick={() => router.push('/')}
-        className="mt-8 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+        className="mt-8 bg-sky-900 hover:bg-sky-900 text-white px-4 py-2 rounded"
       >
         Return Home
       </button>

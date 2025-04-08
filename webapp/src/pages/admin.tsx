@@ -45,9 +45,9 @@ const Admin = (): JSX.Element => {
                 <tbody>
                     {charities?.map((charity) => <tr key={charity.id}>
                         <td></td>
-                        <td>{charity.name}</td>
-                        <td>{charity.email}</td>
-                        <td>{charity.phone_number}</td>
+                        <td>{charity.charity_name}</td>
+                        <td>{charity.charity_email}</td>
+                        <td>{charity.charity_phone_number}</td>
                         <td className="content-center"><button className="block m-auto"
                         onClick={() => {
                             setCharityApproved(charity.id, !charity.is_approved).then(() => updateCharityList());

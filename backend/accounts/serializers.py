@@ -3,6 +3,8 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
+from orders.serializers import DonationOrderSerializer
+
 
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
@@ -23,6 +25,8 @@ class UserSerializer(serializers.ModelSerializer):
     total_donations = serializers.FloatField(read_only=True)
     total_dividends = serializers.FloatField(read_only=True)
 
+    donations = DonationOrderSerializer(read_only=True, many=True)
+
     class Meta:
         model = get_user_model()
         fields = [
@@ -36,6 +40,7 @@ class UserSerializer(serializers.ModelSerializer):
             "password2",
             "total_donations",
             "total_dividends",
+            "donations",
         ]
 
     def validate(self, attrs):
