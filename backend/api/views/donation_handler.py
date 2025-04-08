@@ -40,10 +40,10 @@ def amount_to_price_id(fixed_donation, donate_amount):
     # They should probably be in an .env file
     match (fixed_donation, donate_amount):
         case ("true", "10"):
-            return "price_1QwQhALtztZ9KxoQMge74pGP"
+            return os.environ["10_DOLLAR_DONATION_PRICE_ID"]
         case ("true", "25"):
-            return "price_1QwQiOLtztZ9KxoQXzfxdftf"
+            return os.environ["25_DOLLAR_DONATION_PRICE_ID"]
         case ("true", "50"):
-            return "price_1QwQioLtztZ9KxoQdil8ZPj0"
+            return os.environ["50_DOLLAR_DONATION_PRICE_ID"]
         case ("false", _):
-            return "price_1QuMCdLtztZ9KxoQXBt26UDy"
+            return os.environ["ANY_DOLLAR_DONATION_PRICE_ID"]
