@@ -22,15 +22,10 @@ from rest_framework.routers import DefaultRouter
 
 
 router = DefaultRouter()
-router.register(r'order', DonationViewSet, basename='donation')
+router.register(r"order", DonationViewSet, basename="donation")
 
 urlpatterns = [
-    path('', include(router.urls)),
-    path(
-        "user-donations/",
-        DonationViewSet.as_view({"get": "get_account_donations"}),
-        name="user-donations",
-    ),
+    path("", include(router.urls)),
     path(
         "total-donations/",
         DonationViewSet.as_view({"get": "get_total_donations"}),
