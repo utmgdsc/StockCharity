@@ -63,7 +63,6 @@ const RegisterPage: () => JSX.Element = () => {
     }, []);
 
     const handlePhoneChange = (value: string) => {
-        console.log("PhoneInput Raw Value:", value);
         const formattedValue = value.startsWith("+") ? value : `+${value}`;
         setPhoneNumber(formattedValue);
         setValue("phone_number", formattedValue);
