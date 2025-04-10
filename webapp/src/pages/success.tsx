@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
-import { useParams } from 'react-router-dom';
 import Cookie from 'js-cookie';
 
 interface JwtPayload {
