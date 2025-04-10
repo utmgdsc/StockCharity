@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 import stripe
+import json
 from django.conf import settings
 from orders.models import DonationOrder
 import os
@@ -17,10 +18,19 @@ def success_handler(request):
     Expects body: { session_id: string }
     """
     print("Success handler called")
-    print(request.data)
+    print(request.body)
 
+    try:
+        print("Parsing JSON data for success handler")
+        data = json.loads(request.body)
+        session_id = data.get('session_id')
+    except json.JSONDecodeError:
+        print("JSON decode error")
+        return Response({'error': 'Invalid JSON'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    print(f"Parsed session_id: {session_id}")
+    
     return Response({'message': 'Success handler called'}, status=status.HTTP_200_OK)
-
     
     # user = request.user
     # if not user.is_authenticated:
