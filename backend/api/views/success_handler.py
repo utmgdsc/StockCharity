@@ -30,6 +30,11 @@ def success_handler(request):
     
     print(f"Parsed session_id: {session_id}") 
 
+<<<<<<< HEAD
+=======
+    return Response({'message': 'Success handler called'}, status=status.HTTP_200_OK)
+
+>>>>>>> main
     # https://docs.stripe.com/api/checkout/sessions
     try:
         checkout_session = stripe.checkout.Session.retrieve(session_id)
