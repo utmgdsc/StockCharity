@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import Cookie from "js-cookie";
 import { jwtDecode } from "jwt-decode";
+import { LineGraphProps } from "@/components/line-graph";
 
 
 const BASE_URL = "http://localhost:8000/";
@@ -148,4 +149,4 @@ export const getTotalDonations: () => Promise<AxiosResponse<DonationsTotalType>>
 
 export const getTotalDividends: () => Promise<AxiosResponse<{ total_dividends: number }>> = () => backendConfig.get("dividend/total");
 
-export const getMonthlyDonations: () => Promise<AxiosResponse<any>> = () => backendConfig.get("monthly-donations/");
+export const getMonthlyDonations: () => Promise<AxiosResponse<LineGraphProps>> = () => backendConfig.get("monthly-donations/");

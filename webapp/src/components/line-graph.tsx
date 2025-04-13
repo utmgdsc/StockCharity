@@ -7,9 +7,15 @@ import {
   CartesianGrid
 } from 'recharts';
 
-interface DonationData {
+type DonationData = {
   "monthly_donations": { [month: string]: number }[];
 }
+
+export type LineGraphProps = {
+  donationData: {
+    monthly_donations: { [month: string]: number }[];
+  };
+};
 
 // Transform your donation format into chart-friendly format
 const transformLineChartData = (
@@ -21,7 +27,7 @@ const transformLineChartData = (
   });
 };
 
-const LineGraph: React.FC<any> = ({ donationData }) => {
+const LineGraph: React.FC<LineGraphProps> = ({ donationData }) => {
   const data = transformLineChartData(donationData);
 
   return (
