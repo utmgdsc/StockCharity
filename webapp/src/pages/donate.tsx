@@ -1,10 +1,18 @@
+"use client";
 import { FC, useState, useEffect } from 'react';
 import axios from 'axios';
-import { useCookies } from 'react-cookie';
 import { fetchDonations, fetchDonationAmount } from '@/util/charity';
+import { isLoggedIn } from "@/util/request"; // for auth checking
+import { useRouter } from "next/navigation";
+import Cookie from 'js-cookie';
 
 interface DonationData {
   amount: number;
+}
+
+interface StripeSessionResponse {
+  url: string;
+  error?: string;
 }
 
 interface CharityData {
@@ -16,24 +24,39 @@ interface CharityData {
 }
 
 const DonatePage: FC = () => {
+  const router = useRouter(); 
+  const [authChecked, setAuthChecked] = useState(false);
   const [loading, setLoading] = useState(false);
   const [donationData, setDonationData] = useState<DonationData | null>(null);
-  const [cookies] = useCookies(['token']);
   const [charities, setCharities] = useState<CharityData[]>([]);
-
+  
+  
   useEffect(() => {
+    isLoggedIn()
+    .then(() => setAuthChecked(true))
+    .catch(() => router.push("/login"));
+  }, []);
+  
+  useEffect(() => {
+    if (!authChecked) return;
     const loadData = async () => {
       const donationResult = await fetchDonations();
       setDonationData(donationResult);
-
+      
       const charityList = await fetchDonationAmount();
       setCharities(charityList);
     };
-
+    
     loadData();
-  }, []);
-
+  }, [authChecked]);
+  
   const handleDonate = async (fixed: string, amount: string) => {
+    const token = Cookie.get('token');
+    if (!token) {
+      router.push("/login"); // or show a toast or alert
+      return;
+    }
+
     setLoading(true);
     try {
         const response = await axios.post('http://localhost:8000/api/donation', {
@@ -42,13 +65,14 @@ const DonatePage: FC = () => {
       }, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${cookies.token}`
+          'Authorization': `Bearer ${token}`
         },
         responseType: 'text',
         validateStatus: () => true
       });
 
-      const data = JSON.parse(response.data);
+      const data: StripeSessionResponse = JSON.parse(response.data);
+
       if (data.url) {
         window.location.href = data.url;
       } else {
@@ -61,6 +85,8 @@ const DonatePage: FC = () => {
     }
   };
 
+  // Block rendering until auth is confirmed
+  if (!authChecked) return null;
   return (
     <div className="min-h-screen flex flex-col lg:flex-row">
       {/* LEFT: Donation Section */}

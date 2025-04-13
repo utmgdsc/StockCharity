@@ -9,5 +9,6 @@ urlpatterns = [
         name="payment-recieved-email",
     ),
     path("check-dividends", check_dividends, name="check-dividends"),
-    path('donation', donation_handler, name='donation')
+    path('donation', donation_handler, name='donation'),
+    path('success', success_handler, name='success')
 ]
