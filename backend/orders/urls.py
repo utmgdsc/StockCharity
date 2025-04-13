@@ -30,5 +30,10 @@ urlpatterns = [
         "total-donations/",
         DonationViewSet.as_view({"get": "get_total_donations"}),
         name="total-donations",
+    ),    
+    path(
+        "monthly-donations/",
+        DonationViewSet.as_view({"get": "get_donations_by_month"}),
+        name="monthly-donations",
     ),
 ]

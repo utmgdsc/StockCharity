@@ -7,6 +7,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 
 from django_filters import FilterSet
+from django.db.models.functions import TruncMonth
 
 from .models import DonationOrder
 from .serializers import DonationOrderSerializer
@@ -52,3 +53,43 @@ class DonationViewSet(viewsets.ModelViewSet):
             or 0
         )
         return Response({"donation_total": total_donations}, status=200)
+    
+    def get_donations_by_month(self, request):
+        """This method will return a list of donations per month
+
+        Example call: http://127.0.0.1:8000/monthly-donations/"""
+        queryset = self.get_queryset()
+
+        monthly_donations = (
+            queryset.annotate(month=TruncMonth("date"))
+            .values("month")
+            .annotate(total_amount=Sum("amount"))
+            .order_by("month")
+        )
+
+        if not monthly_donations:
+            return Response({})
+
+        donation_dict = {}
+        for entry in monthly_donations:
+            donation_dict[entry["month"].strftime("%b/%y")] = entry["total_amount"]
+
+        start_month = monthly_donations[0]["month"].replace(day=1)
+        end_month = monthly_donations[len(monthly_donations) - 1]["month"].replace(day=1)
+
+        # Generate all months between start and end
+        current = start_month
+        result = []
+
+        while current <= end_month:
+            key = current.strftime("%b/%y")
+            result.append({key: donation_dict.get(key, 0)}) 
+
+            next_month = current.month % 12 + 1
+            next_year = current.year + (current.month // 12)
+            current = current.replace(
+                year=next_year if next_month == 1 else current.year,
+                month=next_month
+            )
+        
+        return Response({"monthly_donations": result}, status=200)

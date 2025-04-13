@@ -22,7 +22,7 @@ class DonationViewSet(viewsets.ModelViewSet):
         return Response({"total_donated_amount": total_amount})
 
     # returns total donation amount for each charity
-    @action(detail=False, methods=["get"], url_path="total_by_charity")
+    @action(detail=False, methods=["get"], url_path="total-by-charity")
     def total_by_charity(self, request):
         # note the double underscore
         aggregated = (

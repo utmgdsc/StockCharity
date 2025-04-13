@@ -1,13 +1,16 @@
 import { JSX, useEffect, useState } from "react";
-import PieChart from "@/components/pie-chart";
-import { AccountType, getAccountInfo, isLoggedIn } from "@/util/request";
+import dynamic from 'next/dynamic';
+import { AccountType, getAccountInfo, isLoggedIn, getMonthlyDonations } from "@/util/request";
 import { useRouter } from "next/navigation";
 import { useCookies } from "react-cookie";
+import { LineGraphProps } from "@/components/line-graph";
 
+const LineGraph = dynamic(() => import('@/components/line-graph'), { ssr: false });
 
 const Account = (): JSX.Element => {
     const router = useRouter();
     const [accountInfo, setAccountInfo] = useState<AccountType>();
+    const [donationInfo, setDonationInfo] = useState<LineGraphProps>();
     const [cookie] = useCookies(["token"])
     useEffect(() => {
         isLoggedIn().then(() =>
@@ -17,17 +20,13 @@ const Account = (): JSX.Element => {
         );
     }, [cookie]);
 
-    // Variables are hard coded for now to demo until backend is implemented.
-    // const stocks_owned = ["Stock 1", "Stock 2", "Stock 3", "Stock 4", "Stock 5", "Stock 6", "Stock 7"];
-    // const stocks_owned_values = [300.50, 500.00, 199.50, 100.009, 50.119, 50.00, 150.34];
-    // const number_of_stocks_owned_per_stock = [3, 1, 1, 4, 1, 1, 3];
-
-    const charities_donated_to = [
-        "Charity 1", "Charity 2", "Charity 3", "Charity 4", "Charity 5",
-        "Charity 6", "Charity 7", "Charity 8", "Charity 9",
-    ];
-
-    const donations_made = [1, 5, 5, 10, 15, 15, 18, 29, 2];
+    useEffect(() => {
+        isLoggedIn().then(() =>
+            getMonthlyDonations().then((response) => setDonationInfo(response.data)).catch(() => router.push("login"))
+        ).catch(
+            () => router.push("login")
+        );
+    }, [cookie]);
 
     return (
         <>
@@ -81,8 +80,8 @@ const Account = (): JSX.Element => {
                 </div>
                 {/* Pie chart of stocks owned */}
                 <div className="flex flex-col items-center justify-center py-9 text-black">
-                    <p className="text-lg font-bold">Your impact:</p>
-                    <PieChart data={donations_made} labels={charities_donated_to} />
+                    <p className="text-lg font-bold pb-3">Your impact:</p>
+                    {donationInfo && <LineGraph donationData={donationInfo.donationData} />}
                 </div>
             </div>
         </>
