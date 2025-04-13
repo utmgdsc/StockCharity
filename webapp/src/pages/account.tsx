@@ -3,13 +3,14 @@ import dynamic from 'next/dynamic';
 import { AccountType, getAccountInfo, isLoggedIn, getMonthlyDonations } from "@/util/request";
 import { useRouter } from "next/navigation";
 import { useCookies } from "react-cookie";
+import { LineGraphProps } from "@/components/line-graph";
 
 const LineGraph = dynamic(() => import('@/components/line-graph'), { ssr: false });
 
 const Account = (): JSX.Element => {
     const router = useRouter();
     const [accountInfo, setAccountInfo] = useState<AccountType>();
-    const [donationInfo, setDonationInfo] = useState();
+    const [donationInfo, setDonationInfo] = useState<LineGraphProps>();
     const [cookie] = useCookies(["token"])
     useEffect(() => {
         isLoggedIn().then(() =>
