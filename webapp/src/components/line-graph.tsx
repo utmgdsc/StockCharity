@@ -1,20 +1,29 @@
-import { LineChart, Line, XAxis, YAxis, CartesianGrid } from 'recharts';
+import React from 'react';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid
+} from 'recharts';
 
-const data = [
-    { name: 'Ty', value: 80 },
-  { name: 'Mar', value: 80 },
-  { name: 'Apr', value: 80 },
-  { name: 'May', value: 100 },
-  { name: 'Jun', value: 300 },
-  { name: 'Jul', value: 350 },
-  { name: 'Aug', value: 500 },
-  { name: 'Sep', value: 400 },
-  { name: 'Oct', value: 200 },
-  { name: 'Nov', value: 250 },
-  { name: 'Dec', value: 480 }
-];
+interface DonationData {
+  "monthly_donations": { [month: string]: number }[];
+}
 
-export default function LineGraph() {
+// Transform your donation format into chart-friendly format
+const transformLineChartData = (
+  donationData: DonationData
+): { name: string; value: number }[] => {
+  return donationData["monthly_donations"].map((entry) => {
+    const [month, value] = Object.entries(entry)[0];
+    return { name: month, value };
+  });
+};
+
+const LineGraph: React.FC<any> = ({ donationData }) => {
+  const data = transformLineChartData(donationData);
+
   return (
     <div className="flex justify-center items-center h-64">
       <LineChart
@@ -36,5 +45,6 @@ export default function LineGraph() {
       </LineChart>
     </div>
   );
-}
+};
 
+export default LineGraph;
