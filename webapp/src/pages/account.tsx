@@ -81,7 +81,7 @@ const Account = (): JSX.Element => {
                 {/* Pie chart of stocks owned */}
                 <div className="flex flex-col items-center justify-center py-9 text-black">
                     <p className="text-lg font-bold pb-3">Your impact:</p>
-                    <LineGraph donationData={donationInfo} />
+                    {donationInfo && <LineGraph donationData={donationInfo.donationData} />}
                 </div>
             </div>
         </>
