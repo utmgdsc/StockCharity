@@ -1,0 +1,1361 @@
+openapi: 3.0.2
+info:
+  title: ''
+  version: ''
+paths:
+  /api/check-dividends:
+    get:
+      operationId: listcheck_dividends
+      description: Makes api calls to check if we received any dividends and update
+        our database
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+      tags:
+      - api
+  /account/:
+    get:
+      operationId: retrieveUser
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+      tags:
+      - account
+  /account/{id}/:
+    get:
+      operationId: retrieveUser
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this user.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+      tags:
+      - account
+  /charity/:
+    get:
+      operationId: listCharities
+      description: ''
+      parameters:
+      - name: is_approved
+        required: false
+        in: query
+        description: is_approved
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Charity'
+          description: ''
+      tags:
+      - charity
+    post:
+      operationId: createCharity
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Charity'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Charity'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Charity'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Charity'
+          description: ''
+      tags:
+      - charity
+  /charity/all-donations/:
+    get:
+      operationId: getCharityDonationsCharity
+      description: 'This method returns the amount earned by each approved charity
+        till date
+
+
+        Example call: http://127.0.0.1:8000/charity/all-donations/'
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Charity'
+          description: ''
+      tags:
+      - charity
+  /charity/total-donations/:
+    get:
+      operationId: getTotalDonationsCharity
+      description: 'This method returns the total amount earned by all approved charities
+        till date
+
+
+        Example call: http://127.0.0.1:8000/charity/total-donations/'
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Charity'
+          description: ''
+      tags:
+      - charity
+  /charity/{id}/:
+    get:
+      operationId: retrieveCharity
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this charity.
+        schema:
+          type: string
+      - name: is_approved
+        required: false
+        in: query
+        description: is_approved
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Charity'
+          description: ''
+      tags:
+      - charity
+    put:
+      operationId: updateCharity
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this charity.
+        schema:
+          type: string
+      - name: is_approved
+        required: false
+        in: query
+        description: is_approved
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Charity'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Charity'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Charity'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Charity'
+          description: ''
+      tags:
+      - charity
+    patch:
+      operationId: partialUpdateCharity
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this charity.
+        schema:
+          type: string
+      - name: is_approved
+        required: false
+        in: query
+        description: is_approved
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Charity'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Charity'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Charity'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Charity'
+          description: ''
+      tags:
+      - charity
+    delete:
+      operationId: destroyCharity
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this charity.
+        schema:
+          type: string
+      - name: is_approved
+        required: false
+        in: query
+        description: is_approved
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - charity
+  /total-charities/:
+    get:
+      operationId: getTotalCharitiesCharity
+      description: This method returns the total number of charities stored.
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Charity'
+          description: ''
+      tags:
+      - total-charities
+  /order/:
+    get:
+      operationId: listDonationOrders
+      description: ''
+      parameters:
+      - name: date__gte
+        required: false
+        in: query
+        description: date__gte
+        schema:
+          type: string
+      - name: date__lte
+        required: false
+        in: query
+        description: date__lte
+        schema:
+          type: string
+      - name: amount__gte
+        required: false
+        in: query
+        description: amount__gte
+        schema:
+          type: string
+      - name: amount__lte
+        required: false
+        in: query
+        description: amount__lte
+        schema:
+          type: string
+      - name: stripe_transaction_id
+        required: false
+        in: query
+        description: stripe_transaction_id
+        schema:
+          type: string
+      - name: status
+        required: false
+        in: query
+        description: status
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DonationOrder'
+          description: ''
+      tags:
+      - order
+    post:
+      operationId: createDonationOrder
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DonationOrder'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DonationOrder'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DonationOrder'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DonationOrder'
+          description: ''
+      tags:
+      - order
+  /order/total/:
+    get:
+      operationId: getTotalDonationsDonationOrder
+      description: 'This method will return the total value of all donations
+
+
+        Example call: http://127.0.0.1:8000/order/total-donations/'
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DonationOrder'
+          description: ''
+      tags:
+      - order
+  /order/{id}/:
+    get:
+      operationId: retrieveDonationOrder
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this donation order.
+        schema:
+          type: string
+      - name: date__gte
+        required: false
+        in: query
+        description: date__gte
+        schema:
+          type: string
+      - name: date__lte
+        required: false
+        in: query
+        description: date__lte
+        schema:
+          type: string
+      - name: amount__gte
+        required: false
+        in: query
+        description: amount__gte
+        schema:
+          type: string
+      - name: amount__lte
+        required: false
+        in: query
+        description: amount__lte
+        schema:
+          type: string
+      - name: stripe_transaction_id
+        required: false
+        in: query
+        description: stripe_transaction_id
+        schema:
+          type: string
+      - name: status
+        required: false
+        in: query
+        description: status
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DonationOrder'
+          description: ''
+      tags:
+      - order
+    put:
+      operationId: updateDonationOrder
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this donation order.
+        schema:
+          type: string
+      - name: date__gte
+        required: false
+        in: query
+        description: date__gte
+        schema:
+          type: string
+      - name: date__lte
+        required: false
+        in: query
+        description: date__lte
+        schema:
+          type: string
+      - name: amount__gte
+        required: false
+        in: query
+        description: amount__gte
+        schema:
+          type: string
+      - name: amount__lte
+        required: false
+        in: query
+        description: amount__lte
+        schema:
+          type: string
+      - name: stripe_transaction_id
+        required: false
+        in: query
+        description: stripe_transaction_id
+        schema:
+          type: string
+      - name: status
+        required: false
+        in: query
+        description: status
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DonationOrder'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DonationOrder'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DonationOrder'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DonationOrder'
+          description: ''
+      tags:
+      - order
+    patch:
+      operationId: partialUpdateDonationOrder
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this donation order.
+        schema:
+          type: string
+      - name: date__gte
+        required: false
+        in: query
+        description: date__gte
+        schema:
+          type: string
+      - name: date__lte
+        required: false
+        in: query
+        description: date__lte
+        schema:
+          type: string
+      - name: amount__gte
+        required: false
+        in: query
+        description: amount__gte
+        schema:
+          type: string
+      - name: amount__lte
+        required: false
+        in: query
+        description: amount__lte
+        schema:
+          type: string
+      - name: stripe_transaction_id
+        required: false
+        in: query
+        description: stripe_transaction_id
+        schema:
+          type: string
+      - name: status
+        required: false
+        in: query
+        description: status
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DonationOrder'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DonationOrder'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DonationOrder'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DonationOrder'
+          description: ''
+      tags:
+      - order
+    delete:
+      operationId: destroyDonationOrder
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this donation order.
+        schema:
+          type: string
+      - name: date__gte
+        required: false
+        in: query
+        description: date__gte
+        schema:
+          type: string
+      - name: date__lte
+        required: false
+        in: query
+        description: date__lte
+        schema:
+          type: string
+      - name: amount__gte
+        required: false
+        in: query
+        description: amount__gte
+        schema:
+          type: string
+      - name: amount__lte
+        required: false
+        in: query
+        description: amount__lte
+        schema:
+          type: string
+      - name: stripe_transaction_id
+        required: false
+        in: query
+        description: stripe_transaction_id
+        schema:
+          type: string
+      - name: status
+        required: false
+        in: query
+        description: status
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - order
+  /total-donations/:
+    get:
+      operationId: getTotalDonationsDonationOrder
+      description: 'This method will return the total value of all donations
+
+
+        Example call: http://127.0.0.1:8000/order/total-donations/'
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DonationOrder'
+          description: ''
+      tags:
+      - total-donations
+  /monthly-donations/:
+    get:
+      operationId: getDonationsByMonthDonationOrder
+      description: 'This method will return a list of donations per month
+
+
+        Example call: http://127.0.0.1:8000/monthly-donations/'
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DonationOrder'
+          description: ''
+      tags:
+      - monthly-donations
+  /api/stock/:
+    get:
+      operationId: listStocks
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Stock'
+          description: ''
+      tags:
+      - api
+  /api/stock/{id}/:
+    get:
+      operationId: retrieveStock
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this stock.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Stock'
+          description: ''
+      tags:
+      - api
+  /api/portfolio/:
+    get:
+      operationId: listStockPortfolios
+      description: Handles GET request to return portfolio information
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+      tags:
+      - api
+  /dividend/:
+    get:
+      operationId: listDividendReceiveds
+      description: ''
+      parameters:
+      - name: date__gte
+        required: false
+        in: query
+        description: date__gte
+        schema:
+          type: string
+      - name: date__lte
+        required: false
+        in: query
+        description: date__lte
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DividendReceived'
+          description: ''
+      tags:
+      - dividend
+    post:
+      operationId: createDividendReceived
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DividendReceived'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DividendReceived'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DividendReceived'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DividendReceived'
+          description: ''
+      tags:
+      - dividend
+  /dividend/total/:
+    get:
+      operationId: getTotalDividendsInTimeframeDividendReceived
+      description: 'This method returns the sum of all the dividends within the given
+        timeframe.
+
+        You can input dates in yyyy-mm-dd format.
+
+
+        If no start_date is specified, it will be set to the oldest date in the database.
+
+        If no end_date is specified, it will be set to the current date.
+
+
+        Example call: http://127.0.0.1:8000/dividend/get_total_dividends_in_timeframe/?start_date=2025-01-02&end_date=2025-02-18'
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DividendReceived'
+          description: ''
+      tags:
+      - dividend
+  /dividend/{id}/:
+    get:
+      operationId: retrieveDividendReceived
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this dividend received.
+        schema:
+          type: string
+      - name: date__gte
+        required: false
+        in: query
+        description: date__gte
+        schema:
+          type: string
+      - name: date__lte
+        required: false
+        in: query
+        description: date__lte
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DividendReceived'
+          description: ''
+      tags:
+      - dividend
+    put:
+      operationId: updateDividendReceived
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this dividend received.
+        schema:
+          type: string
+      - name: date__gte
+        required: false
+        in: query
+        description: date__gte
+        schema:
+          type: string
+      - name: date__lte
+        required: false
+        in: query
+        description: date__lte
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DividendReceived'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DividendReceived'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DividendReceived'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DividendReceived'
+          description: ''
+      tags:
+      - dividend
+    patch:
+      operationId: partialUpdateDividendReceived
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this dividend received.
+        schema:
+          type: string
+      - name: date__gte
+        required: false
+        in: query
+        description: date__gte
+        schema:
+          type: string
+      - name: date__lte
+        required: false
+        in: query
+        description: date__lte
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DividendReceived'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DividendReceived'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DividendReceived'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DividendReceived'
+          description: ''
+      tags:
+      - dividend
+    delete:
+      operationId: destroyDividendReceived
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this dividend received.
+        schema:
+          type: string
+      - name: date__gte
+        required: false
+        in: query
+        description: date__gte
+        schema:
+          type: string
+      - name: date__lte
+        required: false
+        in: query
+        description: date__lte
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - dividend
+  /api/payment-attempt:
+    post:
+      operationId: createpayment_attempt_received
+      description: Makes api calls to verify payment and sends an email to the user
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+          application/x-www-form-urlencoded:
+            schema: {}
+          multipart/form-data:
+            schema: {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+      tags:
+      - api
+  /api/send-payment-recieved-email:
+    post:
+      operationId: createsend_payment_recieved_email
+      description: "Sends an email to the user to notify them that their payment is\
+        \ successful \nand thanks them for their kindness.\n\nexpects the request.data\
+        \ to be a dict that looks like this\n{\n    \"receiver\": \"{their email}\"\
+        \n}"
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+          application/x-www-form-urlencoded:
+            schema: {}
+          multipart/form-data:
+            schema: {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+      tags:
+      - api
+  /api/donation:
+    post:
+      operationId: createdonation_handler
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+          application/x-www-form-urlencoded:
+            schema: {}
+          multipart/form-data:
+            schema: {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+      tags:
+      - api
+  /api/success:
+    post:
+      operationId: createsuccess_handler
+      description: 'Handles successful Stripe donations.
+
+        Expects body: { session_id: string }'
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+          application/x-www-form-urlencoded:
+            schema: {}
+          multipart/form-data:
+            schema: {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+      tags:
+      - api
+  /register/:
+    post:
+      operationId: createUser
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+      tags:
+      - register
+  /login/:
+    post:
+      operationId: createTokenObtainPair
+      description: 'Takes a set of user credentials and returns an access and refresh
+        JSON web
+
+        token pair to prove the authentication of those credentials.'
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+      tags:
+      - login
+  /login/refresh/:
+    post:
+      operationId: createTokenRefresh
+      description: 'Takes a refresh type JSON web token and returns an access type
+        JSON web
+
+        token if the refresh token is valid.'
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+      tags:
+      - login
+  /increase-donations/{id}:
+    patch:
+      operationId: increaseDonationsTotalUser
+      description: 'This method increases donations_total by the given amount
+
+
+        Example cURL:
+
+        curl -X PATCH http://127.0.0.1:8000/accounts/1/increase-donations/ -H "Content-Type:
+        application/json" -d "{"donation": 100}"'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this user.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+      tags:
+      - increase-donations
+  /increase-dividends/{id}:
+    patch:
+      operationId: increaseDividendsTotalUser
+      description: 'This method increases dividends_total by the given amount
+
+
+        Example cURL:
+
+        curl -X PATCH http://127.0.0.1:8000/accounts/1/increase-dividends/ -H "Content-Type:
+        application/json" -d "{"dividend": 100}"'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this user.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+      tags:
+      - increase-dividends
+  /charity/{id}/increase-donated/:
+    patch:
+      operationId: increaseDonationsReceivedCharity
+      description: 'This method increases donations_received by the given amount
+
+
+        Example call: http://127.0.0.1:8000/charity/1/increase-donated/  -d "{"donation":
+        100}"'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this charity.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Charity'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Charity'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Charity'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Charity'
+          description: ''
+      tags:
+      - charity
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        first_name:
+          type: string
+        last_name:
+          type: string
+        phone_number:
+          type: string
+        is_staff:
+          type: boolean
+          readOnly: true
+        is_active:
+          type: boolean
+          readOnly: true
+        password1:
+          type: string
+          writeOnly: true
+        password2:
+          type: string
+          writeOnly: true
+        total_donations:
+          type: number
+          readOnly: true
+        total_dividends:
+          type: number
+          readOnly: true
+        donations:
+          type: array
+          items:
+            type: object
+            properties:
+              amount:
+                type: number
+                minimum: 0.0
+              date:
+                type: string
+                format: date-time
+              status:
+                type: string
+                maxLength: 10
+              stripe_transaction_id:
+                type: string
+                writeOnly: true
+            required:
+            - amount
+            - date
+            - status
+            - stripe_transaction_id
+          readOnly: true
+      required:
+      - email
+      - first_name
+      - last_name
+      - phone_number
+      - password1
+      - password2
+    Charity:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        charity_email:
+          type: string
+          format: email
+        charity_name:
+          type: string
+        charity_phone_number:
+          type: string
+        contact_first_name:
+          type: string
+        contact_last_name:
+          type: string
+        contact_email:
+          type: string
+          format: email
+        contact_phone_number:
+          type: string
+        donations_received:
+          type: number
+        is_approved:
+          type: boolean
+        logo_path:
+          type: string
+          format: binary
+      required:
+      - charity_email
+      - charity_name
+      - charity_phone_number
+      - contact_first_name
+      - contact_last_name
+      - contact_email
+      - contact_phone_number
+    DonationOrder:
+      type: object
+      properties:
+        amount:
+          type: number
+          minimum: 0.0
+        date:
+          type: string
+          format: date-time
+        status:
+          type: string
+          maxLength: 10
+        stripe_transaction_id:
+          type: string
+          writeOnly: true
+      required:
+      - amount
+      - date
+      - status
+      - stripe_transaction_id
+    Stock:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        stock_name:
+          type: string
+          maxLength: 255
+        symbol:
+          type: string
+          maxLength: 10
+        quantity:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+      required:
+      - stock_name
+      - symbol
+    DividendReceived:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        date:
+          type: string
+          format: date
+        value:
+          type: number
+          minimum: 0.0
+      required:
+      - value
+    TokenObtainPair:
+      type: object
+      properties:
+        email:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+      required:
+      - email
+      - password
+    TokenRefresh:
+      type: object
+      properties:
+        refresh:
+          type: string
+        access:
+          type: string
+          readOnly: true
+      required:
+      - refresh
