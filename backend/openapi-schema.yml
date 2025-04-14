@@ -36,7 +36,7 @@ paths:
   /account/{id}/:
     get:
       operationId: retrieveUser
-      description: ''
+      description: 'Retrieves user information based on the id given.'
       parameters:
       - name: id
         in: path
@@ -56,7 +56,7 @@ paths:
   /charity/:
     get:
       operationId: listCharities
-      description: ''
+      description: 'Returns a list of all registered charities and their details.'
       parameters:
       - name: is_approved
         required: false
@@ -77,7 +77,7 @@ paths:
       - charity
     post:
       operationId: createCharity
-      description: ''
+      description: 'Registration endpoint for new charities.'
       parameters: []
       requestBody:
         content:
@@ -102,11 +102,7 @@ paths:
   /charity/all-donations/:
     get:
       operationId: getCharityDonationsCharity
-      description: 'This method returns the amount earned by each approved charity
-        till date
-
-
-        Example call: http://127.0.0.1:8000/charity/all-donations/'
+      description: 'This method returns the amount earned by each approved charity till date'
       parameters: []
       responses:
         '200':
@@ -120,11 +116,7 @@ paths:
   /charity/total-donations/:
     get:
       operationId: getTotalDonationsCharity
-      description: 'This method returns the total amount earned by all approved charities
-        till date
-
-
-        Example call: http://127.0.0.1:8000/charity/total-donations/'
+      description: 'This method returns the total amount earned by all approved charities till date'
       parameters: []
       responses:
         '200':
@@ -138,7 +130,7 @@ paths:
   /charity/{id}/:
     get:
       operationId: retrieveCharity
-      description: ''
+      description: 'Gets a specific charity\'s information by id'
       parameters:
       - name: id
         in: path
@@ -163,7 +155,7 @@ paths:
       - charity
     put:
       operationId: updateCharity
-      description: ''
+      description: 'Endpoint to modify charity information. Must be a staff to use.'
       parameters:
       - name: id
         in: path
@@ -199,7 +191,7 @@ paths:
       - charity
     patch:
       operationId: partialUpdateCharity
-      description: ''
+      description: 'Endpoint to modify charity information. Must be a staff to use.'
       parameters:
       - name: id
         in: path
@@ -235,7 +227,7 @@ paths:
       - charity
     delete:
       operationId: destroyCharity
-      description: ''
+      description: 'Endpoint to remove a charity. Must be a staff to use.'
       parameters:
       - name: id
         in: path
@@ -271,7 +263,7 @@ paths:
   /order/:
     get:
       operationId: listDonationOrders
-      description: ''
+      description: 'Endpoint to get the list of all orders matching the filter.'
       parameters:
       - name: date__gte
         required: false
@@ -322,7 +314,7 @@ paths:
       - order
     post:
       operationId: createDonationOrder
-      description: ''
+      description: 'Creates a new order'
       parameters: []
       requestBody:
         content:
@@ -347,10 +339,7 @@ paths:
   /order/total/:
     get:
       operationId: getTotalDonationsDonationOrder
-      description: 'This method will return the total value of all donations
-
-
-        Example call: http://127.0.0.1:8000/order/total-donations/'
+      description: 'This method will return the total value of all donations'
       parameters: []
       responses:
         '200':
@@ -364,7 +353,7 @@ paths:
   /order/{id}/:
     get:
       operationId: retrieveDonationOrder
-      description: ''
+      description: 'Gets information about a specific order id'
       parameters:
       - name: id
         in: path
@@ -419,7 +408,7 @@ paths:
       - order
     put:
       operationId: updateDonationOrder
-      description: ''
+      description: 'Updates an order\'s information by id.'
       parameters:
       - name: id
         in: path
@@ -485,7 +474,7 @@ paths:
       - order
     patch:
       operationId: partialUpdateDonationOrder
-      description: ''
+      description: 'Updates an order\'s information by id.'
       parameters:
       - name: id
         in: path
@@ -551,7 +540,7 @@ paths:
       - order
     delete:
       operationId: destroyDonationOrder
-      description: ''
+      description: 'Removes an order by id.'
       parameters:
       - name: id
         in: path
@@ -603,10 +592,7 @@ paths:
   /total-donations/:
     get:
       operationId: getTotalDonationsDonationOrder
-      description: 'This method will return the total value of all donations
-
-
-        Example call: http://127.0.0.1:8000/order/total-donations/'
+      description: 'This method will return the total value of all donations'
       parameters: []
       responses:
         '200':
@@ -620,10 +606,7 @@ paths:
   /monthly-donations/:
     get:
       operationId: getDonationsByMonthDonationOrder
-      description: 'This method will return a list of donations per month
-
-
-        Example call: http://127.0.0.1:8000/monthly-donations/'
+      description: 'This method will return a list of donations per month'
       parameters: []
       responses:
         '200':
@@ -653,7 +636,7 @@ paths:
   /api/stock/{id}/:
     get:
       operationId: retrieveStock
-      description: ''
+      description: 'Gets a specific stock\'s information based on id'
       parameters:
       - name: id
         in: path
@@ -715,7 +698,7 @@ paths:
       - dividend
     post:
       operationId: createDividendReceived
-      description: ''
+      description: 'Create an entry for when dividend for a stock is added.'
       parameters: []
       requestBody:
         content:
@@ -748,10 +731,7 @@ paths:
 
         If no start_date is specified, it will be set to the oldest date in the database.
 
-        If no end_date is specified, it will be set to the current date.
-
-
-        Example call: http://127.0.0.1:8000/dividend/get_total_dividends_in_timeframe/?start_date=2025-01-02&end_date=2025-02-18'
+        If no end_date is specified, it will be set to the current date.'
       parameters: []
       responses:
         '200':
@@ -765,7 +745,7 @@ paths:
   /dividend/{id}/:
     get:
       operationId: retrieveDividendReceived
-      description: ''
+      description: 'Returns details about a specific dividend payment by id'
       parameters:
       - name: id
         in: path
@@ -796,7 +776,7 @@ paths:
       - dividend
     put:
       operationId: updateDividendReceived
-      description: ''
+      description: 'Updates the dividend payment information by id.'
       parameters:
       - name: id
         in: path
@@ -838,7 +818,7 @@ paths:
       - dividend
     patch:
       operationId: partialUpdateDividendReceived
-      description: ''
+      description: 'Updates the dividend payment information by id.'
       parameters:
       - name: id
         in: path
@@ -880,7 +860,7 @@ paths:
       - dividend
     delete:
       operationId: destroyDividendReceived
-      description: ''
+      description: 'Removes a dividend payment information by id.'
       parameters:
       - name: id
         in: path
@@ -953,7 +933,7 @@ paths:
   /api/donation:
     post:
       operationId: createdonation_handler
-      description: ''
+      description: 'Endpoint to create a stripe session for donations.'
       parameters: []
       requestBody:
         content:
@@ -1115,13 +1095,7 @@ paths:
   /increase-dividends/{id}:
     patch:
       operationId: increaseDividendsTotalUser
-      description: 'This method increases dividends_total by the given amount
-
-
-        Example cURL:
-
-        curl -X PATCH http://127.0.0.1:8000/accounts/1/increase-dividends/ -H "Content-Type:
-        application/json" -d "{"dividend": 100}"'
+      description: 'This method increases dividends_total by the given amount'
       parameters:
       - name: id
         in: path
@@ -1152,11 +1126,7 @@ paths:
   /charity/{id}/increase-donated/:
     patch:
       operationId: increaseDonationsReceivedCharity
-      description: 'This method increases donations_received by the given amount
-
-
-        Example call: http://127.0.0.1:8000/charity/1/increase-donated/  -d "{"donation":
-        100}"'
+      description: 'This method increases donations_received by the given amount'
       parameters:
       - name: id
         in: path
